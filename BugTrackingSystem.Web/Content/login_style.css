@@ -1,0 +1,129 @@
+﻿body {
+    background: #4D868D;
+}
+
+
+.Login {
+    width: 370px;
+    margin: 3% auto;
+}
+
+#logo {
+    padding-bottom: 10px;
+    margin-left: 20%;
+}
+
+#errorText {
+    color: #E1A794;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+input {
+    border: none;
+    background: #A3C2C5;
+    height: 30px;
+    width: 350px;
+    color: white;
+    padding-left: 8px;
+    margin: 5px 5px;
+}
+
+    input[type="checkbox"] {
+        border: none;
+        background: #A3C2C5;
+        border: none;
+        width: 20px;
+        height: 20px;
+        float: left;
+    }
+
+    input[type="submit"] {
+        background: #E3F0F2;
+        width: 175px;
+        height: 35px;
+        margin-left: 91px;
+        color: #5E9298;
+        cursor: pointer;
+    }
+
+        input[type="submit"]:hover {
+            background: #FAFEFF;
+        }
+
+#RememberMe {
+    display: inline-block;
+    padding: 10px 5px;
+    font-size: 13px;
+    color: #A0C0C4;
+}
+
+
+#ForgotPass, #ForgotPass :visited {
+    padding: 10px 5px;
+    font-size: 13px;
+    color: #A0C0C4;
+    float: right;
+}
+
+    #ForgotPass:hover {
+        color: white;
+    }
+
+
+
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white;
+    opacity: 0.5;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+    color: white;
+    opacity: 0.5;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+    color: white;
+    opacity: 0.5;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: white;
+    opacity: 0.5;
+}
+
+
+
+
+/*------------------------------------------------- Forget Password ------------------------------------------ */
+
+input[value="Send"], input[value="Reset password"] {
+    margin-top: 15px;
+}
+
+#helpText {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #D3E4E7;
+    margin-top: 20px;
+}
+
+#hrefToLogin, #hrefToLogin :visited {
+    display: inline-block;
+    margin: 30px 165px;
+    font-size: 13px;
+    color: #A0C0C4;
+}
+
+    #hrefToLogin:hover {
+        color: white;
+    }
+
+
+/*-----------------------------------------Reset password-------------------------------------------------- */
+#resetPasswordFreeSpace {
+    padding-bottom: 20px;
+}

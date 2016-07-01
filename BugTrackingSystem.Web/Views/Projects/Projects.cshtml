@@ -1,0 +1,92 @@
+﻿@model List<BugTrackingSystem.Data.Model.Project>
+@{
+    ViewBag.Title = "Projects";
+}
+
+
+<div class="col-lg-12 general-container">
+
+    <div class="row">
+        <div id="headerTitle" class="col-lg-2">
+            Projects
+            <i class="fa fa-plus round" aria-hidden="true"></i>
+        </div>
+        <div class="pull-right" id="Local-search">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row Sort_Title_Pagination">
+        <div class="sticker-properties" id="SortBy">
+            <span class="sticker-properties">Sort by:</span>
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Title <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Title</a></li>
+                <li><a href="#">Key</a></li>
+            </ul>
+        </div>
+        <div class="pull-right">
+            <span class="pull-left">
+
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-4">
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                <div class="custom-sticker">
+                    <h4><b>@item.Name</b></h4>
+                    <div class="row">
+                        <span class="col-lg-12">
+                            <span class="sticker-properties"> @item.Prefix </span>
+                        </span>
+                        <div class="projectInfo pull-right">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true">127</i>
+                            <i class="fa fa-users" aria-hidden="true">6</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row Sort_Title_Pagination">
+        <i class="fa fa-th-list col-lg-2" aria-hidden="true" style="font-size: 18px;"> Projects: @Model.Count</i>
+        <div class="pull-right">
+            <span class="pull-left">
+
+            </span>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(".V_element").click(function () {
+        alert("farafa");
+        $(this).next(".fa-times-circle").toggle();
+    });
+
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>

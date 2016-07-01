@@ -1,0 +1,19 @@
+﻿@model List<BugTrackingSystem.Data.Model.Project>
+
+
+@foreach (var item in Model)
+{
+    <div class="custom-sticker" style="margin-bottom: 20px;">
+        <h4><b>@item.Name</b></h4>
+        <div class="row">
+            <span class="col-lg-12">
+                <span class="sticker-properties"> @item.Prefix </span>
+            </span>
+            <div class="projectInfo pull-right">
+                <i class="fa fa-pencil-square-o" aria-hidden="true">127</i>
+                <i class="fa fa-users" aria-hidden="true">6</i>
+            </div>
+        </div>
+    </div>
+}
+

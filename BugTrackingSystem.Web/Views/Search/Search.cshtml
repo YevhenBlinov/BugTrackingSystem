@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-lg-12 general-container">
+
+    <div id="header" class="row">
+        <div id="headerTitle" class="col-lg-2">
+            Search
+        </div>
+        <div class="pull-right" id="Local-search">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row Sort_Title_Pagination">
+        <div class="sticker-properties" id="SortBy">
+            <span class="sticker-properties">Sort by:</span>
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Title <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Project</a></li>
+                <li><a href="#">Assignee</a></li>
+                <li><a href="#">Status</a></li>
+                <li><a href="#">Priority</a></li>
+            </ul>
+        </div>
+        <div class=" pull-right">
+            <span class="pull-left">
+                1 ... 3 4
+            </span>
+        </div>
+    </div>
+    <div id="UniversalTable" class="">
+
+        @for (int i = 0; i < 5; i++)
+        {
+            <div class="TableRowInfo row">
+                <div class="IconElement col-lg-1 padding0">
+                    <img src="~/Content/Images/PriorityMinor.png" class="img-priority img-responsive">
+                </div>
+                <div class="ProjectInfo col-lg-5">
+                    <div class="ProjectPrefix">
+                        TDF-123
+                        <span class="BugStatus ToDo">
+                            To do
+                        </span>
+                    </div>
+                    <div class="ElementText">
+                        Font for password is different from other labels font on 'Login' screen
+                    </div>
+                </div>
+                <div class="ProjectTitle col-lg-2">
+                    The Titan
+                </div>
+                <div class="Dates col-lg-2">
+                    <div class="Created">
+                        Created: 10/10/16
+                    </div>
+                    <div class="Updated">
+                        Created: 10/10/16
+                    </div>
+                </div>
+                <div class="AssignedUser col-lg-2">
+                    <div class="userInfo">
+                        <img src="~/Content/Images/orwell.jpeg" class="img-circle img-responsive " height="45" width="45" alt="userPhoto" />
+                    </div>
+                    George<br /> Orwell
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="row Sort_Title_Pagination">
+        <i class="fa fa-edit col-lg-2" aria-hidden="true" style="font-size: 18px;"> Tasks: 67</i>
+        <div class=" pull-right">
+            <span class="pull-left">
+                1 ... 3 4
+            </span>
+        </div>
+    </div>
+
+
+
+</div>

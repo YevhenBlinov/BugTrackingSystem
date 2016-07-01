@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace BugTrackingSystem.Web.Controllers
 {
@@ -13,18 +9,18 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Dashboard()
         {
-            ViewBag.Message = "Your application description page.";
+            AsignarContext ctx = new AsignarContext("AsignarDB");
 
-            return View();
+            var bugs = ctx.Bugs.ToList();
+            return View(bugs);
         }
-
-        public ActionResult Contact()
+        public ActionResult MyProjects()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            AsignarContext ctx = new AsignarContext("AsignarDB");
+            var projects = ctx.Projects.Select(b => b).ToList();
+            return PartialView(projects);
         }
     }
 }

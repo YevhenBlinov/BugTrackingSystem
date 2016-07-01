@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/Content/ProfileStyle.css" rel="stylesheet" type="text/css" />
+</head>
+<div class="general-container marginFromMenu">
+    <div class="row">
+        <div class="col-sm-4 col-xs-12 padding0">
+            <div class="col-sm-12 padding0">
+                <h1>My Profile</h1>
+                <div class="col-sm-8 col-xs-8 divsWithBorder">
+                    <div class="container paddingRight10">
+                        <div class="pull-left padding0">
+                            <img src="~/Content/Images/orwell.jpeg" class="img-circle marginRight10" alt="George Orwell" />
+                        </div>
+                        <div class="col-sm-9 hidden-xs">
+                            <h4 class="text-left" style="margin-bottom: 0">George</h4>
+                            <h4 class="text-left" style="margin-top: 0">Orwell</h4>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 paddingRight10">
+                        <h6 class="text-left h6grey">Email</h6>
+                        <h5 class="text-left">george-orwell@email.com</h5>
+                    </div>
+                    <div class="col-sm-12 paddingRight10">
+                        <h6 class="text-left h6grey">Role</h6>
+                        <h5 class="text-left">Common User</h5>
+                    </div>
+                </div>
+                <div class="container col-sm-8 col-xs-8 padding0 marginFromMenu">
+                    <div class="col-sm-2 col-sm-offset-8 text-left padding0">
+                        <button type="button" class="btn btn-default btn-circle" aria-label="Left Align">
+                            <span class="fa fa-key btnIconsColor" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="col-sm-2 col-xs-12 text-left padding0">
+                        <button type="button" class="btn btn-default btn-circle" aria-label="Right Align">
+                            <span class="glyphicon glyphicon-pencil btnIconsColor" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 padding0 marginFromMenu">
+                <h1>My Projects</h1>
+                <div class="col-sm-8 col-xs-8 divsWithBorder">
+                    <ul>
+                        <li>
+                            <a href="">The Financier</a>
+                        </li>
+                        <li>
+                            <a href="">The Titan</a>
+                        </li>
+                        <li>
+                            <a href="">The Stoic</a>
+                        </li>
+                        <li>
+                            <a href="">I, robot</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 col-xs-12">
+
+            <h1>Assigned To Me</h1>
+            <div class="col-xs-12">
+                <nav class="local-pagination">
+                    <ul class="pagination pagination-sm">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="UniversalTable" class="marginFromMenu">
+                @for (int i = 0; i < 6; i++)
+                {
+                    <div class="TableRowInfo">
+                        <div class="IconElement col-lg-1 padding0">
+                            <img src="~/Content/Images/PriorityMinor.png" class="img-priority img-responsive">
+                        </div>
+                        <div class="ProjectInfo">
+                            <div class="ProjectPrefix">
+                                TDF-123
+                                <span class="BugStatus ToDo">
+                                    To do
+                                </span>
+                            </div>
+                            <div class="ElementText">
+                                Font for password is different from other labels font on 'Login' screen
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-xs-12">
+                <nav class="local-pagination-after-table">
+                    <ul class="pagination pagination-sm">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
