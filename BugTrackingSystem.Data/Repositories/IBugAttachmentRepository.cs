@@ -1,8 +1,10 @@
-﻿using BugTrackingSystem.Data.Infrastructure;
+﻿using System.Collections.Generic;
+using BugTrackingSystem.Data.Infrastructure;
 
 namespace BugTrackingSystem.Data.Repositories
 {
-    interface IBugAttachmentRepository : IRepository<BugAttachment>
+    public interface IBugAttachmentRepository : IRepository<BugAttachment>
     {
+        IEnumerable<BugAttachment> GetAllBugAttachments();
     }
 }
