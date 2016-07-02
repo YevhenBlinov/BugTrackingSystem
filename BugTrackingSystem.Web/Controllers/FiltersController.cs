@@ -8,9 +8,8 @@ namespace BugTracking.Controllers
         // GET: /Filters/
         public ActionResult Filters()
         {
-            AsignarContext ctx = new AsignarContext("AsignarDB");
-            var filters = ctx.Filters.Select(f => f).ToList();
-            return View(filters);
+            
+            return View();
         }
     }
 }

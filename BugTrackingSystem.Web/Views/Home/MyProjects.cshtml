@@ -1,17 +1,15 @@
-﻿@model List<BugTrackingSystem.Data.Model.Project>
-
-
-@foreach (var item in Model)
+﻿
+@for (int i = 0; i < 3; i++)
 {
     <div class="custom-sticker" style="margin-bottom: 20px;">
-        <h4><b>@item.Name</b></h4>
+        <h4><b>Name</b></h4>
         <div class="row">
             <span class="col-lg-12">
-                <span class="sticker-properties"> @item.Prefix </span>
+                <span class="sticker-properties"> Prefix </span>
             </span>
             <div class="projectInfo pull-right">
-                <i class="fa fa-pencil-square-o" aria-hidden="true">127</i>
-                <i class="fa fa-users" aria-hidden="true">6</i>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 15px;">127</i>
+                <i class="fa fa-users" aria-hidden="true" style="font-size: 15px;">6</i>
             </div>
         </div>
     </div>

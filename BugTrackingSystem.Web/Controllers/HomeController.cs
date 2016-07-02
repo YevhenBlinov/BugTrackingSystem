@@ -11,16 +11,13 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult Dashboard()
         {
-            AsignarContext ctx = new AsignarContext("AsignarDB");
 
-            var bugs = ctx.Bugs.ToList();
-            return View(bugs);
+            return View();
         }
         public ActionResult MyProjects()
         {
-            AsignarContext ctx = new AsignarContext("AsignarDB");
-            var projects = ctx.Projects.Select(b => b).ToList();
-            return PartialView(projects);
+
+            return PartialView();
         }
     }
 }

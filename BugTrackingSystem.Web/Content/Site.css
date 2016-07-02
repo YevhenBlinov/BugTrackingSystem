@@ -24,7 +24,7 @@ textarea {
 }
 
 .general-container {
-    padding: 0 50px 0 50px;
+    padding: 0 40px 0 50px;
     height: auto;
 }
 
@@ -110,7 +110,7 @@ textarea {
 }
 
 .Sort_Title_Pagination {
-    margin: 50px 0 30px 30px;
+    margin: 30px 0 10px 30px;
 }
 
 #SortBy {
@@ -310,9 +310,6 @@ body {
     color: #B9B9B9;
 }
 
-    .projectInfo i {
-        padding: 0 0 0 10px;
-    }
 
 
 /*-------------------U-S-E-R-S-------------------*/
@@ -406,9 +403,11 @@ body {
     cursor: pointer;
 }
 
-.fa-filter, .fa-th-list, .fa-users, .fa-edit {
+.fa-filter, .fa-th-list, .fa-users, .fa-edit, .fa-pencil-square-o {
     /*font-size: 18px !important;*/
-    margin-left: 20px;
+    margin-left: 20px; 
+    padding: 0;
+    margin: 0;
     color: #BBBBBB;
 }
 

@@ -9,12 +9,8 @@ namespace BugTracking.Controllers
         // GET: /Projects/
         public ActionResult Projects()
         {
-            List<Project> list;
-            using (AsignarContext ctx = new AsignarContext("AsignarDB"))
-            {
-                list = ctx.Projects.Select(p => p).ToList();
-            }
-            return View(list);
+
+            return View();
         }
     }
 }

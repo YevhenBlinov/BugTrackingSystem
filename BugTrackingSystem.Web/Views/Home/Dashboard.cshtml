@@ -1,12 +1,9 @@
-﻿@model List<BugTrackingSystem.Data.Model.Bug>
-
+﻿
 <body>
     <div class="general-container marginFromMenu">
         <div class="row">
             <div class="col-lg-3 padding0">
-                <h2 style="margin-bottom: 40px;">
-                    <b>My projects</b>
-                </h2>
+                <h1 style="margin-bottom: 40px; margin-top: 0;">My projects</h1>
                 @Html.Action("MyProjects", "Home")
 
                 <div class="container col-lg-12">
@@ -14,22 +11,17 @@
                 </div>
             </div>
 
-            <div class="col-lg-7 col-lg-offset-1">
-                <h2>
-                    <b>Assigned to me</b>
-                </h2>
-                <div class="col-xs-12">
+            <div class="col-lg-9" style="padding-left: 80px;">
+                <h1 style="margin-bottom: 5px; margin-top: 0;">Assigned to me</h1>
+                <div class="pull-right">
                     <nav class="local-pagination">
                         <ul class="pagination pagination-sm">
                             <li><a href="#">1</a></li>
-
                         </ul>
                     </nav>
                 </div>
-
-
                 <div id="UniversalTable" class="marginFromMenu">
-                    @foreach (var item in @Model)
+                    @for (int i = 0; i < 3; i++)
                     {
                         <div class="TableRowInfo">
                             <div class="IconElement col-lg-1 padding0">
@@ -37,19 +29,28 @@
                             </div>
                             <div class="ProjectInfo">
                                 <div class="ProjectPrefix">
-                                    TDF-@item.Number
+                                    TDF-Number
                                     <span class="BugStatus ToDo">
                                         To do
                                     </span>
                                 </div>
                                 <div class="ElementText">
-                                    @item.Subject
+                                    Subject
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-
+                <div class="row Sort_Title_Pagination">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: Count</i>
+                    <div class=" pull-right" style="display: inline-block">
+                        <nav class="local-pagination">
+                            <ul class="pagination pagination-sm">
+                                <li><a href="#">1</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
