@@ -1,11 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BugTrackingSystem.Data.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     public partial class Filter
     {
         public int FilterID { get; set; }

@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Linq.Expressions;
+using BugTrackingSystem.Data.Model;
 
 namespace BugTrackingSystem.Data.Infrastructure
 {
     public abstract class RepositoryBase<T> where T : class
     {
-        private StoreEntities _dataContext;
+        private DBModel _dataContext;
         private readonly IDbSet<T> _dbSet;
 
         protected IDbFactory DbFactory { get; private set; }
 
-        protected StoreEntities DbContext
+        protected DBModel DbContext
         {
             get { return _dataContext ?? (_dataContext = DbFactory.Init()); }
         }

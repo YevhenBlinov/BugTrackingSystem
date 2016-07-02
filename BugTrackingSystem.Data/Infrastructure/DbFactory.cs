@@ -1,12 +1,14 @@
-﻿namespace BugTrackingSystem.Data.Infrastructure
+﻿using BugTrackingSystem.Data.Model;
+
+namespace BugTrackingSystem.Data.Infrastructure
 {
     public class DbFactory : Disposable, IDbFactory
     {
-        private StoreEntities _dbContext;
+        private DBModel _dbContext;
 
-        public StoreEntities Init()
+        public DBModel Init()
         {
-            return _dbContext ?? (_dbContext = new StoreEntities());
+            return _dbContext ?? (_dbContext = new DBModel());
         }
 
         protected override void DisposeCore()
