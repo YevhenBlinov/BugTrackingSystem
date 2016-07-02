@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 
 namespace BugTrackingSystem.Service.Services
