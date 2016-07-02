@@ -6,12 +6,13 @@ namespace BugTrackingSystem.Data.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class UserRole
+    [Table("BugStatuses")]
+    public partial class BugStatus
     {
-        public int UserRoleID { get; set; }
+        public int BugStatusID { get; set; }
 
         [Required]
         [StringLength(20)]
-        public string RoleName { get; set; }
+        public string StatusName { get; set; }
     }
 }

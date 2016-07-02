@@ -6,7 +6,6 @@ namespace BugTrackingSystem.Data.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("BugAttachment")]
     public partial class BugAttachment
     {
         public int BugAttachmentID { get; set; }

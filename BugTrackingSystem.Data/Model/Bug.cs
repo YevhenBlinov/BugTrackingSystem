@@ -6,7 +6,6 @@ namespace BugTrackingSystem.Data.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Bug")]
     public partial class Bug
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,15 +24,17 @@ namespace BugTrackingSystem.Data.Model
         [StringLength(200)]
         public string Subject { get; set; }
 
+        public int Number { get; set; }
+
         [Column(TypeName = "datetime2")]
         public DateTime CreationDate { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime ModificationDate { get; set; }
 
-        public int StatusID { get; set; }
+        public byte StatusID { get; set; }
 
-        public int PriorityID { get; set; }
+        public byte PriorityID { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -41,15 +42,11 @@ namespace BugTrackingSystem.Data.Model
         [StringLength(1100)]
         public string Comments { get; set; }
 
-        public virtual User User { get; set; }
-
-        public virtual BugPriority BugPriority { get; set; }
-
-        public virtual Project Project { get; set; }
-
-        public virtual BugStatu BugStatu { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BugAttachment> BugAttachments { get; set; }
+
+        public virtual User User { get; set; }
+
+        public virtual Project Project { get; set; }
     }
 }

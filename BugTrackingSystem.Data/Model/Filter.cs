@@ -6,7 +6,6 @@ namespace BugTrackingSystem.Data.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Filter")]
     public partial class Filter
     {
         public int FilterID { get; set; }

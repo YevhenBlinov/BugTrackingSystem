@@ -1,0 +1,13 @@
+7/2/2016 1:03:52 PM	This log contains information about the import operation of the script 'SQLQueryAsignar.sql' into project 'BugTrackingSystem.Database' on computer 'DESKTOP-LLHP9K0' by user'erchi.
+7/2/2016 1:03:52 PM	Started importing file: C:\Users\erchi\Dropbox\SQLQueryAsignar.sql 
+7/2/2016 1:03:52 PM	File name C:\Users\erchi\Dropbox\SQLQueryAsignar.sql (size: 2428)
+7/2/2016 1:03:52 PM	Parsing import script
+7/2/2016 1:03:52 PM	Total number of batches in script: 11
+7/2/2016 1:03:52 PM	Total number of statements in script: 9
+7/2/2016 1:03:52 PM	The script was successfully imported into the project.
+7/2/2016 1:03:52 PM	Analyzing schema objects...
+7/2/2016 1:03:52 PM	Scanning project for duplicate elements
+7/2/2016 1:03:52 PM	Finished duplicate element processing
+7/2/2016 1:03:52 PM	In the script that you provided to the import operation, one or more statements were not fully understood. These statements were moved to the ScriptsIgnoredOnImport.sql file. Review the file contents for additional information.
+7/2/2016 1:03:52 PM	A summary of the import was saved to the following location: C:\Users\erchi\Documents\BugTrackingSystem\BugTrackingSystem.Database\Import Script Logs\SQLQueryAsignar_sql_20160702100352.log
+7/2/2016 1:03:52 PM	Click Finish to continue...

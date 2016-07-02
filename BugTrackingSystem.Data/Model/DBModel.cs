@@ -12,32 +12,20 @@ namespace BugTrackingSystem.Data.Model
         {
         }
 
-        public virtual DbSet<Bug> Bugs { get; set; }
         public virtual DbSet<BugAttachment> BugAttachments { get; set; }
         public virtual DbSet<BugPriority> BugPriorities { get; set; }
-        public virtual DbSet<BugStatu> BugStatus { get; set; }
+        public virtual DbSet<Bug> Bugs { get; set; }
+        public virtual DbSet<BugStatus> BugStatuses { get; set; }
         public virtual DbSet<Filter> Filters { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Bug>()
                 .HasMany(e => e.BugAttachments)
                 .WithRequired(e => e.Bug)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<BugPriority>()
-                .HasMany(e => e.Bugs)
-                .WithRequired(e => e.BugPriority)
-                .HasForeignKey(e => e.PriorityID)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<BugStatu>()
-                .HasMany(e => e.Bugs)
-                .WithRequired(e => e.BugStatu)
-                .HasForeignKey(e => e.StatusID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Filter>()
@@ -56,7 +44,7 @@ namespace BugTrackingSystem.Data.Model
             modelBuilder.Entity<Project>()
                 .HasMany(e => e.Users)
                 .WithMany(e => e.Projects)
-                .Map(m => m.ToTable("ProjectUser").MapLeftKey("ProjectID").MapRightKey("UserID"));
+                .Map(m => m.ToTable("ProjectUsers").MapLeftKey("ProjectID").MapRightKey("UserID"));
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Bugs)
@@ -66,11 +54,6 @@ namespace BugTrackingSystem.Data.Model
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Filters)
                 .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UserRole>()
-                .HasMany(e => e.Users)
-                .WithRequired(e => e.UserRole)
                 .WillCascadeOnDelete(false);
         }
     }

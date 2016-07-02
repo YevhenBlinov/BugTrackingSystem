@@ -62,15 +62,15 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\UserRole.sql" />
-    <Build Include="dbo\Tables\BugStatus.sql" />
-    <Build Include="dbo\Tables\BugPriority.sql" />
-    <Build Include="dbo\Tables\Project.sql" />
-    <Build Include="dbo\Tables\User.sql" />
-    <Build Include="dbo\Tables\Bug.sql" />
-    <Build Include="dbo\Tables\ProjectUser.sql" />
-    <Build Include="dbo\Tables\BugAttachment.sql" />
-    <Build Include="dbo\Tables\Filter.sql" />
+    <Build Include="dbo\Tables\UserRoles.sql" />
+    <Build Include="dbo\Tables\BugStatuses.sql" />
+    <Build Include="dbo\Tables\BugPriorities.sql" />
+    <Build Include="dbo\Tables\Projects.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Tables\Bugs.sql" />
+    <Build Include="dbo\Tables\ProjectUsers.sql" />
+    <Build Include="dbo\Tables\BugAttachments.sql" />
+    <Build Include="dbo\Tables\Filters.sql" />
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
-﻿create table [Filter]
+﻿create table [Filters]
 (
 FilterID int identity not null primary key,
-UserID int not null foreign key references [User](UserID),
+UserID int not null foreign key references [Users](UserID),
 Title nvarchar(100) not null,
 Project nvarchar(max) null,
 AssignedUser nvarchar(max) null,
