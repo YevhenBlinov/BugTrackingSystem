@@ -19,5 +19,23 @@ namespace BugTrackingSystem.Web.Controllers
 
             return PartialView();
         }
+
+        public ActionResult Login()
+        {
+
+            return View();
+        }
+        public ActionResult ForgotPassword()
+        {
+
+            return View();
+        }
+
+        public ActionResult ResetPassword()
+        {
+
+            return View();
+        }
+
     }
 }

@@ -112,7 +112,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FiltersController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Views\Home\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -179,9 +179,9 @@
     <Content Include="Views\Home\MyProjects.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Filters\Filters.cshtml" />
-    <Content Include="Views\Login\ForgotPassword.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Login\ResetPassword.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Project\Project.cshtml" />
     <Content Include="Views\Projects\Projects.cshtml" />
@@ -192,6 +192,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

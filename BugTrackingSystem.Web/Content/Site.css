@@ -440,3 +440,45 @@ body {
     border: 0;
     background: transparent;
 }
+
+/* MODAL TASKS*/
+
+.modal-dialog {
+    left: 0;
+    margin-top: 200px;
+
+}
+.modal-content {
+    border: 0;
+    border-radius: 0;
+    background-color: #F8FEFE;
+
+}
+
+.modal-header {
+    background-color: #4D868D;
+    color: white;
+}
+
+.modal-footer {
+    border-top: 0;
+}
+
+.modalCreateButton {
+    border: 0;
+    border-radius: 0;
+    background-color: #4D868D;
+    color: white;
+    width: 135px;
+    height: 45px;
+}
+
+.form-control {
+    margin: 0;
+    max-width: none;
+    border-color: #d0d2d2;
+    background-color: #F8FEFE;
+    border-radius: 1px;
+    box-shadow: none;
+}
+
