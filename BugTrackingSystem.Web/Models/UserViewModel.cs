@@ -14,8 +14,8 @@ namespace BugTrackingSystem.Web.Models
 
         public string Photo { get; set; }
 
-        public ICollection<BugViewModel> Bugs { get; set; }
+        public IEnumerable<BugViewModel> Bugs { get; set; }
 
-        public ICollection<ProjectViewModel> Projects { get; set; }
+        public IEnumerable<ProjectViewModel> Projects { get; set; }
     }
 }

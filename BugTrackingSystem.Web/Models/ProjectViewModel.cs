@@ -10,8 +10,8 @@ namespace BugTrackingSystem.Web.Models
 
         public string Prefix { get; set; }
 
-        public ICollection<BugViewModel> Bugs { get; set; }
+        public IEnumerable<BugViewModel> Bugs { get; set; }
 
-        public ICollection<UserViewModel> Users { get; set; }
+        public IEnumerable<UserViewModel> Users { get; set; }
     }
 }
