@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BugTrackingSystem.Data.Infrastructure;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 
@@ -7,14 +8,12 @@ namespace BugTrackingSystem.Service.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        //private readonly IProjectRepository _projectRepository;
-        //private readonly IBugRepository _bugRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
-            //_projectRepository = projectRepository;
-            //_bugRepository = bugRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<User> GetAllUsers()

@@ -7,6 +7,5 @@ namespace BugTrackingSystem.Service.Services
     {
         IEnumerable<Project> GetAllProjects();
 
-        IEnumerable<Project> GetAllUsersProject();
     }
 }
