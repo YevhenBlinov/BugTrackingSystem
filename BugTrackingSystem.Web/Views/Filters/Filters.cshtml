@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Filters";
 }
 
@@ -8,24 +7,24 @@
     <div id="header" class="row">
         <div id="headerTitle" class="col-lg-2">
             Filters
-            <i class="fa fa-plus round" aria-hidden="true"></i>
+            <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#addFilterModal"></i>
         </div>
 
         <div class="pull-right" id="Local-search">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon">
-                        <button type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
+                    <span class="input-group-addon" style="background-color: #F8FEFE">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
+                        </a>
                     </span>
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="row Sort_Title_Pagination"> 
+    <div class="row Sort_Title_Pagination">
         <div class="dropdown" style="display: inline-block">
             <span class="sticker-properties" style="padding-right: 10px; ">Sort by:</span>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Title <span class="caret"></span></a>
@@ -48,12 +47,12 @@
         @for (int i = 0; i < 3; i++)
         {
             <div class="col-lg-4 col-md-4 block">
-                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" onclick="hideFilter(this)"></i>
                 <div class="custom-sticker">
                     <h4><b>Title</b></h4>
                     <div class="row">
                         <span class="col-lg-12">
-                            <span class="sticker-properties">Search:</span>Search <br />
+                            <span class="sticker-properties">Search:</span>Search<br />
                         </span>
                         <span class="col-lg-6">
                             <span class="sticker-properties"> Status: </span>Status
@@ -84,4 +83,69 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="addFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" id="TaskModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0 "></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new task</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title" style="margin: 0; display: inline-block">
+                    </div>
+                </form>
+                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
+                    <select class="form-control" style="color: gray;">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
+                    <select class="form-control">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
+                    <select class="form-control">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
+                    <select class="form-control">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title" style="margin: 0; height: 100px;">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn modalCreateButton">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+
+<script>
+    function hideFilter(el) {
+        $(el).parent().hide();
+    }
+</script>

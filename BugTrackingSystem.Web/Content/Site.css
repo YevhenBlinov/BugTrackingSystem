@@ -50,6 +50,60 @@ textarea {
     margin-left: -20px;
 }
 
+ option {
+    background-color: white;
+    border-radius: 0;
+    height: 40px;
+     min-height: 40px;
+}
+
+option:hover {
+    background-color: #92C1BA !important;
+}
+
+.modal-open {
+    margin-right: 0 !important;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.container {
+    max-width: none;
+}
+
+.dropdown-menu {
+    box-shadow: none; 
+    margin-top: -1px; 
+    padding: 0; 
+    border: 0; 
+    border-radius: 0; 
+    background-color: transparent;
+}
+
+.dropdown-menu > li {
+    height: 40px;
+    background-color: #92C1BA;
+    color: white;
+}
+
+.dropdown-menu > li > a {
+    height: 40px; 
+    padding-top: 10px; 
+    background-color: #92C1BA;
+    color: white;
+}
+
+.dropdown-menu > li > a:hover {
+    color: white;
+    background-color: #ABCFCA !important;
+}
+
+.assignedToMeTable {
+    padding-left: 80px;
+}
+
 #Local-search {
     width: 300px;
     padding: 0 15px;
@@ -63,25 +117,31 @@ textarea {
 #UniversalTable {
     border: 1px solid #E1E2E2;
     background-color: white;
+    box-shadow: 2px 2px rgb(239,244,244);
 }
+
+
 
 .TableRowInfo {
     cursor: pointer;
-    border-bottom: 1px solid #E1E2E2;
     margin: 0 auto;
-    padding: 15px 0 10px 35px;
+    padding: 15px 0 10px 10px;
     width: 100%;
+    border-bottom: 1px solid #E1E2E2;
+    width: 96%;
 }
 
-    .TableRowInfo:first-child {
-        padding: 25px 0 10px 35px;
-        width: 100%;
+.TableRow {
+    
+}
+
+    .TableRow:first-child > div {
+        padding: 25px 0 10px 10px;
     }
 
-    .TableRowInfo:last-child {
+    .TableRow:last-child > div {
         border: none;
-        padding: 15px 0 20px 35px;
-        width: 100%;
+        padding: 15px 0 20px 10px;
     }
 
     .TableRowInfo:hover {
@@ -184,15 +244,7 @@ nav {
     border-radius: 0;
 }
 
-.userProfile {
-    background-color: #92C1BA;
-    color: white;
-}
 
-    .userProfile:hover {
-        color: white;
-        background-color: #ABCFCA !important;
-    }
 
 #createTaskButtonCol {
     display: none;
@@ -206,7 +258,9 @@ nav {
         margin-top: -5px;
         min-height: 180px;
     }
-
+    .assignedToMeTable {
+    padding: 0;
+}
 
     .li-mobile {
         display: block !important;
@@ -279,7 +333,7 @@ body {
 
 .custom-sticker {
     background: white;
-    border: 2px solid rgba(235, 239, 239, .8);
+    border: 2px solid transparent;
     box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
     margin: 10px 0;
     padding: 15px;
@@ -348,6 +402,19 @@ body {
     height: 36px;
 }
 
+.popover {
+    background-color: #92C1BA;
+    color: white;
+    border: 0;
+    border-radius: 0; 
+}
+.popover.bottom > .arrow:after {
+     border-bottom-color: #92C1BA;
+}
+
+
+
+
 .padding0 {
     padding: 0;
 }
@@ -396,7 +463,6 @@ body {
 .fa-plus {
     color: #4D868D;
     border: 1px solid #4D868D;
-    font-size: 20px !important;
     border-radius: 100px;
     padding: 4px 7px;
     margin: 5px 0 0 5px;
@@ -427,7 +493,7 @@ body {
 }
 
 .stylish-input-group .input-group-addon {
-    background: white !important;
+    background: white;
 }
 
 .stylish-input-group .form-control {
