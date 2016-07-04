@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
-using BugTrackingSystem.Data.Model;
+﻿using System.Web.Mvc;
 using BugTrackingSystem.Service.Services;
-using BugTrackingSystem.Web.Models;
 
 namespace BugTrackingSystem.Web.Controllers
 {

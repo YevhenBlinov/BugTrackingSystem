@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BugTrackingSystem.Service.Model
+﻿namespace BugTrackingSystem.Service.Model
 {
     public class CommentViewModel
     {

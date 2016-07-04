@@ -54,9 +54,7 @@
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
-    <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
-    <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Model\Bug.cs" />
     <Compile Include="Model\BugAttachment.cs" />
     <Compile Include="Model\BugPriority.cs" />

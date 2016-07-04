@@ -13,15 +13,12 @@ namespace BugTrackingSystem.Web
         public static void Run()
         {
             SetAutofacContainer();
-            //Configure AutoMapper
-            //AutoMapperConfiguration.Configure();
         }
 
         private static void SetAutofacContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
             builder.RegisterAssemblyTypes(typeof(UserRepository).Assembly)

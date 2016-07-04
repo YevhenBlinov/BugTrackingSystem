@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using BugTrackingSystem.Data.Infrastructure;
+﻿using System;
+using System.Collections.Generic;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 
@@ -8,12 +8,10 @@ namespace BugTrackingSystem.Service.Services
     public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public ProjectService(IProjectRepository projectRepository, IUnitOfWork unitOfWork)
+        public ProjectService(IProjectRepository projectRepository)
         {
             _projectRepository = projectRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<Project> GetAllProjects()
@@ -24,7 +22,7 @@ namespace BugTrackingSystem.Service.Services
 
         public IEnumerable<Project> GetAllUsersProject()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
