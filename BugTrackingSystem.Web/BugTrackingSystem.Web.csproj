@@ -47,10 +47,6 @@
       <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -135,9 +131,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BugViewModel.cs" />
-    <Compile Include="Models\ProjectViewModel.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -155,10 +148,6 @@
     <Content Include="Content\Images\Major.png" />
     <Content Include="Content\Images\Minor.png" />
     <Content Include="Content\Images\orwell.jpeg" />
-    <Content Include="Content\Images\PriorityCritical.png" />
-    <Content Include="Content\Images\PriorityImportant.png" />
-    <Content Include="Content\Images\PriorityMajor.png" />
-    <Content Include="Content\Images\PriorityMinor.png" />
     <Content Include="Content\Images\search icon.png" />
     <Content Include="Content\Images\Statusclosed.png" />
     <Content Include="Content\Images\Statusdone.png" />
@@ -219,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

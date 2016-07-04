@@ -1,4 +1,4 @@
-﻿namespace BugTrackingSystem.Service.Model
+﻿namespace BugTrackingSystem.Service.Models
 {
     public class CommentViewModel
     {

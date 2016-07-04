@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BugTrackingSystem.AzureService;
-using BugTrackingSystem.Service.Model;
 
 namespace BugTrackingSystem.Service.Services
 {
