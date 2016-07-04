@@ -24,22 +24,27 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult Dashboard()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserViewModel>()
-                    .ForMember(uvm => uvm.Projects, opt => opt.Ignore())
-                    .ForMember(uvm => uvm.Bugs, opt => opt.Ignore());
-                cfg.CreateMap<Project, ProjectViewModel>()
-                    .ForMember(pvm => pvm.Bugs, opt => opt.Ignore())
-                    .ForMember(pvm => pvm.Users, opt => opt.Ignore());
-                cfg.CreateMap<Bug, BugViewModel>();
-            });
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<User, UserViewModel>()
+            //        .ForMember(uvm => uvm.Projects, opt => opt.Ignore())
+            //        .ForMember(uvm => uvm.Bugs, opt => opt.Ignore());
+            //    cfg.CreateMap<Project, ProjectViewModel>()
+            //        .ForMember(pvm => pvm.Bugs, opt => opt.Ignore())
+            //        .ForMember(pvm => pvm.Users, opt => opt.Ignore());
+            //    cfg.CreateMap<Bug, BugViewModel>();
+            //});
 
-            var user = _userService.GetUserById(1);
-            var mapper = config.CreateMapper();
-            var userModel = mapper.Map<User,UserViewModel>(user);
-            userModel.Projects = user.Projects.Select(project => mapper.Map<Project, ProjectViewModel>(project)).ToList();
-            userModel.Bugs = user.Bugs.Select(project => mapper.Map<Bug, BugViewModel>(project)).ToList();
+            //var user = _userService.GetUserById(1);
+            //var mapper = config.CreateMapper();
+            //var userModel = mapper.Map<User,UserViewModel>(user);
+            //userModel.Projects = user.Projects.Select(project => mapper.Map<Project, ProjectViewModel>(project)).ToList();
+            //userModel.Bugs = user.Bugs.Select(project => mapper.Map<Bug, BugViewModel>(project)).ToList();
+
+            var commentService = new CommentService();
+            commentService.AddComment(1,"Admin","first comment");
+            commentService.AddComment(1, "Admin", "second comment");
+            var comment = commentService.GetCommentsForBug(1);
 
             return View();
         }
