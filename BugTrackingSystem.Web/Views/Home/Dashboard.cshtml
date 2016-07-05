@@ -7,7 +7,7 @@
                 @Html.Action("MyProjects", "Home")
 
                 <div class="container col-lg-12">
-                    <a href="#" id="ShowAllMyProjects">Show all<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    <a href="@Url.Action("Projects", "Project")" id="ShowAllMyProjects">Show all<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
                                 <div class="ProjectInfo" style="display: inline-block">
                                     <div class="ProjectPrefix">
                                         TDF-@bug.Number
-                                        <img src="~/Content/Images/Statusinprogress.png" class="" style="display: inline-block">
+                                        <img src="~/Content/Images/Statusinprogress.png" class="inline-block">
                                     </div>
                                     <div class="ElementText">
                                         @bug.Subject
@@ -41,6 +41,7 @@
                         </div>
                     }
                 </div>
+
                 <div class="row Sort_Title_Pagination">
                     <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @Model.Count()</i>
                     <div class=" pull-right" style="display: inline-block">
