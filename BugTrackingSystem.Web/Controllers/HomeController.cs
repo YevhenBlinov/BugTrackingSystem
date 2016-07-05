@@ -36,10 +36,10 @@ namespace BugTrackingSystem.Web.Controllers
             //userModel.Projects = user.Projects.Select(project => mapper.Map<Project, ProjectViewModel>(project)).ToList();
             //userModel.Bugs = user.Bugs.Select(project => mapper.Map<Bug, BugViewModel>(project)).ToList();
 
-            var commentService = new CommentService();
-            commentService.AddComment(1,"Admin","first comment");
-            commentService.AddComment(1, "Admin", "second comment");
-            var comment = commentService.GetCommentsForBug(1);
+            //var commentService = new CommentService();
+            //commentService.AddComment(1,"Admin","first comment");
+            //commentService.AddComment(1, "Admin", "second comment");
+            //var comment = commentService.GetCommentsForBug(1);
 
             return View();
         }
