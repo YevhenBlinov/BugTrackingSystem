@@ -6,10 +6,12 @@ namespace BugTrackingSystem.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IProjectService _projectService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IProjectService projectService)
         {
             _userService = userService;
+            _projectService = projectService;
         }
 
         public ActionResult Index()
@@ -19,34 +21,17 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult Dashboard()
         {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<User, UserViewModel>()
-            //        .ForMember(uvm => uvm.Projects, opt => opt.Ignore())
-            //        .ForMember(uvm => uvm.Bugs, opt => opt.Ignore());
-            //    cfg.CreateMap<Project, ProjectViewModel>()
-            //        .ForMember(pvm => pvm.Bugs, opt => opt.Ignore())
-            //        .ForMember(pvm => pvm.Users, opt => opt.Ignore());
-            //    cfg.CreateMap<Bug, BugViewModel>();
-            //});
-
             //var user = _userService.GetUserById(1);
-            //var mapper = config.CreateMapper();
-            //var userModel = mapper.Map<User,UserViewModel>(user);
-            //userModel.Projects = user.Projects.Select(project => mapper.Map<Project, ProjectViewModel>(project)).ToList();
-            //userModel.Bugs = user.Bugs.Select(project => mapper.Map<Bug, BugViewModel>(project)).ToList();
+            
+            var userBugs = _userService.GetUsersBugs(1);
+            
 
-            //var commentService = new CommentService();
-            //commentService.AddComment(1,"Admin","first comment");
-            //commentService.AddComment(1, "Admin", "second comment");
-            //var comment = commentService.GetCommentsForBug(1);
-
-            return View();
+            return View(userBugs);
         }
         public ActionResult MyProjects()
         {
-
-            return PartialView();
+            var userProjects = _userService.GetUsersProjects(1);
+            return PartialView(userProjects);
         }
 
         //public ActionResult Login()

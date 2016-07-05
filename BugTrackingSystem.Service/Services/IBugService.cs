@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using BugTrackingSystem.Data.Model;
+using BugTrackingSystem.Service.Models;
 
 namespace BugTrackingSystem.Service.Services
 {
     public interface IBugService
     {
-        IEnumerable<Bug> GetAllBugs();
+        IEnumerable<BugViewModel> GetAllBugs();
+
+        BugViewModel GetBugById(int bugId);
     }
 }

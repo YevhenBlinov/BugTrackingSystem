@@ -1,4 +1,6 @@
-﻿@{
+﻿@model BugTrackingSystem.Service.Models.ProjectViewModel
+
+@{
     ViewBag.Title = "Project";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,7 +8,7 @@
 
     <div id="header" class="row">
         <div id="headerTitle" class="col-lg-2">
-            The Titan
+            @Model.Name
             <i class="fa fa-plus round" aria-hidden="true"></i>
         </div>
         <div class="pull-right" id="Local-search">
@@ -27,12 +29,12 @@
         <div class="projectInfo col-lg-4 pull-left">
             <div>
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px;">
-                    <span style="font-size: 14px;">123</span>
+                    <span style="font-size: 14px;">@Model.BugsCount</span>
                 </i>
 
             </div>
             <div>
-                <i class="fa fa-users" aria-hidden="true">6</i>
+                <i class="fa fa-users" aria-hidden="true">@Model.UsersCount</i>
             </div>
             
         </div>

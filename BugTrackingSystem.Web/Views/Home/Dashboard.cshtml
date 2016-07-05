@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.BugViewModel>
 <body>
     <div class="general-container marginFromMenu">
         <div class="row">
@@ -21,7 +21,7 @@
                     </nav>
                 </div>
                 <div id="UniversalTable" class="marginFromMenu">
-                    @for (int i = 0; i < 3; i++)
+                    @foreach (var bug in Model)
                     {
                         <div class="TableRow">
                             <div class="TableRowInfo">
@@ -30,11 +30,11 @@
                                 </div>
                                 <div class="ProjectInfo" style="display: inline-block">
                                     <div class="ProjectPrefix">
-                                        TDF-Number
+                                        TDF-@bug.Number
                                         <img src="~/Content/Images/Statusinprogress.png" class="" style="display: inline-block">
                                     </div>
                                     <div class="ElementText">
-                                        Subject
+                                        @bug.Subject
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                     }
                 </div>
                 <div class="row Sort_Title_Pagination">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: Count</i>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @Model.Count()</i>
                     <div class=" pull-right" style="display: inline-block">
                         <nav class="local-pagination">
                             <ul class="pagination pagination-sm">
