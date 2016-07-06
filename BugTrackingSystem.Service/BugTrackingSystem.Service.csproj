@@ -71,11 +71,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\BugViewModel.cs" />
     <Compile Include="Models\BugAttachmentViewModel.cs" />
     <Compile Include="Models\BugPriority.cs" />
-    <Compile Include="Models\BugViewModel.cs" />
+    <Compile Include="Models\BaseBugViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FilterViewModel.cs" />
+    <Compile Include="Models\FullBugViewModel.cs" />
     <Compile Include="Models\ProjectViewModel.cs" />
     <Compile Include="Models\BugStatus.cs" />
     <Compile Include="Models\UserRole.cs" />

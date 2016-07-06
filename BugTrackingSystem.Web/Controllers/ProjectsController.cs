@@ -2,12 +2,13 @@
 
 namespace BugTrackingSystem.Web.Controllers
 {
-    public class TaskController : Controller
+    public class ProjectsController : Controller
     {
         //
-        // GET: /Task/
-        public ActionResult Task()
+        // GET: /Projects/
+        public ActionResult Projects()
         {
+
             return View();
         }
     }

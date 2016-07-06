@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using AutoMapper;
+using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 using BugTrackingSystem.Service.Models;
-using BugTrackingSystem.Data.Model;
-using AutoMapper;
-using System;
+using BugPriority = BugTrackingSystem.Service.Models.BugPriority;
+using BugStatus = BugTrackingSystem.Service.Models.BugStatus;
 
 namespace BugTrackingSystem.Service.Services
 {
@@ -19,9 +21,9 @@ namespace BugTrackingSystem.Service.Services
             {
                 cfg.CreateMap<User, UserViewModel>();
                 cfg.CreateMap<Project, ProjectViewModel>();
-                cfg.CreateMap<Bug, BugViewModel>()
-                .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => Enum.GetName(typeof(BugTrackingSystem.Service.Models.BugStatus), b.StatusID)))
-                .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => Enum.GetName(typeof(BugTrackingSystem.Service.Models.BugPriority), b.PriorityID)));
+                cfg.CreateMap<Bug, BaseBugViewModel>()
+                .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => Enum.GetName(typeof(BugStatus), b.StatusID)))
+                .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => Enum.GetName(typeof(BugPriority), b.PriorityID)));
             });
 
             _mapper = config.CreateMapper();
@@ -49,11 +51,11 @@ namespace BugTrackingSystem.Service.Services
             return projectModels;
         }
 
-        public IEnumerable<BugViewModel> GetUsersBugs(int userId)
+        public IEnumerable<BaseBugViewModel> GetUsersBugs(int userId)
         {
             var user = _userRepository.GetById(userId);
             var bugs = user.Bugs;
-            var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(bugs);
+            var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;
         }
     }

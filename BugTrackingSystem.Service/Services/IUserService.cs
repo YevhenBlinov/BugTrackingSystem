@@ -11,6 +11,6 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<ProjectViewModel> GetUsersProjects(int userId);
 
-        IEnumerable<BugViewModel> GetUsersBugs(int userId);
+        IEnumerable<BaseBugViewModel> GetUsersBugs(int userId);
     }
 }

@@ -5,17 +5,31 @@ namespace BugTrackingSystem.Web.Controllers
 {
     public class ProjectController : Controller
     {
+<<<<<<< Updated upstream
         private IProjectService _projectService;
 
         public ProjectController(IProjectService projectService)
         {
             _projectService = projectService;
+=======
+        private readonly IProjectService _projectService;
+        private readonly IBugService _bugService;
+        private readonly IUserService _userService;
+
+
+        public ProjectController(IProjectService projectService, IBugService bugService, IUserService userService)
+        {
+            _projectService = projectService;
+            _bugService = bugService;
+            _userService = userService;
+>>>>>>> Stashed changes
         }
         //
         // GET: /Project/
         [HttpGet]
         public ActionResult Project(int projectId)
         {
+<<<<<<< Updated upstream
             var projects = _projectService.GetProjectById(projectId);
             return View(projects);
         }
@@ -23,6 +37,12 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult Projects()
         {
 
+=======
+            //var projectBugs = _bugService.GetAllProjectsBugs(1);
+            //var bug = _bugService.GetFullBugById(1);
+            var userBugs = _userService.GetUsersBugs(1);
+            var userProjects = _userService.GetUsersProjects(1);
+>>>>>>> Stashed changes
             return View();
         }
 

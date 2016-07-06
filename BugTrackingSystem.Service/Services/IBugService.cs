@@ -5,8 +5,12 @@ namespace BugTrackingSystem.Service.Services
 {
     public interface IBugService
     {
-        IEnumerable<BugViewModel> GetAllBugs();
+        IEnumerable<BaseBugViewModel> GetAllBugs();
 
-        BugViewModel GetBugById(int bugId);
+        BaseBugViewModel GetBugById(int bugId);
+
+        FullBugViewModel GetFullBugById(int bugId);
+
+        IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId);
     }
 }

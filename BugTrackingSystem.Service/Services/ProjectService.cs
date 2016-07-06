@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 using BugTrackingSystem.Service.Models;
-using AutoMapper;
 
 namespace BugTrackingSystem.Service.Services
 {

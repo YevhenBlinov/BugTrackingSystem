@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace BugTracking.Controllers
+namespace BugTrackingSystem.Web.Controllers
 {
     public class UsersController : Controller
     {
