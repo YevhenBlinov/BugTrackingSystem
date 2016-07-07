@@ -50,6 +50,17 @@ textarea {
     margin-left: -20px;
 }
 
+.btn-default {
+    display: inline-block;
+    border-radius: 0;
+    width: 50px;
+}
+
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 150px;
+    border-color: gainsboro;
+}
+
 .AdvancedSearch {
     background-color: white;
     box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
@@ -368,6 +379,16 @@ body {
     }
 
 
+    .custom-sticker-howerless {
+    background: white;
+    border: 2px solid transparent;
+    box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
+    margin: 10px 0;
+    padding: 15px;
+    font-size: 12px;
+}
+
+
 #ShowAllMyProjects {
     color: cornflowerblue;
     text-decoration: underline;
@@ -486,6 +507,15 @@ body {
     color: #4D868D;
     border: 1px solid #4D868D;
     border-radius: 100px;
+    padding: 4px 7px;
+    margin: 5px 0 0 5px;
+    cursor: pointer;
+}
+
+.fa-pencil, .fa-clone, .fa-trash {
+    color: #4D868D;
+    border: 1px solid #4D868D;
+    border-radius: 20px;
     padding: 4px 7px;
     margin: 5px 0 0 5px;
     cursor: pointer;

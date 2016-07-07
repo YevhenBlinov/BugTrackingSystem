@@ -1,32 +1,161 @@
-﻿@{
+﻿@model BugTrackingSystem.Service.Models.FullBugViewModel
+@{
     ViewBag.Title = "Task";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-lg-12 general-container">
-    <div id="ProjectName">
-        The Titan / TDT-13
+<div class="col-lg-12 general-container" style="margin-top: 30px;">
+    <ol class="breadcrumb inline-block padding0" style="background-color: inherit">
+        <li><a href="#"> @Model.ProjectName </a></li>
+        <li class="active">@Model.ProjectPrefix-@Model.BugId</li>
+    </ol>
+    <h1>
+        @Model.Subject
+    </h1>
+    <div>
+        <div class="pull-right">
+            <i class="fa fa-trash round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal" style="font-size: 24px"></i>
+        </div>
+        <div class="pull-right">
+            <i class="fa fa-clone round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal" style="font-size: 24px"></i>
+        </div>
+        <div class="pull-right">
+            <i class="fa fa-pencil round" aria-hidden="true"style="font-size: 24px" data-toggle="modal" data-target="#editTask"></i>
+        </div>
     </div>
-    <div id="TaskSubject">
-        The error message is displayed after tapping on the 'Get Link' button on the volume's 'Information' screen
-    </div>
-    <div id="TaskPanel">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-        <i class="fa fa-clone" aria-hidden="true"></i>
-        <i class="fa fa-trash" aria-hidden="true"></i>
-    </div>
-
-    <div class="row">
-
-        <div class="col-sm-7 col-xs-12 padding0">
-            <div>
-
+    <div class="col-xs-12 padding0" style="margin-top: 15px;">
+        <div class="col-sm-8 col-xs-12 custom-sticker-howerless">
+            <div class="inline-block">
+                <label style="margin-right: 10px;">Priority:</label>
+                @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
+                <img src="@priority"/>
+                <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
             </div>
-
+            <div class="pull-right inline-block">
+                <label style="margin-right: 10px">Status:</label>
+                <select>
+                    <option>@Model.Status</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <hr style="margin: 15px 0 30px 0;">
+            <div style="font-size: 14px;">
+                @Model.Description
+            </div>
         </div>
-
-        <div class="col-sm-4 col-xs-12 ">
+        <div class="col-sm-4 col-xs-12 padding0">
+            <div class="custom-sticker-howerless col-xs-11 pull-right" style="margin-left: 20px;">
+                <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
+                    <label style="font-size: 14px;">Assignee:</label>
+                    <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
+                </div>
+                <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
+                    <div class="col-xs-3 padding0">
+                        <img src="../../Content/Images/orwell.jpeg" class="img-circle"/>
+                    </div>
+                    <div class="col-xs-9 padding0" style="margin-top: 5px;">
+                        <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
+                        <div>@Model.AssignedUser.Email</div>
+                    </div>
+                </div>
+                <div class="col-xs-12 padding0" style="font-size: 14px;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <label>Created:</label>
+                    <span>@Model.CreationDate</span>
+                </div>
+                <div class="col-xs-12 padding0" style="font-size: 14px; margin-bottom: 20px;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <label>Updated:</label>
+                    <span>@Model.ModificationDate</span>
+                </div>
+                <div class="pull-left">
+                    <label style="font-size: 13px;">Attachments</label>
+                    <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
+                </div>
+            </div>
         </div>
     </div>
-
-
 </div>
+
+
+<div class="modal fade" id="editTask" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="TaskModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0 "></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit task</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" value="@Model.Subject" style="margin: 0; display: inline-block">
+                    </div>
+                </form>
+                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
+                    <select class="form-control" style="color: gray;">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
+                    <select class="form-control">
+                        <option selected="selected">Owner</option>
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
+                    <select class="form-control">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
+                    <select class="form-control">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <form>
+                    <textarea class="form-control" placeholder="Description" rows="5">@Model.Description</textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <b>Attachments</b>
+                    <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
+                </div>
+                <button type="button" class="btn modalCreateButton" style="margin-top: 50px;">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $('select').selectpicker();
+</script>
+
+<script>
+    if ('@Model.Priority' == 'Major') {
+        $('#priorityLable').css('color', 'orange');
+    }
+    if ('@Model.Priority' == 'Minor') {
+        $('#priorityLable').css('color', 'gainsboro');
+    }
+    if ('@Model.Priority' == 'Critical') {
+        $('#priorityLable').css('color', 'red');
+    }
+    if ('@Model.Priority' == 'Blocker') {
+        $('#priorityLable').css('color', 'red');
+    }
+</script>

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
@@ -56,7 +56,7 @@
                     <li id="liTask" class="li-mobile"><a href="#">Create task</a></li>
                     <li id="liSearch" class="li-mobile"><a href="#">Search</a></li>
                 </ul>
-                <button type="button" class="btn btn-header" id="taskButton" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-header" id="taskButton" aria-label="Left Align" data-toggle="modal" data-target="#createNewTask">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: white;"></span>
                     Create task
                 </button>
@@ -87,7 +87,7 @@
     </div>
 </nav>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="createNewTask" tabindex="-1" role="dialog" aria-labelledby="createNewTaskLabel">
         <div class="modal-dialog" role="document" id="TaskModalDialog">
             <div class="modal-content">
                 <div class="modal-header">
