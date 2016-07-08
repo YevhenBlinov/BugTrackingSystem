@@ -1,0 +1,63 @@
+﻿@model  PagedList.IPagedList<BugTrackingSystem.Service.Models.BaseBugViewModel>
+@using PagedList.Mvc;
+<body>
+    <div class="general-container marginFromMenu">
+        <div class="row">
+            <div class="col-lg-3 padding0">
+                <h1 style="margin-bottom: 40px; margin-top: 0;">My projects</h1>
+                @Html.Action("MyProjects", "Home")
+
+                <div class="container col-lg-12">
+                    <a href="@Url.Action("Projects", "Project")" id="ShowAllMyProjects">Show all<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-9" style="padding-left: 80px;">
+                <h1 style="margin-bottom: 5px; margin-top: 0;">Assigned to me</h1>
+<<<<<<< Updated upstream
+                <div class="pull-right">
+                    <nav class="local-pagination">
+                        <ul class="pagination pagination-sm">
+                            <li><a href="#">1</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="UniversalTable" class="marginFromMenu">
+                    @foreach (var bug in Model)
+                    {
+                        <div class="TableRow">
+                            <div class="TableRowInfo">
+                                <div class="IconElement padding0" style="display: inline-block">
+                                    <img src="~/Content/Images/Minor.png" class="img-priority img-responsive">
+                                </div>
+                                <div class="ProjectInfo" style="display: inline-block">
+                                    <div class="ProjectPrefix">
+                                        TDF-@bug.Number
+                                        <img src="~/Content/Images/Statusinprogress.png" class="inline-block">
+                                    </div>
+                                    <div class="ElementText">
+                                        @bug.Subject
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="row Sort_Title_Pagination">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @ViewBag.AllProjects</i>
+                    <div class=" pull-right" style="display: inline-block">
+                        <nav class="local-pagination">
+                            <ul class="pagination pagination-sm">
+                                <li><a href="#">@Html.PagedListPager(Model, page => Url.Action("Dashboard", "Home", new { page }))</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+=======
+                @Html.Action("UserBugs", "Shared")
+>>>>>>> Stashed changes
+            </div>
+        </div>
+    </div>
+</body>

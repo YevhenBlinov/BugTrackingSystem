@@ -9,11 +9,13 @@ namespace BugTrackingSystem.Web.Controllers
     {
         private IProjectService _projectService;
         private IUserService _userService;
+        private IBugService _bugService;
 
-        public ProjectController(IProjectService projectService, IUserService userService)
+        public ProjectController(IProjectService projectService, IUserService userService, IBugService bugService)
         {
             _projectService = projectService;
             _userService = userService;
+            _bugService = bugService;
         }
         //
         // GET: /Project/
@@ -24,13 +26,9 @@ namespace BugTrackingSystem.Web.Controllers
             return View(project);
         }
 
-        public ActionResult Projects(int? page, int userId = 1)
+        public ActionResult Projects(int userId = 1)
         {
-            int pageSize = 2;
-            int pageNumber = (page ?? 1);
-            ViewBag.AllProjects = _userService.GetUsersProjects(userId).Count();
-
-            var projects = _userService.GetUsersProjects(userId).OrderBy(x => x.ProjectId).ToPagedList(pageNumber, pageSize);
+            var projects = _userService.GetUsersProjects(userId);
             return View(projects);
         }
 
@@ -40,9 +38,10 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ProjectBugs()
+        public ActionResult ProjectBugs(int projectId)
         {
-            return PartialView();
+            var bugs = _bugService.GetAllProjectsBugs(projectId);
+            return PartialView(bugs);
         }
     }
 }

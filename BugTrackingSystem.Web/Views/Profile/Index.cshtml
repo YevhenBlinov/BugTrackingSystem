@@ -17,23 +17,7 @@
             <div>
                 <h1 style="margin: 0;">My Profile</h1>
                 <div class="container col-xs-12 divsWithBorder" style="padding: 15px;">
-                    <div class="paddingRight10" style="margin-bottom: 30px;">
-                        <div class="pull-left padding0 inline-block">
-                            <img src="~/Content/Images/orwell.jpeg" class="img-circle marginRight10" alt="George Orwell" />
-                        </div>
-                        <div class="inline-block">
-                            <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">George</h4>
-                            <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">Orwell</h4>
-                        </div>
-                    </div>
-                    <div>
-                        <h6 class="text-left h6grey">Email</h6>
-                        <h5 class="text-left">george-orwell@email.com</h5>
-                    </div>
-                    <div>
-                        <h6 class="text-left h6grey">Role</h6>
-                        <h5 class="text-left">Common User</h5>
-                    </div>
+                    @Html.Action("UserInfo", "Profile", new {userId = 1})
                 </div>
                 <div class="container col-xs-12 padding0" style="margin-top: 10px;">
                     <div class="padding0 pull-right inline-block" style="padding: 20px 10px 0 10px;" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit">
@@ -55,18 +39,7 @@
                 </div>
                 <div class="col-xs-12 divsWithBorder" style="margin-bottom: 60px;">
                     <ul style="margin: 0;">
-                        <li>
-                            <a href="">The Financier</a>
-                        </li>
-                        <li>
-                            <a href="">The Titan</a>
-                        </li>
-                        <li>
-                            <a href="">The Stoic</a>
-                        </li>
-                        <li>
-                            <a href="">I, robot</a>
-                        </li>
+                        @Html.Action("UserProjects", "Profile", new {userId = 1})
                     </ul>
                 </div>
             </div>
@@ -74,44 +47,7 @@
         <div class="col-sm-9 col-xs-12 assignedToMeTable">
 
             <h1 style="margin-top: 0;">Assigned To Me</h1>
-            <div class="col-xs-12 padding0">
-                <nav class="local-pagination">
-                    <ul class="pagination pagination-sm">
-                        <li><a href="#">1</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div id="UniversalTable" class="marginFromMenu">
-                @for (int i = 0; i < 6; i++)
-                {
-                    <div class="TableRow">
-                        <div class="TableRowInfo">
-                            <div class="IconElement padding0 inline-block">
-                                <img src="~/Content/Images/Major.png" class="img-priority img-responsive" style="margin-right: 10px;">
-                            </div>
-                            <div class="ProjectInfo inline-block">
-                                <div class="ProjectPrefix">
-                                    TDF-123
-                                    <img src="~/Content/Images/Statusinprogress.png" class="inline-block">
-                                </div>
-                                <div class="ElementText">
-                                    Font for password is different from other labels font on 'Login' screen
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="row Sort_Title_Pagination">
-                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: Count</i>
-                <div class=" pull-right" style="display: inline-block">
-                    <nav class="local-pagination">
-                        <ul class="pagination pagination-sm">
-                            <li><a href="#">1</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            @Html.Action("UserBugs", "Shared")
         </div>
     </div>
 </div>

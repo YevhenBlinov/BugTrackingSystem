@@ -1,5 +1,4 @@
-﻿@model PagedList.IPagedList<BugTrackingSystem.Service.Models.ProjectViewModel>
-@using PagedList.Mvc;
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.ProjectViewModel>
 @{
     ViewBag.Title = "Projects";
 }
@@ -74,11 +73,11 @@
         }
     </div>
     <div class="row Sort_Title_Pagination">
-        <i class="fa fa-th-list col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Projects: @ViewBag.AllProjects</i>
+        <i class="fa fa-th-list col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Projects: @Model.Count()</i>
         <div class=" pull-right" style="display: inline-block">
             <nav class="local-pagination">
                 <ul class="pagination pagination-sm">
-                    <li><a href="#">@Html.PagedListPager(Model, page => Url.Action("Projects", "Project", new { page }))</a></li>
+                    <li><a href="#">1</a></li>
                 </ul>
             </nav>
         </div>

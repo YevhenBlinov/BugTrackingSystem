@@ -1,47 +1,51 @@
-﻿
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.BugViewModel>
 <div id="UniversalTable" style="margin: 10px 0;">
-    @for (int i = 0; i < 3; i++)
+    @foreach (var bug in Model)
     {
-        <div class="TableRow">
-            <div class="TableRowInfo row">
-                <div class="IconElement inline-block pull-left padding-top7">
-                    <img src="~/Content/Images/Minor.png" class="img-priority img-responsive">
-                </div>
-                <div class="col-sm-5 col-xs-10 padding-top7">
-                    <div class="ProjectPrefix">
-                        TDF-Number
-                        <img src="~/Content/Images/Statusinprogress.png" class="inline-block">
+        <a href="@Url.Action("Task", "Task", new {bugId = bug.BugId})" style="color: black">
+            <div class="TableRow">
+                <div class="TableRowInfo row">
+                    <div class="IconElement inline-block pull-left padding-top7">
+                        @{ var priority = String.Format("../../Content/Images/" + bug.Priority + ".png"); }
+                        <img src="@priority" width="35" height="35" />
                     </div>
-                    <div class="ElementText">
-                        Subject
+                    <div class="col-sm-5 col-xs-10 padding-top7">
+                        <div class="ProjectPrefix">
+                            @bug.ProjectPrefix-@bug.BugId
+                            @{ var status = String.Format("../../Content/Images/" + bug.Status + ".png"); }
+                            <img src="@status">
+                        </div>
+                        <div class="ElementText">
+                            @bug.Subject
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-2 col-xs-12 padding-top7 xsPaddingNone">
-                    <div style="padding-top: 10px;">
-                        Project Name
+                    <div class="col-sm-2 col-xs-12 padding-top7 xsPaddingNone">
+                        <div style="padding-top: 10px;">
+                            @bug.ProjectName
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-2 col-xs-12 padding-top7 xsPaddingNone">
-                    <div>
-                        <span style="color: gray; font-size: 12px">Created:</span>
-                        <span style="font-size: 12px">10/10/2000</span>
+                    <div class="col-sm-2 col-xs-12 padding-top7 xsPaddingNone">
+                        <div>
+                            <span style="color: gray; font-size: 12px">Created:</span>
+                            <span style="font-size: 12px">@bug.CreationDate</span>
+                        </div>
+                        <div>
+                            <span style="color: gray; font-size: 12px">Updated:</span>
+                            <span style="font-size: 12px">@bug.ModificationDate</span>
+                        </div>
                     </div>
-                    <div>
-                        <span style="color: gray; font-size: 12px">Updated:</span>
-                        <span style="font-size: 12px">10/10/2000</span>
+                    <div class="col-sm-2 col-xs-12 xsPaddingNone">
+                        <div class="col-sm-4" style="padding: 0;">
+                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" alt="userPhoto" height="40" width="40" />
+                        </div>
+                        <div class="col-sm-8" style="padding-top: 10px;">
+                            <div style="font-size: 12px;">@bug.AssignedUser.FirstName</div>
+                            <div style="font-size: 12px;">@bug.AssignedUser.LastName</div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-2 col-xs-12 xsPaddingNone">
-                    <div class="col-sm-4" style="padding: 0;">
-                        <img src="~/Content/Images/orwell.jpeg" class="img-circle" alt="userPhoto" height="40" width="40" />
-                    </div>
-                    <div class="col-sm-8" style="padding-top: 10px;">
-                        <div style="font-size: 12px;">George</div>
-                        <div style="font-size: 12px;">Orwell</div>
-                    </div>                  
                 </div>
             </div>
-        </div>
+        </a>
     }
 </div>
 

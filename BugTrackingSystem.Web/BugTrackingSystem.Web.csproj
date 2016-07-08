@@ -143,6 +143,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -155,6 +156,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\404.jpg" />
     <Content Include="Content\Images\Blocker.png" />
     <Content Include="Content\Images\close-icon.png" />
     <Content Include="Content\Images\Critical.png" />
@@ -225,6 +227,9 @@
     <Content Include="Views\Project\Projects.cshtml" />
     <Content Include="Views\Project\ProjectUsers.cshtml" />
     <Content Include="Views\Project\ProjectBugs.cshtml" />
+    <Content Include="Views\Profile\UserInfo.cshtml" />
+    <Content Include="Views\Profile\UserProjects.cshtml" />
+    <Content Include="Views\Shared\UserBugs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

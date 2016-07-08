@@ -1,0 +1,8 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.ProjectViewModel>
+
+@foreach (var project in Model)
+{
+    <li>
+        <a href="@Url.Action("Project", "Project", new {projectId = project.ProjectId})">@project.Name</a>
+    </li>
+}

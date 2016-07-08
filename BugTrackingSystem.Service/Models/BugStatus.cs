@@ -4,7 +4,7 @@
     {
         ToDo = 1,
         InProgress = 2,
-        InTest = 3,
+        InTesting = 3,
         Done = 4,
         Closed = 5
     }

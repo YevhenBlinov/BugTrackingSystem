@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.BaseBugViewModel>
+<div class="pull-right">
+    <nav class="local-pagination">
+        <ul class="pagination pagination-sm">
+            <li><a href="#">1</a></li>
+        </ul>
+    </nav>
+</div>
+<div id="UniversalTable" class="marginFromMenu">
+    @foreach (var bug in Model)
+    {
+        <a href="@Url.Action("Task", "Task", new {bugId = bug.BugId})" style="color: black">
+            <div class="TableRow">
+                <div class="TableRowInfo row">
+
+                    <div class="IconElement inline-block pull-left padding-top7">
+                        @{ var priority = String.Format("../../Content/Images/" + bug.Priority + ".png"); }
+                        <img src="@priority" width="35" height="35" />
+                    </div>
+                    <div class="col-xs-10 padding-top7">
+                        <div class="ProjectPrefix">
+                            @bug.ProjectPrefix-@bug.BugId
+                            @{ var status = String.Format("../../Content/Images/" + bug.Status + ".png"); }
+                            <img src="@status">
+                        </div>
+                        <div class="ElementText">
+                            @bug.Subject
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+<div class="row Sort_Title_Pagination">
+    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @Model.Count()</i>
+    <div class=" pull-right" style="display: inline-block">
+        <nav class="local-pagination">
+            <ul class="pagination pagination-sm">
+                <li><a href="#">1</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@model BugTrackingSystem.Service.Models.UserViewModel
+
+<div class="paddingRight10" style="margin-bottom: 30px;">
+    <div class="pull-left padding0 inline-block">
+        <img src="~/Content/Images/orwell.jpeg" class="img-circle marginRight10" alt="George Orwell" />
+    </div>
+    <div class="inline-block">
+        <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.FirstName</h4>
+        <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.LastName</h4>
+    </div>
+</div>
+<div>
+    <h6 class="text-left h6grey">Email</h6>
+    <h5 class="text-left">@Model.Email</h5>
+</div>
+<div>
+    <h6 class="text-left h6grey">Role</h6>
+    <h5 class="text-left">@Model.Role</h5>
+</div>
