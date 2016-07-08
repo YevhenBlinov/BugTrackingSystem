@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using BugTrackingSystem.Service.Services;
+using PagedList;
 
 namespace BugTrackingSystem.Web.Controllers
 {
@@ -19,12 +21,14 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult Dashboard()
+        public ActionResult Dashboard(int? page)
         {
             //var user = _userService.GetUserById(1);
-            
-            var userBugs = _userService.GetUsersBugs(1);
-            
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            ViewBag.AllProjects = _userService.GetUsersBugs(1).Count();
+            var userBugs = _userService.GetUsersBugs(1).OrderBy(x => x.BugId).ToPagedList(pageNumber, pageSize);
+
 
             return View(userBugs);
         }
