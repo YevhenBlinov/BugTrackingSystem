@@ -11,5 +11,7 @@ namespace BugTrackingSystem.Service.Services
         ProjectViewModel GetProjectById(int projectId);
 
         void AddNewProject(string name, string prefix);
+
+        void DeleteProject(int projectId);
     }
 }

@@ -49,5 +49,11 @@ namespace BugTrackingSystem.Service.Services
             _projectRepository.Add(project);
             _projectRepository.Save();
         }
+
+        public void DeleteProject(int projectId)
+        {
+            _projectRepository.Delete(p => p.ProjectID == projectId);
+            _projectRepository.Save();
+        }
     }
 }

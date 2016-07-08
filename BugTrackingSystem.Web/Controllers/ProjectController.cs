@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
 using BugTrackingSystem.Service.Services;
 using PagedList;
 
@@ -28,7 +30,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult Projects(int userId = 1)
         {
-            var projects = _userService.GetUsersProjects(userId);
+            var projects = _projectService.GetAllProjects();
             return View(projects);
         }
 
@@ -42,6 +44,18 @@ namespace BugTrackingSystem.Web.Controllers
         {
             var bugs = _bugService.GetAllProjectsBugs(projectId);
             return PartialView(bugs);
+        }
+
+        public void AddProject(string name, string prefix)
+        {
+            _projectService.AddNewProject(name, prefix);
+            RedirectToAction("Projects", "Project");
+        }
+
+        public void DeleteProject(int projectId)
+        {
+            _projectService.DeleteProject(projectId);
+            RedirectToAction("Projects", "Project");
         }
     }
 }
