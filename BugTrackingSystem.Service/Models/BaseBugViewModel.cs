@@ -4,7 +4,7 @@
     {
         public int BugId { get; set; }
 
-        public string Priority { get; set; }
+        public BugPriority Priority { get; set; }
 
         public string ProjectPrefix { get; set; }
 
@@ -12,6 +12,6 @@
 
         public string Subject { get; set; }
 
-        public string Status { get; set; }
+        public BugStatus Status { get; set; }
     }
 }

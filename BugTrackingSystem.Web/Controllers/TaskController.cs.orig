@@ -1,0 +1,61 @@
+<<<<<<< Updated upstream
+﻿using System.Web.Mvc;
+=======
+﻿using System;
+using System.Web.Mvc;
+using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
+>>>>>>> Stashed changes
+using BugTrackingSystem.Service.Services;
+
+namespace BugTrackingSystem.Web.Controllers
+{
+    public class TaskController : Controller
+    {
+        private readonly IBugService _bugService;
+<<<<<<< Updated upstream
+
+        public TaskController(IBugService bugService)
+        {
+            _bugService = bugService;
+        }
+=======
+        private readonly IProjectService _projectService;
+
+        public TaskController(IBugService bugService, IProjectService projectService)
+        {
+            _bugService = bugService;
+            _projectService = projectService;
+        }
+
+>>>>>>> Stashed changes
+        //
+        // GET: /Task/
+        public ActionResult Task(int bugId = 1)
+        {
+<<<<<<< Updated upstream
+            var info = _bugService.GetFullBugById(bugId);
+            return View(info);
+=======
+            var testBugToAdd = new BugFormViewModel
+            {
+                CreationDate = DateTime.Now,
+                ModificationDate = DateTime.Now,
+                StatusID = (byte)BugStatus.InProgress,
+                PriorityID = (byte)BugPriority.Critical,
+                Description = "Test entity to add",
+                Number = 3,
+                Subject = "Try to add entity",
+                AssignedUserID = 1,
+                ProjectID = 1
+            };
+
+            var testProject = new ProjectFormViewModel() { Name = "The hobbit", Prefix = "THB" };
+            _projectService.AddNewProject(testProject);
+            //var bug = _bugService.GetFullBugById(5);
+            //_bugService.SaveNewBug(testBugToAdd);
+            return View();
+>>>>>>> Stashed changes
+        }
+    }
+}

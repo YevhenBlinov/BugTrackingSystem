@@ -107,5 +107,10 @@ namespace BugTrackingSystem.Data.Infrastructure
         {
             return _dbSet.Where(where).FirstOrDefault<T>();
         }
+
+        public void Save()
+        {
+            DbContext.SaveChanges();
+        }
     }
 }

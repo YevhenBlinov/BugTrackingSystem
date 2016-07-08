@@ -21,5 +21,7 @@ namespace BugTrackingSystem.Data.Infrastructure
         IEnumerable<T> GetAll();
 
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
+
+        void Save();
     }
 }

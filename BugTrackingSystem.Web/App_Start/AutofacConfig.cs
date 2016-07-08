@@ -8,7 +8,7 @@ using BugTrackingSystem.Service.Services;
 
 namespace BugTrackingSystem.Web
 {
-    public static class Bootstrapper
+    public static class AutofacConfig
     {
         public static void Run()
         {

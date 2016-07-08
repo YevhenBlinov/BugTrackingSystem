@@ -5,6 +5,7 @@ using BugTrackingSystem.AzureService;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
 using BugPriority = BugTrackingSystem.Service.Models.BugPriority;
 using BugStatus = BugTrackingSystem.Service.Models.BugStatus;
 using UserRole = BugTrackingSystem.Service.Models.UserRole;
@@ -28,15 +29,15 @@ namespace BugTrackingSystem.Service.Services
                 cfg.CreateMap<Bug, BaseBugViewModel>();
                 cfg.CreateMap<Bug, BugViewModel>()
                     .ForMember(bvm => bvm.AssignedUser, opt => opt.MapFrom(b => b.User))
-                    .ForMember(bgm => bgm.Status, opt => opt.MapFrom(b => Enum.GetName(typeof(BugStatus), b.StatusID)))
-                    .ForMember(bgm => bgm.Priority, opt => opt.MapFrom(b => Enum.GetName(typeof(BugPriority), b.PriorityID)));
+                    .ForMember(bgm => bgm.Status, opt => opt.MapFrom(b => (BugStatus)b.StatusID))
+                    .ForMember(bgm => bgm.Priority, opt => opt.MapFrom(b => (BugPriority)b.PriorityID));
                 cfg.CreateMap<Bug, FullBugViewModel>()
                     .ForMember(fbvm => fbvm.AssignedUser, opt => opt.MapFrom(b => b.User))
-                    .ForMember(fbvm => fbvm.Status, opt => opt.MapFrom(b => Enum.GetName(typeof(BugStatus), b.StatusID)))
-                    .ForMember(fbvm => fbvm.Priority, opt => opt.MapFrom(b => Enum.GetName(typeof(BugPriority), b.PriorityID)))
+                    .ForMember(fbvm => fbvm.Status, opt => opt.MapFrom(b => (BugStatus)b.StatusID))
+                    .ForMember(fbvm => fbvm.Priority, opt => opt.MapFrom(b => (BugPriority)b.PriorityID))
                     .ForMember(fbvm => fbvm.Comments, opt => opt.Ignore());
                 cfg.CreateMap<CommentModel, CommentViewModel>();
-
+                cfg.CreateMap<BugFormViewModel, Bug>();
             });
 
             _mapper = config.CreateMapper();
@@ -62,7 +63,12 @@ namespace BugTrackingSystem.Service.Services
             var fullbugModel = _mapper.Map<Bug, FullBugViewModel>(bug);
             var tableService = new TableService();
             var comments = tableService.RetrieveAllCommentsForBug(bugId.ToString());
-            fullbugModel.Comments = _mapper.Map<List<CommentModel>, List<CommentViewModel>>(comments); ;
+
+            if (comments.Count != 0)
+            {
+                fullbugModel.Comments = _mapper.Map<List<CommentModel>, List<CommentViewModel>>(comments);
+            }
+
             return fullbugModel;
         }
 
@@ -71,6 +77,13 @@ namespace BugTrackingSystem.Service.Services
             var allprojectsbugs = _bugRepository.GetMany(b => b.ProjectID == projectId);
             var allprojectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(allprojectsbugs);
             return allprojectbugmodels;
+        }
+
+        public void AddNewBug(BugFormViewModel bugFormViewModel)
+        {
+            var bug = _mapper.Map<BugFormViewModel, Bug>(bugFormViewModel);
+            _bugRepository.Add(bug);
+            _bugRepository.Save();
         }
     }
 }

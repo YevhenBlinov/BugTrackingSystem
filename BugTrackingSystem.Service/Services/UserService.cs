@@ -22,8 +22,8 @@ namespace BugTrackingSystem.Service.Services
                 cfg.CreateMap<User, UserViewModel>();
                 cfg.CreateMap<Project, ProjectViewModel>();
                 cfg.CreateMap<Bug, BaseBugViewModel>()
-                .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => Enum.GetName(typeof(BugStatus), b.StatusID)))
-                .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => Enum.GetName(typeof(BugPriority), b.PriorityID)));
+                .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => (BugStatus)b.StatusID))
+                .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => (BugPriority)b.PriorityID));
             });
 
             _mapper = config.CreateMapper();

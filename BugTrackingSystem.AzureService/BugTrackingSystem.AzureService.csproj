@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlobService.cs" />
     <Compile Include="CommentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableService.cs" />
