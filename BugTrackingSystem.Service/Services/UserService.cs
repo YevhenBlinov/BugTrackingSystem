@@ -6,6 +6,7 @@ using BugTrackingSystem.Data.Repositories;
 using BugTrackingSystem.Service.Models;
 using BugPriority = BugTrackingSystem.Service.Models.BugPriority;
 using BugStatus = BugTrackingSystem.Service.Models.BugStatus;
+using UserRole = BugTrackingSystem.Service.Models.UserRole;
 
 namespace BugTrackingSystem.Service.Services
 {
@@ -19,7 +20,8 @@ namespace BugTrackingSystem.Service.Services
             _userRepository = userRepository;
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserViewModel>();
+                cfg.CreateMap<User, UserViewModel>()
+                .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID));
                 cfg.CreateMap<Project, ProjectViewModel>();
                 cfg.CreateMap<Bug, BaseBugViewModel>()
                 .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => (BugStatus)b.StatusID))
