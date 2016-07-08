@@ -42,8 +42,9 @@ namespace BugTrackingSystem.Service.Services
             return projectModels;
         }
 
-        public void AddNewProject(ProjectFormViewModel projectViewModel)
+        public void AddNewProject(string name, string prefix)
         {
+            var projectViewModel = new ProjectFormViewModel(){Name = name, Prefix = prefix};
             var project = _mapper.Map<ProjectFormViewModel, Project>(projectViewModel);
             _projectRepository.Add(project);
             _projectRepository.Save();

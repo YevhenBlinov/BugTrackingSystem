@@ -10,6 +10,6 @@ namespace BugTrackingSystem.Service.Services
 
         ProjectViewModel GetProjectById(int projectId);
 
-        void AddNewProject(ProjectFormViewModel project);
+        void AddNewProject(string name, string prefix);
     }
 }

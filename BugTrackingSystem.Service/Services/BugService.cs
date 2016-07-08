@@ -79,8 +79,20 @@ namespace BugTrackingSystem.Service.Services
             return allprojectbugmodels;
         }
 
-        public void AddNewBug(BugFormViewModel bugFormViewModel)
+        public void AddNewBug(int assignedUserId, int projectId, string subject, int number, byte statusId, byte priorityId, string description)
         {
+            var bugFormViewModel = new BugFormViewModel()
+            {
+                AssignedUserID = assignedUserId,
+                ProjectID = projectId,
+                Subject = subject,
+                Number = number,
+                StatusID = statusId,
+                PriorityID = priorityId,
+                Description = description,
+                CreationDate = DateTime.Now,
+                ModificationDate = DateTime.Now
+            };
             var bug = _mapper.Map<BugFormViewModel, Bug>(bugFormViewModel);
             _bugRepository.Add(bug);
             _bugRepository.Save();

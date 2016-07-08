@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Azure;
@@ -10,7 +11,6 @@ namespace BugTrackingSystem.AzureService
     public class BlobService
     {
         private const string ConnectionString = "StorageConnectionString";
-        private const string pathToFileWithBlobsNames = "BlobsNames.txt";
         private readonly CloudStorageAccount _storageAccount;
         private readonly CloudBlobClient _blobClient;
         private readonly CloudBlobContainer _container;
@@ -24,25 +24,10 @@ namespace BugTrackingSystem.AzureService
             _container.CreateIfNotExists();
         }
 
-        public void UploadBlobIntoContainer()
+        public void UploadBlobIntoContainer(string pathToFile)
         {
-            var isFileFounded = false;
-            var pathToFile = string.Empty;
-           
-            while (!isFileFounded)
-            {
-                Console.WriteLine("Please, enter the pass to the file, which you want to upload.");
-                pathToFile = Console.ReadLine();
-
-                if (!File.Exists(pathToFile))
-                {
-                    Console.WriteLine("The path is invalid, please, try again.");
-                }
-                else
-                {
-                    isFileFounded = true;
-                }
-            }
+            if (File.Exists(pathToFile)) 
+                return;
 
             var fileName = string.Empty;
 
@@ -52,11 +37,9 @@ namespace BugTrackingSystem.AzureService
                 var blockBlob = _container.GetBlockBlobReference(fileName);
                 blockBlob.UploadFromStream(fileStream);
             }
-
-            File.WriteAllText(pathToFileWithBlobsNames, fileName);            
         }
 
-        public void DisplayBlobList()
+        public List<string> GetBlockBlobList()
         {
             foreach (var item in _container.ListBlobs())
             {
@@ -64,13 +47,11 @@ namespace BugTrackingSystem.AzureService
                 {
                     var blob = (CloudBlockBlob)item;
                     Console.WriteLine("Block blob with name {0} of length {1}: {2}", blob.Name, blob.Properties.Length, blob.Uri);
-
                 }
                 else if (item.GetType() == typeof(CloudPageBlob))
                 {
                     var pageBlob = (CloudPageBlob)item;
                     Console.WriteLine("Page blob with name {0} of length {1}: {2}", pageBlob.Name, pageBlob.Properties.Length, pageBlob.Uri);
-
                 }
                 else if (item.GetType() == typeof(CloudBlobDirectory))
                 {
@@ -78,67 +59,29 @@ namespace BugTrackingSystem.AzureService
                     Console.WriteLine("Directory: {0}", directory.Uri);
                 }
             }
+
+            return new List<string>();
         }
 
-        public void DownloadBlobFromContainer()
+        public void DownloadBlobFromContainer(string blobName, string pathToFile)
         {
-            var isDirecrotyFounded = false;
-            var pathToDirectory = string.Empty;
+            var listBlockBlobs = _container.ListBlobs().Where(b => b.GetType() == typeof(CloudBlockBlob));
+            var isBlobExists = listBlockBlobs.Cast<CloudBlockBlob>().Any(b => b.Name == blobName);
 
-            while (!isDirecrotyFounded)
+            if (!isBlobExists)
+                return;
+
+            using (var fileStream = File.OpenWrite(pathToFile))
             {
-                Console.WriteLine("Please, enter the pass to the directory, in which you want to save the file.");
-                pathToDirectory = Console.ReadLine();
-
-                if (!Directory.Exists(pathToDirectory))
-                {
-                    Console.WriteLine("The path is invalid, please, try again.");
-                }
-                else
-                {
-                    isDirecrotyFounded = true;
-                }
-            }
-
-            var fileName = string.Empty;
-            var isBlobWithTheNameExists = false;
-
-            while (!isBlobWithTheNameExists)
-            {
-                Console.WriteLine("Please, write a name for the file with an extension, in which you want to save the blob information.");
-                fileName = Console.ReadLine();
-                var blobsNames = File.ReadAllLines(pathToFileWithBlobsNames);
-                isBlobWithTheNameExists = blobsNames.Any(blobName => blobName == fileName);   
-            }
-            
-            using (var fileStream = File.OpenWrite(pathToDirectory + "\\" + fileName))
-            {
-                var blockBlob = _container.GetBlockBlobReference(fileName);
+                var blockBlob = _container.GetBlockBlobReference(blobName);
                 blockBlob.DownloadToStream(fileStream);
             }
         }
 
-        public void DeleteBlobFromContainer()
+        public void DeleteBlobFromContainer(string blobName)
         {
-            var fileName = string.Empty;
-            var isBlobWithTheNameExists = false;
-
-            while (!isBlobWithTheNameExists)
-            {
-                Console.WriteLine("Please, write a name for the file with an extension, which you want to delete.");
-                fileName = Console.ReadLine();
-                var blobsNames = File.ReadAllLines(pathToFileWithBlobsNames);
-                isBlobWithTheNameExists = blobsNames.Any(blobName => blobName == fileName);
-            }
-
-            var blockBlob = _container.GetBlockBlobReference(fileName);
+            var blockBlob = _container.GetBlockBlobReference(blobName);
             blockBlob.Delete();
-
-            var tempFile = Path.GetTempFileName();
-            var linesToKeep = File.ReadLines(pathToFileWithBlobsNames).Where(l => l != fileName);
-            File.WriteAllLines(tempFile, linesToKeep);
-            File.Delete(pathToFileWithBlobsNames);
-            File.Move(tempFile, pathToFileWithBlobsNames);
         }
     }
 }
