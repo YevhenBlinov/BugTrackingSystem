@@ -144,9 +144,15 @@
             type: 'POST',
             data: {name: name, prefix: prefix},
             url: '/Project/AddProject',
-            success: function() {
-                alert('Succsess!');
+            success: function(){    
+                location.reload();   
+            },
+            error: function() {
+                alert('FUCK!');
             }
+            
+            
+            
         });
     });
 </script>
