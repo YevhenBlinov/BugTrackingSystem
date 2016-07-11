@@ -13,5 +13,9 @@
         public string Photo { get; set; }
 
         public UserRole Role { get; set; }
+
+        public int ProjectsCount { get; set; }
+
+        public int BugsCount { get; set; }
     }
 }
