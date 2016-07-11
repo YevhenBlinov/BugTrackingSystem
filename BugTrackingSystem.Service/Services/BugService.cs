@@ -98,15 +98,15 @@ namespace BugTrackingSystem.Service.Services
             return allprojectbugmodels;
         }
 
-        public void AddNewBug(int assignedUserId, int projectId, string subject, int number, byte statusId, byte priorityId, string description)
+        public void AddNewBug(int assignedUserId, int projectId, string subject, BugStatus status, BugPriority priority, string description)
         {
             var bugFormViewModel = new BugFormViewModel()
             {
                 AssignedUserID = assignedUserId,
                 ProjectID = projectId,
                 Subject = subject,
-                StatusID = statusId,
-                PriorityID = priorityId,
+                StatusID = (byte)status,
+                PriorityID = (byte)priority,
                 Description = description,
                 CreationDate = DateTime.Now,
                 ModificationDate = DateTime.Now
