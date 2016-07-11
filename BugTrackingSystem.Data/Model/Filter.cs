@@ -1,7 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace BugTrackingSystem.Data.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
     public partial class Filter
     {
         public int FilterID { get; set; }
@@ -22,6 +26,9 @@ namespace BugTrackingSystem.Data.Model
         public string BugStatus { get; set; }
 
         public string BugPriority { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? DeletedOn { get; set; }
 
         public virtual User User { get; set; }
     }

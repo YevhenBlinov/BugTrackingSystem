@@ -1,7 +1,10 @@
-using System.Data.Entity;
-
 namespace BugTrackingSystem.Data.Model
 {
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
     public partial class DBModel : DbContext
     {
         public DBModel()

@@ -8,4 +8,5 @@ AssignedUser nvarchar(max) null,
 Search varchar(200) null,
 BugStatus nvarchar(max) null,
 BugPriority nvarchar(max) null,
+DeletedOn datetime2 null
 )

@@ -2,5 +2,7 @@
 (
 ProjectID int identity not null primary key,
 Name nvarchar(50) unique not null,
-Prefix nchar(3) unique not null
+Prefix nchar(3) unique not null,
+IsPaused bit not null,
+DeletedOn datetime2 null
 )
