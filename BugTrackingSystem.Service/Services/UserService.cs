@@ -69,7 +69,7 @@ namespace BugTrackingSystem.Service.Services
             if (user == null)
                 throw new Exception("Sorry, but the user doesn't exist.");
 
-            var bugs = user.Bugs;
+            var bugs = user.Bugs.Where(b => b.Project.DeletedOn == null);
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;
         }
