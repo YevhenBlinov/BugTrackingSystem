@@ -84,5 +84,17 @@ namespace BugTrackingSystem.Service.Services
             _projectRepository.Update(project);
             _projectRepository.Save();
         }
+
+        public void PauseAndUnpauseProject(int projectId)
+        {
+            var project = _projectRepository.GetById(projectId);
+
+            if (project == null)
+                throw new Exception("Sorry, but the project doesn't exist.");
+
+            project.IsPaused = !project.IsPaused;
+            _projectRepository.Update(project);
+            _projectRepository.Save();
+        }
     }
 }
