@@ -1,62 +1,73 @@
-﻿@{
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
+@{
     ViewBag.Title = "Users";
 }
 <div class="col-lg-12 general-container">
+
     <div id="header" class="row">
-        <div id="headerTitle" class="col-lg-2">
+        <div id="headerTitle" class="col-sm-6 col-xs-12">
             Users
-            <i class="fa fa-plus round" aria-hidden="true"></i>
+            <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#AddNewUser"></i>
         </div>
-        <div class="pull-right" id="Local-search">
+
+        <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon">
-                        <button type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
+                    <span class="input-group-addon" style="background-color: #F8FEFE">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
+                        </a>
                     </span>
                 </div>
             </div>
         </div>
+
     </div>
     <div class="row Sort_Title_Pagination">
-        <div class="" id="SortBy">
-            <span class="sticker-properties pull-right">Sort by: </span>
+
+        <div class="content inline-block">
+            Sort by:
+            <div class="ui inline dropdown" style="color: #4D868D">
+                <div class="text" style="font-weight: normal">First Name</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item selected inlineDropdown" data-text="First Name">First Name</div>
+                    <div class="item inlineDropdown" data-text="Last Name">Last Name</div>
+                    <div class="item inlineDropdown" data-text="Role">Role</div>
+                </div>
+            </div>
         </div>
-        <div class="dropdown col-lg-1 pull-left">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Name <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Name</a></li>
-                <li><a href="#">Surname</a></li>
-                <li><a href="#">Email</a></li>
-                <li><a href="#">Role</a></li>
-            </ul>
-        </div>
-        <div class="pull-right">
-            <span class="pull-left">
-                1 ... 3 4
-            </span>
+
+        <div class=" pull-right" style="display: inline-block">
+            <nav class="local-pagination">
+                <ul class="pagination pagination-sm">
+                    <li><a href="#">1</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
     <div class="row">
-        @for (int i = 0; i < 5; i++)
+        @foreach (var user in Model)
         {
-            <div class="col-lg-4 col-md-4">
-                <i class="fa fa-times-circle" aria-hidden="true"></i>
+            <div class="col-lg-4 col-md-4" onmouseover="showCloseIcon(this)">
+                <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="DeleteProjectModalShow(@user.UserId)"></i>
                 <div class="custom-sticker">
                     <div class="userInfo">
                         <img src="~/Content/Images/orwell.jpeg" class="img-circle" height="45" width="45" alt="userPhoto" />
-                        <div id="FirstLastName">Ernest Hemingway</div>
-                        <div id="email">ernest-miller-hemingway@email.com</div>
+                        <div id="FirstLastName">@user.FirstName @user.LastName</div>
+                        <div id="email">@user.Email</div>
                     </div>
                     <div class="row">
                         <div class="pull-left projectInfo">
-                            <span id="" style="border: 1px solid orange; padding: 5px;">Me</span>
+                            @if (false)
+                            {
+                                <span id="" style="border: 1px solid orange; padding: 5px;">Me</span>
+                            }
                         </div>
                         <div class="projectInfo pull-right">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"> 127</i>
-                            <i class="fa fa-th-list" aria-hidden="true"> 6</i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"><span style="margin: 0 5px;">@user.BugsCount</span></i>
+                            <i class="fa fa-th-list" aria-hidden="true"><span style="margin-left: 5px;">@user.ProjectsCount</span></i>
                         </div>
                     </div>
                 </div>
@@ -66,32 +77,107 @@
 
     </div>
 
-    <div class="row Sort_Title_Pagination">
-        <i class="fa fa-users col-lg-2" aria-hidden="true" style="font-size: 18px;"> Users: 34</i>
-        <div class="pull-right">
-            <span class="pull-left">
-                1 ... 3 4
-            </span>
-        </div>
+</div>
+<div class="col-xs-12" style="margin-top: 30px; padding: 0 35px 0 80px;">
+    <i class="fa fa-users col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Users: @Model.Count()</i>
+    <div class=" pull-right" style="display: inline-block">
+        <nav class="local-pagination">
+            <ul class="pagination pagination-sm">
+                <li><a href="#">1</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
 
-<script>
-    $(".element2").click(function () {
-        alert("farafa");
-        $(this).next(".fa-times-circle").toggle();
-    });
+<div id="AddNewUser" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="TaskModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-users" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new user</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <div style="margin-bottom: 15px">
+                            <input class="form-control" name="FirstName" id="UserFirstName" placeholder="Name" style="margin: 0; display: inline-block; width: 220px">
+                            <input class="form-control" name="LastName" id="UserLastName" placeholder="Surname" style="margin: 0 0 0 10px; display: inline-block; width: 315px">
+                        </div>
+                        <input class="form-control" type="email" name="Email" id="UserEmail" placeholder="E-mail" style="margin: 0; display: inline-block; margin-bottom: 15px;">
+                        <div>
+                            <input class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password" style="margin: 0 10px 0 0; display: inline-block; width: 165px">
+                            <input type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password" style="margin: 0 10px 0 0; display: inline-block; width: 165px;">
+                            <div class="ui selection dropdown modalSingleDropdown pull-right cn" style="width: 165px;">
+                                <input type="hidden" name="UserRole">
+                                <i class="dropdown icon"></i>
+                                <div class="default text inner">Role</div>
+                                <div class="menu">
+                                    <div class="item" data-value="User">User</div>
+                                    <div class="item" data-value="Admin">Admin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
 
-    $(document).ready(function () {
-        $(".dropdown").hover(
-            function () {
-                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).slideDown("fast");
-                $(this).toggleClass('open');
+            <div class="modal-footer">
+                <button type="button" class="btn modalCreateButton" onclick="SaveUser()">Create</button>
+            </div>
+        </div>
+        </div>
+    </div>
+<div id="DeleteUserModalContainer" data-url="@Url.Action("DeleteUserModal", "Users")"></div>
+
+<script>
+    function SaveUser() {
+        var data = $('form').serialize();
+        $.ajax({
+            type: 'POST',
+            data: { userData: data },
+            url: '/Users/AddUser',
+            success: function () {
+                location.reload();
             },
-            function () {
-                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).slideUp("fast");
-                $(this).toggleClass('open');
+            error: function () {
+                alert('FUCK!');
             }
-        );
-    });
+        });
+    }  
+</script>
+
+<script>
+    function showCloseIcon(divId) {
+        $(divId).children(".fa").show();
+
+        $(divId).on("mouseleave", function() {
+            $(divId).children(".fa").hide();
+        });
+    }
+</script>
+
+<script>
+    function DeleteProjectModalShow(id) {
+        $(document).ready(function () {
+            var url = $('#DeleteUserModalContainer').data('url') + '?userId=' + id;
+
+            $.get(url, function (data) {
+                $('#DeleteUserModalContainer').html(data);
+
+                $('#DeleteUserModal').modal('show');
+            });
+        });
+    }
+</script>
+
+<script>
+    $('.ui.inline.dropdown')
+        .dropdown();;
+</script>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
 </script>

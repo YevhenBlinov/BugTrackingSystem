@@ -2,11 +2,7 @@
 @{
     ViewBag.Title = "Projects";
 }
-<script>
-    $(document).ready(function (e) {
-        $('.selectpicker').selectpicker();
-    });
-</script>
+
 
 <div class="col-lg-12 general-container">
 
@@ -32,17 +28,17 @@
     </div>
     <div class="row Sort_Title_Pagination">
 
-            <div class="content inline-block">
-                Sort by: 
-                <div class="ui inline dropdown" style="color: #4D868D">
-                    <div class="text" style="font-weight: normal">Title</div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="item selected inlineDropdown" data-text="Title">Title</div>
-                        <div class="item inlineDropdown" data-text="Prefix">Prefix</div>
-                    </div>
+        <div class="content inline-block">
+            Sort by:
+            <div class="ui inline dropdown" style="color: #4D868D">
+                <div class="text" style="font-weight: normal">Title</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                    <div class="item inlineDropdown" data-text="Prefix">Prefix</div>
                 </div>
             </div>
+        </div>
 
         <div class=" pull-right" style="display: inline-block">
             <nav class="local-pagination">
@@ -56,24 +52,34 @@
     <div class="row">
         @foreach (var project in Model)
         {
-           
-                <div class="col-sm-4 col-xs-12" id="@project.ProjectId" onmouseover="showCloseIcon(this)">
-                    <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="hideFilter(this, @project.ProjectId)"></i>
-                    <a class="redirectAncore" href="@Url.Action("Project", "Project", new { projectId = project.ProjectId})">
-                        <div class="custom-sticker">
-                            <h4><b>@project.Name</b></h4>
-                            <div class="row">
-                                <span class="col-lg-12">
-                                    <span class="sticker-properties"> @project.Prefix </span>
-                                </span>
-                                <div class="projectInfo pull-right">
+            
+            <div class="col-sm-4 col-xs-12" id="@project.ProjectId" onmouseover="showCloseIcon(this)">
+                <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="DeleteProjectModalShow(@project.ProjectId)"></i>
+                <a class="redirectAncore" href="@Url.Action("Project", "Project", new { projectId = project.ProjectId})">
+                    <div class="custom-sticker">
+                        <h4><b>@project.Name</b></h4>
+                        <div class="row">
+                            <span class="col-lg-12 padding0" style="margin-bottom: 5px;">
+                                <span class="sticker-properties"> @project.Prefix </span>
+                            </span>                 
+                            <div class="projectInfo">
+                                @if (project.IsPaused)
+                                {
+                                    <script>
+                                        $('#@project.ProjectId').addClass('disabled');
+                                    </script>
+
+                                    <img src="../../Content/Images/InTesting.png" class="inline-block"/>
+                                }
+                                <div class="inline-block pull-right">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true">@project.BugsCount</i>
                                     <i class="fa fa-users" aria-hidden="true">@project.UsersCount</i>
                                 </div>
                             </div>
                         </div>
-                    </a>
-</div>
+                    </div>
+                </a>
+            </div>
             
         }
     </div>
@@ -120,13 +126,19 @@
     </div>
 </div>
 
+<div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared")"></div>
+
+
 <script>
-    function hideFilter(el, id) {
-        $(el).parent().hide();
-        $.ajax({
-            type: 'POST',
-            data: { projectId: id },
-            url: '/Project/DeleteProject'
+    function DeleteProjectModalShow(id) {
+        $(document).ready(function () {
+            var url = $('#DeleteProjectModalContainer').data('url') + '?projectId=' + id;
+
+            $.get(url, function (data) {
+                $('#DeleteProjectModalContainer').html(data);
+
+                $('#DeleteProjectModal').modal('show');
+            });
         });
     }
 </script>
@@ -141,7 +153,7 @@
     }
 </script>
 <script>
-    $("#addProject").click(function(e) {
+    $("#addProject").click(function (e) {
         e.preventDefault();
         var name = $("#name").val();
         var prefix = $("#prefix").val();
@@ -149,10 +161,10 @@
             type: 'POST',
             data: { name: name, prefix: prefix },
             url: '/Project/AddProject',
-            success: function() {
+            success: function () {
                 location.reload();
             },
-            error: function() {
+            error: function () {
                 alert('FUCK!');
             }
         });
@@ -163,3 +175,4 @@
         .dropdown();
     ;
 </script>
+

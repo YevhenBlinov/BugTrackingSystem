@@ -50,6 +50,11 @@ textarea {
 body::-webkit-scrollbar {
     width: 1em;
 }
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
  
 body::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
@@ -641,6 +646,7 @@ body {
     border-right: 0;
     box-shadow: 0 0 0;
     border-color: #ccc;
+
 }
 
 .stylish-input-group button {
@@ -687,10 +693,11 @@ body {
     background-color: #F8FEFE;
     border-radius: 1px;
     box-shadow: none;
+        height: 38px;
 }
 
 .modalSingleDropdown {
-    width: 278px;
+    width: 268px;
     margin-bottom: 16px;
     font-size: 14px;
     background-color: #F8FEFE !important;

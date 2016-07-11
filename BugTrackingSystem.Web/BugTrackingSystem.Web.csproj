@@ -241,6 +241,8 @@
     <Content Include="Views\Shared\UserBugs.cshtml" />
     <Content Include="Views\Shared\CreateTask.cshtml" />
     <Content Include="Views\Shared\CreateFilter.cshtml" />
+    <Content Include="Views\Shared\DeleteProjectModal.cshtml" />
+    <Content Include="Views\Users\DeleteUserModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,38 @@
+﻿
+
+<div class="modal fade" id="DeleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" id="DeleteProjectModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Delete user</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure?</h4>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton" onclick="DeleteUser(@ViewBag.UserId)">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function DeleteUser(id) {
+        $.ajax({
+            type: 'POST',
+            data: { userId: id },
+            url: '/Users/DeleteUser',
+            success: function () {
+                window.location = '/Users/Users';
+            },
+            error: function () {
+                alert('FUCK!');
+            }
+        });
+    }
+</script>

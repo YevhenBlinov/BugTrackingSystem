@@ -59,7 +59,12 @@ namespace BugTrackingSystem.Web.Controllers
 
         public void EditProject(int projectId, string name)
         {
-            throw new NotImplementedException();
+            _projectService.UpdateProjectName(projectId, name);
+        }
+
+        public void PauseProject(int projectId)
+        {
+            _projectService.PauseAndUnpauseProject(projectId);
         }
     }
 }

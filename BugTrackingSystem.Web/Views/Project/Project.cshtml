@@ -10,8 +10,8 @@
             @Model.Name
             <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
             <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
-            <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal"></i>
-            <i class="fa fa-times round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal"></i>
+            <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
+            <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
         </div>
 
         <div class="pull-right col-sm-6 col-xs-12 padding0" id="Local-search">
@@ -114,26 +114,80 @@
     </div>
 </div>
 
+<div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared", new {projectId = @Model.ProjectId})"></div>
 <div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
 
 
+
+<div class="modal fade" id="PauseProjectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="DeleteProjectModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pause" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Pause project</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Pause this project?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton" onclick="PauseProject(@Model.ProjectId)">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-    $("#SaveEditedProject").click(function (e) {
+    function PauseProject(id) {
+        $.ajax({
+            type: 'POST',
+            data: { projectId: id },
+            url: '/Project/PauseProject',
+            success: function () {
+                window.location = '/Project/Projects';
+            },
+            error: function () {
+                alert('FUCK!');
+            }
+        });
+    }
+</script>
+
+<script>
+    $("#SaveEditedProject").click(function(e) {
         e.preventDefault();
         var name = $("#EditProjectName").val();
         $.ajax({
             type: 'POST',
             data: { name: name, projectId: @Model.ProjectId },
             url: '/Project/EditProject',
-            success: function () {
+            success: function() {
                 location.reload();
             },
-            error: function () {
+            error: function() {
                 alert('An error occured.Cant save your changes.');
             }
         });
     });
 </script>
+
+<script>
+    function DeleteProjectModalShow() {
+        $(document).ready(function () {
+            var url = $('#DeleteProjectModalContainer').data('url');
+
+            $.get(url, function (data) {
+                $('#DeleteProjectModalContainer').html(data);
+
+                $('#DeleteProjectModal').modal('show');
+            });
+        });
+    }
+</script>
+
+
 
 <script>
     $('.ui.inline.dropdown')

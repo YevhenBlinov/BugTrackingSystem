@@ -15,7 +15,10 @@ namespace BugTrackingSystem.Service.Services
 
         void UpdateProjectName(int projectId, string name);
 
+<<<<<<< Updated upstream
         IEnumerable<ProjectViewModel> GetAllRunningProjects();
+=======
         void PauseAndUnpauseProject(int projectId);
+>>>>>>> Stashed changes
     }
 }
