@@ -10,8 +10,6 @@ namespace BugTrackingSystem.Service.Models.FormModels
 
         public string Subject { get; set; }
 
-        public int Number { get; set; }
-
         public DateTime CreationDate { get; set; }
 
         public DateTime ModificationDate { get; set; }

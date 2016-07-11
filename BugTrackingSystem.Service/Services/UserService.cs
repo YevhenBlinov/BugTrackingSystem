@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
@@ -33,7 +34,7 @@ namespace BugTrackingSystem.Service.Services
 
         public IEnumerable<UserViewModel> GetAllUsers()
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.GetMany(u => u.DeletedOn == null);
             var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users);
             return userModels;
         }
@@ -41,6 +42,10 @@ namespace BugTrackingSystem.Service.Services
         public UserViewModel GetUserById(int userId)
         {
             var user = _userRepository.GetById(userId);
+
+            if(user.DeletedOn != null)
+                throw new Exception("Sorry, but the user was deleted.");
+
             var userModel = _mapper.Map<User, UserViewModel>(user);
             return userModel;
         }
@@ -48,7 +53,11 @@ namespace BugTrackingSystem.Service.Services
         public IEnumerable<ProjectViewModel> GetUsersProjects(int userId)
         {
             var user = _userRepository.GetById(userId);
-            var projects = user.Projects;
+
+            if(user == null)
+                throw new Exception("Sorry, but the user doesn't exist.");
+
+            var projects = user.Projects.Where(p => p.DeletedOn == null);
             var projectModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(projects);
             return projectModels;
         }
@@ -56,6 +65,10 @@ namespace BugTrackingSystem.Service.Services
         public IEnumerable<BaseBugViewModel> GetUsersBugs(int userId)
         {
             var user = _userRepository.GetById(userId);
+
+            if (user == null)
+                throw new Exception("Sorry, but the user doesn't exist.");
+
             var bugs = user.Bugs;
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;

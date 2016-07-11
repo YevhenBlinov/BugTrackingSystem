@@ -8,8 +8,6 @@
 
         public string ProjectPrefix { get; set; }
 
-        public int Number { get; set; }
-
         public string Subject { get; set; }
 
         public BugStatus Status { get; set; }

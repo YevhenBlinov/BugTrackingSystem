@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BugTrackingSystem.Service.Models;
-using BugTrackingSystem.Service.Models.FormModels;
 
 namespace BugTrackingSystem.Service.Services
 {
@@ -13,5 +12,7 @@ namespace BugTrackingSystem.Service.Services
         void AddNewProject(string name, string prefix);
 
         void DeleteProject(int projectId);
+
+        void UpdateProjectName(int projectId, string name);
     }
 }

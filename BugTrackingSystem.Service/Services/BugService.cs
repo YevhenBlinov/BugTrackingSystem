@@ -53,6 +53,10 @@ namespace BugTrackingSystem.Service.Services
         public BaseBugViewModel GetBugById(int bugId)
         {
             var bug = _bugRepository.GetById(bugId);
+
+            if(bug == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+
             var bugModel = _mapper.Map<Bug, BaseBugViewModel>(bug);
             return bugModel;
         }
@@ -60,6 +64,10 @@ namespace BugTrackingSystem.Service.Services
         public FullBugViewModel GetFullBugById(int bugId)
         {
             var bug = _bugRepository.GetById(bugId);
+
+            if (bug == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+
             var fullbugModel = _mapper.Map<Bug, FullBugViewModel>(bug);
             var tableService = new TableService();
             var comments = tableService.RetrieveAllCommentsForBug(bugId.ToString());
@@ -67,6 +75,17 @@ namespace BugTrackingSystem.Service.Services
             if (comments.Count != 0)
             {
                 fullbugModel.Comments = _mapper.Map<List<CommentModel>, List<CommentViewModel>>(comments);
+            }
+            else
+            {
+                fullbugModel.Comments = new List<CommentViewModel>()
+                {
+                    new CommentViewModel()
+                    {
+                        Comment = "There is not any comment yet",
+                        UserName = fullbugModel.AssignedUser.FirstName + fullbugModel.AssignedUser.LastName
+                    }
+                };
             }
 
             return fullbugModel;
@@ -86,7 +105,6 @@ namespace BugTrackingSystem.Service.Services
                 AssignedUserID = assignedUserId,
                 ProjectID = projectId,
                 Subject = subject,
-                Number = number,
                 StatusID = statusId,
                 PriorityID = priorityId,
                 Description = description,

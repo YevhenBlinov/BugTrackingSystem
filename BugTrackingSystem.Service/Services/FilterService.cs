@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
@@ -24,14 +25,21 @@ namespace BugTrackingSystem.Service.Services
         }
         public IEnumerable<FilterViewModel> GetAllUserFilters(int userId)
         {
-            var filters = _filterRepository.GetMany(f => f.UserID == userId);
+            var filters = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null);
             var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
             return filterModels;
         }
 
         public void DeleteFilter(int filterId)
         {
-            _filterRepository.Delete(f => f.FilterID == filterId);
+            var filter = _filterRepository.GetById(filterId);
+
+            if(filter == null)
+                throw new Exception("Sorry, but the filter doesn't exist.");
+
+            filter.DeletedOn = DateTime.Now;
+            _filterRepository.Update(filter);
+            _filterRepository.Save();
         }
     }
 }

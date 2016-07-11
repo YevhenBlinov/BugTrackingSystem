@@ -29,13 +29,13 @@ namespace BugTrackingSystem.Data.Infrastructure
             //    new Project{Name = "The Stoic", Prefix = "TDS"},
             //};
 
-            //var user = new User(){FirstName = "George", LastName = "Orwell", Email = "george.orwell@gmail.com", Login = "GeorgeOrwell", Password = "12345", Photo = "orwell.jpg", UserRoleID = 1};
+            //var user = new User() { FirstName = "George", LastName = "Orwell", Email = "george.orwell@gmail.com", Login = "GeorgeOrwell", Password = "12345", Photo = "orwell.jpg", UserRoleID = 1 };
 
             //var bugs = new List<Bug>
             //{
-            //    new Bug(){Project = projects[0], User = user, CreationDate = DateTime.Now, ModificationDate = DateTime.Now, Description = "bla bla", Number = 1, Subject = "Font for password is different from other labels font on \"Login\" screen.", StatusID = 1, PriorityID = 1},
-            //    new Bug(){Project = projects[1], User = user, CreationDate = DateTime.Now, ModificationDate = DateTime.Now, Description = "bla blaasd", Number = 2,Subject = "The error message is displayed after tapping on the \"Get Link\" button on the volume's \"Information\" screen.", StatusID = 1, PriorityID = 1},
-            //    new Bug(){Project = projects[2], User = user, CreationDate = DateTime.Now, ModificationDate = DateTime.Now, Description = "bla blaadsad", Number = 3,Subject = "Account activation link in Registration email is invalid.", StatusID = 1, PriorityID = 1}
+            //    new Bug(){Project = projects[0], User = user, CreationDate = DateTime.Now, ModificationDate = DateTime.Now, Description = "bla bla", Subject = "Font for password is different from other labels font on \"Login\" screen.", StatusID = 1, PriorityID = 1},
+            //    new Bug(){Project = projects[1], User = user, CreationDate = DateTime.Now, ModificationDate = DateTime.Now, Description = "bla blaasd",Subject = "The error message is displayed after tapping on the \"Get Link\" button on the volume's \"Information\" screen.", StatusID = 1, PriorityID = 1},
+            //    new Bug(){Project = projects[2], User = user, CreationDate = DateTime.Now, ModificationDate = DateTime.Now, Description = "bla blaadsad",Subject = "Account activation link in Registration email is invalid.", StatusID = 1, PriorityID = 1}
             //};
 
             //user.Projects.Add(projects[0]);
