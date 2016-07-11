@@ -6,12 +6,12 @@
 }
 <div class="col-sm-12 general-container">
     <div id="header" class="row">
-        <div id="headerTitle" class="col-sm-6 col-xs-12">
+        <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
             @Model.Name
-            <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#createNewTask"></i>
+            <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
         </div>
 
-        <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
+        <div class="pull-right col-sm-6 col-xs-12 padding0" id="Local-search">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" placeholder="Search">
@@ -51,16 +51,20 @@
 
         </div>
     </div>
-    <div class="row Sort_Title_Pagination">
-        <div class="dropdown" style="display: inline-block">
-            <span class="sticker-properties" style="padding-right: 10px; ">Sort by:</span>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Title <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Project</a></li>
-                <li><a href="#">Assignee</a></li>
-                <li><a href="#">Status</a></li>
-                <li><a href="#">Priority</a></li>
-            </ul>
+    <div class="Sort_Title_Pagination">
+        <div class="content inline-block">
+            Sort by:
+            <div class="ui inline dropdown">
+                <div class="text" style="font-weight: normal">Title</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                    <div class="item inlineDropdown" data-text="Project">Project</div>
+                    <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
+                    <div class="item inlineDropdown" data-text="Status">Status</div>
+                    <div class="item inlineDropdown" data-text="Priority">Priority</div>
+                </div>
+            </div>
         </div>
         <div class=" pull-right" style="display: inline-block">
             <nav class="local-pagination">
@@ -84,8 +88,11 @@
         </div>
     </div>
 </div>
+
+<div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
+
 <script>
-    $(document).ready(function () {
-        $('.selectpicker').selectpicker();
-    });
+    $('.ui.inline.dropdown')
+        .dropdown();
+    ;
 </script>

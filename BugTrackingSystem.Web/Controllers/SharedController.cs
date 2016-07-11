@@ -26,5 +26,15 @@ namespace BugTrackingSystem.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult CreateTask()
+        {
+            return PartialView();
+        }
+
+        public ActionResult CreateFilter()
+        {
+            return PartialView();
+        }
     }
 }

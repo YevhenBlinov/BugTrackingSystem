@@ -7,7 +7,7 @@
     <div id="header" class="row">
         <div id="headerTitle" class="col-lg-2">
             Filters
-            <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#addFilterModal"></i>
+            <i class="fa fa-plus round" aria-hidden="true" onclick="CreateFilterModalShow()"></i>
         </div>
 
         <div class="pull-right" id="Local-search">
@@ -24,7 +24,7 @@
         </div>
 
     </div>
-    <div class="row Sort_Title_Pagination">
+    <div class="Sort_Title_Pagination">
         <div class="dropdown" style="display: inline-block">
             <span class="sticker-properties" style="padding-right: 10px; ">Sort by:</span>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Title <span class="caret"></span></a>
@@ -43,10 +43,10 @@
             </nav>
         </div>
     </div>
-    <div class="row">
+    <div class="col-xs-12 padding0">
         @for (int i = 0; i < 3; i++)
         {
-            <div class="col-lg-4 col-md-4 block" id="@i" onmouseover="showCloseIcon(this)">
+            <div class="col-sm-4 col-xs-12" id="@i" onmouseover="showCloseIcon(this)">
                 <i class="fa fa-times-circle" aria-hidden="true" style="display: none;" onclick="hideFilter(this)"></i>
                 <div class="custom-sticker">
                     <h4><b>Title</b></h4>
@@ -83,62 +83,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="addFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" id="TaskModalDialog" style="padding: 0;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
-                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0 "></i>
-                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new filter</h3>
-            </div>
-            <div class="modal-body col-lg-12">
-                <form>
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
-                    </div>
-                </form>
-                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
-                    <select class="form-control" style="color: gray;">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
-                    <select class="form-control">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
-                    <select class="form-control">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
-                    <select class="form-control">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                </div>                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn modalCreateButton">Create</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="FilterModalContainer" data-url="@Url.Action("CreateFilter", "Shared")"></div>
 
 
 
@@ -157,3 +102,18 @@
         });
     }
 </script>
+
+<script>
+    function CreateFilterModalShow() {
+        $(document).ready(function () {
+            var url = $('#FilterModalContainer').data('url');
+
+            $.get(url, function (data) {
+                $('#FilterModalContainer').html(data);
+
+                $('#FilterModalWindow').modal('show');
+            });
+        });
+    }
+</script>
+

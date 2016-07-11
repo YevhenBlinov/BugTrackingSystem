@@ -4,17 +4,35 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="../../Content/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/dropdown.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/transition.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/Site.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="../../Scripts/dropdown.min.js"></script>
+    <script src="../../Scripts/transition.min.js"></script>
     <script>
-        function showSearch() {
+        function ShowSearch() {
             $("#searchText").toggle();
+        }
+    </script>
+
+    <script>
+        function CreateTaskModalShow() {
+            $(document).ready(function () {
+                var url = $('#TaskModalContainer').data('url');
+
+                $.get(url, function (data) {
+                    $('#TaskModalContainer').html(data);
+
+                    $('#TaskModalWindow').modal('show');
+                });
+            });
         }
     </script>
     <!--[if lt IE 9]>
@@ -23,133 +41,76 @@
     <![endif]-->
 </head>
 <body>
-<nav>
-    <div class="container-fluid">
-        <div class="row">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" style="float: right; margin: 0; height: 40px;">
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#NavbarCollapsed" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar" style="background-color: #92C1BA;"></span>
-                    <span class="icon-bar" style="background-color: #92C1BA;"></span>
-                    <span class="icon-bar" style="background-color: #92C1BA;"></span>
+                    <span class="icon-bar spanColor"></span>
+                    <span class="icon-bar spanColor"></span>
+                    <span class="icon-bar spanColor"></span>
                 </button>
                 <ul class="nav collapsed" style="display: inline-block; float: right; margin-right: 50px;">
                     <li class="dropdown userProfile" id="userCol">
-                        <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 5px; background-color: #4D868D; color: white">
-                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 30px; width: 30px; margin-right: 5px;"/>
+                        <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhotoCollapsed">
+                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
                         </a>
-                        <ul class="dropdown-menu dropdown-toggle" style="margin-right: 40px;">
-                            <li style="padding-left: 10px; margin-top: -6px; height: 16px; display: list-item;"><span class="glyphicon glyphicon-triangle-top" style="font-size: 20px; color: #92C1BA; background-color: transparent;"></span></li>
+                        <ul class="dropdown-menu dropdown-toggle" style="margin-right: 40px; margin-top: -5px;">
+                            <li style="height: 16px; background-color: transparent"><i id="dropdownCaretCollapsed" class="fa fa-caret-up" aria-hidden="true"></i></li>
                             <li><a href="#">Profile</a></li>
                             <li><a href="#">Sign Out</a></li>
                         </ul>
                     </li>
                 </ul>
-                <a href="@Url.Action("Dashboard", "Home")" class="navbar-brand logo" style="padding: 4px 0px 4px 30px; height: 40px;">
+                <a href="@Url.Action("Dashboard", "Home")" class="navbar-brand">
                     <img src="~/Content/Images/logo.png" alt="logo">
                 </a>
+
             </div>
-            <div class="collapse navbar-collapse div-col" id="bs-example-navbar-collapse-1" style="margin-bottom: 1px;">
-                <ul class="menu navbar-nav" style="z-index: 0;">
-                    <li class="li-mobile"><a href="@Url.Action("Projects", "Project")">Projects</a></li>
-                    <li class="li-mobile"><a href="@Url.Action("Filters", "Filters")">Filters</a></li>
-                    <li id="liTask" class="li-mobile"><a href="#">Create task</a></li>
-                    <li id="liSearch" class="li-mobile"><a href="#">Search</a></li>
+
+            <div class="collapse navbar-collapse" id="NavbarCollapsed">
+                <ul class="nav navbar-nav">
+                    <li><a href="@Url.Action("Projects", "Project")">Projects</a></li>
+                    <li><a href="@Url.Action("Users", "Users")">Users</a></li>
+                    <li><a href="@Url.Action("Filters", "Filters")">Filters</a></li>
+                    <li><a class="visible-xs" onclick="CreateTaskModalShow()">Create task</a></li>
                 </ul>
-                <button type="button" class="btn btn-header" id="taskButton" aria-label="Left Align" data-toggle="modal" data-target="#createNewTask">
+                <button type="button" class="btn btn-header" onclick="CreateTaskModalShow()" id="taskButton" aria-label="Left Align">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: white;"></span>
                     Create task
                 </button>
-
-                <ul class="nav navbar-nav navbar-right" id="userDrop" style="margin-top: 0; margin-left: 25px; margin-right: 25px;">
+                <ul class="nav navbar-nav navbar-right" id="userDrop" style="margin-top: 0; margin-left: 25px; margin-right: 15px;">
                     <li class="dropdown userProfile">
-                        <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 5px; background-color: #4D868D; color: white">
-                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 30px; width: 30px; margin-right: 5px;"/>
-                            George Orwell
+                        <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhoto">
+                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
+                            <span id="navUserName">George Orwell</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-toggle" style="box-shadow: none; margin-top: -1px; padding: 0; border: 0; border-radius: 0;">
-                            <li style="background-color: transparent; padding-left: 200px; margin-top: -16px; height: 16px; display: list-item; background-color: transparent;"><span class="glyphicon glyphicon-triangle-top" style="font-size: 20px; color: #92C1BA; line-height: 20px; margin-left: -30px;"></span></li>
-                            <li style="height: 40px;"><a style="height: 40px; padding-top: 10px; color: white;" class="userProfile" href="@Url.Action("Index", "Profile")">Profile</a></li>
-                            <li style="height: 40px;"><a style="height: 40px; padding-top: 10px; color: white;" class="userProfile" href="@Url.Action("Login", "Login")">Sign Out</a></li>
+                        <ul class="dropdown-menu dropdown-toggle" id="navDropdown">
+                            <li style="height: 16px; background-color: transparent"><i id="dropdownCaret" class="fa fa-caret-up" aria-hidden="true"></i></li>
+                            <li><a href="@Url.Action("Index", "Profile")">Profile</a></li>
+                            <li><a href="@Url.Action("Login", "Login")">Sign Out</a></li>
                         </ul>
                     </li>
                 </ul>
                 <div class="nav navbar-nav navbar-right" id="search">
-                    <form class="navbar-form navbar-left" role="search" style="padding: 0">
-                        <div class="form-group" style="display: none; height: 25px; margin-top: -25px;" id="searchText">
-                            <input type="text" class="form-control" style="background-color: #4D868D; border-radius: 0; height: 28px; margin-top: 4px;" placeholder="Search">
+                    <form class="navbar-form navbar-left inline-block" role="search" style="margin: 7px 0;">
+                        <div class="form-group" style="display: none;" id="searchText">
+                            <input id="navSearch" type="text" class="form-control" placeholder="Search">
                         </div>
-                        <span class="glyphicon glyphicon-search" style="font-size: 20px; color: white; line-height: 20px; margin-left: -30px;" onclick="showSearch()"></span>
                     </form>
+                    <div class="inline-block" style="position: absolute">
+                        <span id="navSearchGlyph" class="glyphicon glyphicon-search" onclick="ShowSearch()"></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+    <div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
 
-    <div class="modal fade" id="createNewTask" tabindex="-1" role="dialog" aria-labelledby="createNewTaskLabel">
-        <div class="modal-dialog" role="document" id="TaskModalDialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
-                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0 "></i>
-                    <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new task</h3>
-                </div>
-                <div class="modal-body col-lg-12">
-                    <form>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title" style="margin: 0; display: inline-block">
-                        </div>
-                    </form>
-                    <div class="col-lg-6" style="padding: 0 5px 15px 0;">
-                        <select class="form-control" style="color: gray;">
-                            @for (int i = 0; i < 3; i++)
-                            {
-                                <option>@i</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-lg-6" style="padding: 0 0 15px 5px;">
-                        <select class="form-control">
-                            <option selected="selected">Owner</option>
-                            @for (int i = 0; i < 3; i++)
-                            {
-                                <option>@i</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-lg-6" style="padding: 0 5px 15px 0;">
-                        <select class="form-control">
-                            @for (int i = 0; i < 3; i++)
-                            {
-                                <option>@i</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-lg-6" style="padding: 0 0 15px 5px;">
-                        <select class="form-control">
-                            @for (int i = 0; i < 3; i++)
-                            {
-                                <option>@i</option>
-                            } 
-                        </select>
-                    </div>
-                    <form>
-                        <textarea class="form-control" placeholder="Description" rows="5" ></textarea>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <div class="pull-left">
-                        <b>Attachments</b>
-                        <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
-                    </div>
-                    <button type="button" class="btn modalCreateButton" style="margin-top: 50px;">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-@RenderBody()
+    @RenderBody()
 
 </body>
+
 </html>

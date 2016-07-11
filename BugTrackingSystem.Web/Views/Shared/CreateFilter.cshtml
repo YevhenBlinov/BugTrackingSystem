@@ -1,0 +1,90 @@
+﻿
+
+<div class="modal fade" id="FilterModalWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" id="TaskModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-filter" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new filter</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
+                    </div>
+                </form>
+                <div class="ui selection dropdown modalSingleDropdown pull-left cn">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text inner">Priority</div>
+                    <div class="menu">
+                        <div class="item" data-value="1">
+                            <img src="../../Content/Images/Minor.png" class="img-responsive img-circle"/>
+                            Minor
+                        </div>
+                        <div class="item" data-value="2">
+                            <img src="../../Content/Images/Major.png" class="img-responsive img-circle"/>
+                            Major
+                        </div>
+                        <div class="item" data-value="3">
+                            <img src="../../Content/Images/Critical.png" class="img-responsive img-circle"/>
+                            Critical
+                        </div>
+                        <div class="item" data-value="4">
+                            <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle"/>
+                            Blocker
+                        </div>
+                    </div>
+                </div>
+                <div class="ui selection dropdown modalSingleDropdown pull-right cn">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text inner">Status</div>
+                    <div class="menu">
+                        <div class="item" data-value="1">To do</div>
+                        <div class="item" data-value="2">In progress</div>
+                        <div class="item" data-value="3">In testing</div>
+                        <div class="item" data-value="4">Done</div>
+                        <div class="item" data-value="5">Closed</div>
+                    </div>
+                </div>
+                <div class="modalSingleDropdown ui selection dropdown pull-left cn">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text inner">Project</div>
+                    <div class="menu">
+                        <div class="item" data-value="1">Project one</div>
+                        <div class="item" data-value="0">Project two</div>
+                    </div>
+                </div>
+                <div class="ui selection dropdown modalSingleDropdown pull-right cn">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text inner" id="assigneeDrop">Assignee</div>
+                    <div class="menu">
+                        <div class="item" data-value="1">
+                            <img src="../../Content/Images/orwell.jpeg" class="img-responsive img-circle"/>
+                            George Orwell
+                        </div>
+                        <div class="item" data-value="2">
+                            <img src="../../Content/Images/orwell.jpeg" class="img-responsive img-circle"/>
+                            George Orwell
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn modalCreateButton">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        $('.ui.dropdown')
+            .dropdown();
+</script>

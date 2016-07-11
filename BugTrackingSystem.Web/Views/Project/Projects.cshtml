@@ -31,14 +31,19 @@
 
     </div>
     <div class="row Sort_Title_Pagination">
-        <div class="dropdown" style="display: inline-block">
-            <span class="sticker-properties" style="padding-right: 10px; ">Sort by:</span>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Title <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Title</a></li>
-                <li><a href="#">Key</a></li>
-            </ul>
-        </div>
+
+            <div class="content inline-block">
+                Sort by: 
+                <div class="ui inline dropdown">
+                    <div class="text" style="font-weight: normal">Title</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                        <div class="item inlineDropdown" data-text="Prefix">Prefix</div>
+                    </div>
+                </div>
+            </div>
+
         <div class=" pull-right" style="display: inline-block">
             <nav class="local-pagination">
                 <ul class="pagination pagination-sm">
@@ -52,7 +57,7 @@
         @foreach (var project in Model)
         {
            
-                <div class="col-lg-4 col-md-4" id="@project.ProjectId" onmouseover="showCloseIcon(this)">
+                <div class="col-sm-4 col-xs-12" id="@project.ProjectId" onmouseover="showCloseIcon(this)">
                     <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="hideFilter(this, @project.ProjectId)"></i>
                     <a class="redirectAncore" href="@Url.Action("Project", "Project", new { projectId = project.ProjectId})">
                         <div class="custom-sticker">
@@ -90,7 +95,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
-                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0 "></i>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new project</h3>
             </div>
             <div class="modal-body col-lg-12">
@@ -136,23 +141,25 @@
     }
 </script>
 <script>
-    $("#addProject").click(function (e) {
+    $("#addProject").click(function(e) {
         e.preventDefault();
         var name = $("#name").val();
         var prefix = $("#prefix").val();
         $.ajax({
             type: 'POST',
-            data: {name: name, prefix: prefix},
+            data: { name: name, prefix: prefix },
             url: '/Project/AddProject',
-            success: function(){    
-                location.reload();   
+            success: function() {
+                location.reload();
             },
             error: function() {
                 alert('FUCK!');
             }
-            
-            
-            
         });
     });
+</script>
+<script>
+    $('.ui.inline.dropdown')
+        .dropdown();
+    ;
 </script>
