@@ -75,5 +75,27 @@ namespace BugTrackingSystem.Service.Services
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;
         }
+
+        public void AddUser(string firstName, string lastName, string email, string password, string role)
+        {
+            var allUsers = _userRepository.GetAll();
+            var isUserExist = allUsers.Any(u => u.FirstName == firstName && u.LastName == lastName && u.Email == email);
+
+            if(isUserExist)
+                throw new Exception("Sorry, but the user with the same name, surname and email already exists.");
+
+            var userToAdd = new User
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Login = email,
+                Password = password,
+                UserRoleID = (byte) Enum.Parse(typeof (UserRole), role),
+            };
+
+            _userRepository.Add(userToAdd);
+            _userRepository.Save();
+        }
     }
 }
