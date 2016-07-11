@@ -11,5 +11,7 @@
         public int BugsCount { get; set; }
 
         public int UsersCount { get; set; }
+
+        public bool IsPaused { get; set; }
     }
 }
