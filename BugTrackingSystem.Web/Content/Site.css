@@ -601,7 +601,7 @@ body {
     cursor: pointer;
 }
 
-.fa-pencil, .fa-clone, .fa-trash {
+.round {
     color: #4D868D;
     border: 1px solid #4D868D;
     border-radius: 20px;

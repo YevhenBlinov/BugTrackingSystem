@@ -9,6 +9,9 @@
         <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
             @Model.Name
             <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
+            <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
+            <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal"></i>
+            <i class="fa fa-times round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal"></i>
         </div>
 
         <div class="pull-right col-sm-6 col-xs-12 padding0" id="Local-search">
@@ -89,7 +92,48 @@
     </div>
 </div>
 
+<div id="EditProjectModalWindow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="EditProjectLabel">
+    <div class="modal-dialog" role="document" id="EditProjectModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-list" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit project</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Title" value="@Model.Name" id="EditProjectName" style="margin: 0; display: inline-block">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn modalCreateButton" id="SaveEditedProject">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
+
+
+<script>
+    $("#SaveEditedProject").click(function (e) {
+        e.preventDefault();
+        var name = $("#EditProjectName").val();
+        $.ajax({
+            type: 'POST',
+            data: { name: name, projectId: @Model.ProjectId },
+            url: '/Project/EditProject',
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert('An error occured.Cant save your changes.');
+            }
+        });
+    });
+</script>
 
 <script>
     $('.ui.inline.dropdown')

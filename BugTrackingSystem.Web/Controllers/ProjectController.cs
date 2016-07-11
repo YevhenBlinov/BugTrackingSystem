@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
@@ -49,13 +50,16 @@ namespace BugTrackingSystem.Web.Controllers
         public void AddProject(string name, string prefix)
         {
             _projectService.AddNewProject(name, prefix);
-            RedirectToAction("Projects", "Project");
         }
 
         public void DeleteProject(int projectId)
         {
             _projectService.DeleteProject(projectId);
-            RedirectToAction("Projects", "Project");
+        }
+
+        public void EditProject(int projectId, string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }
