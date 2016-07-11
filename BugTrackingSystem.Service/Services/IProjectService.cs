@@ -14,5 +14,7 @@ namespace BugTrackingSystem.Service.Services
         void DeleteProject(int projectId);
 
         void UpdateProjectName(int projectId, string name);
+
+        IEnumerable<ProjectViewModel> GetAllRunningProjects();
     }
 }

@@ -73,6 +73,13 @@ namespace BugTrackingSystem.Service.Services
             _projectRepository.Save();
         }
 
+        public IEnumerable<ProjectViewModel> GetAllRunningProjects()
+        {
+            var allRunningProjects = _projectRepository.GetMany(p => p.DeletedOn == null && p.IsPaused == false);
+            var allRunningProjectsModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(allRunningProjects);
+            return allRunningProjectsModels;
+        }
+
         public void DeleteProject(int projectId)
         {
             var project = _projectRepository.GetById(projectId);
