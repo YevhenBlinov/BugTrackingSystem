@@ -13,6 +13,6 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId);
 
-        void AddNewBug(int assignedUserId, int projectId, string subject, int number, byte statusId, byte priorityId, string description);
+        void AddNewBug(int assignedUserId, int projectId, string subject, BugStatus status, BugPriority priority, string description);
     }
 }
