@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using BugTrackingSystem.Service.Models;
@@ -35,9 +36,11 @@ namespace BugTrackingSystem.Web.Controllers
             return View(projects);
         }
 
-        public ActionResult ProjectUsers()
+        public ActionResult ProjectUsers(int projectId)
         {
-            return PartialView();
+            var users = _projectService.GetAllProjectUsers(projectId);
+            ViewBag.ProjectId = projectId;
+            return PartialView(users);
         }
 
         [HttpGet]
@@ -65,6 +68,12 @@ namespace BugTrackingSystem.Web.Controllers
         public void PauseProject(int projectId)
         {
             _projectService.PauseAndUnpauseProject(projectId);
+        }
+
+        [HttpPost]
+        public void DeleteUserFromProject(int projectId, int userId)
+        {
+            _projectService.RemoveUserFromProject(projectId, userId);
         }
     }
 }

@@ -2,7 +2,65 @@
 
 @foreach (var project in Model)
 {
-    <li>
+    <li onmouseover="ShowDeleteIcon(this)" style="padding-right: 15px;">
         <a href="@Url.Action("Project", "Project", new {projectId = project.ProjectId})">@project.Name</a>
+        <i class="fa fa-times pull-right" id="@project.ProjectId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetProjectId(this.id)" aria-hidden="true" style="font-size: 16px; color: #E3F0F2; display: none"></i>
     </li>
 }
+
+<div class="modal fade" id="DeleteUserFromProjectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Delete user from this project</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure?</h4>
+            </div>
+            <div class="modal-footer">
+                <span class="hidden" id="HiddenUserId"></span>
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton" onclick="DeleteUser()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function DeleteUser() {
+        var id = $('#HiddenUserId').text();
+        $.ajax({
+            type: 'POST',
+            data: {
+                projectId: id,
+                userId: '1'
+            },
+            url: '/Project/DeleteUserFromProject',
+            success: function () {
+                window.location = '/Profile/Index?id=1';
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    function ShowDeleteIcon(liId) {
+        $(liId).children(".fa").show();
+
+        $(liId).on("mouseleave", function() {
+            $(liId).children(".fa").hide();
+        });
+    }
+</script>
+
+<script>
+    function GetProjectId(id) {
+        $('#HiddenUserId').html(id);
+    }
+</script>

@@ -4,12 +4,7 @@
 }
 
 <head>
-    <link href="~/Content/ProfileStyle.css" rel="stylesheet" type="text/css"/>
-    <script>
-        $(function() {
-            $('[data-toggle="popover"]').popover();
-        })
-    </script>
+
 </head>
 <div class="general-container marginFromMenu">
     <div class="row">
@@ -26,7 +21,7 @@
                 </div>
                 <div class="col-xs-12 divsWithBorder" style="margin-bottom: 60px;">
                     <ul style="margin: 0;">
-                        @Html.Action("UserProjects", "Profile", new { userId = @ViewBag.UserId})
+                        @Html.Action("UserProjects", "Profile")
                     </ul>
                 </div>
             </div>

@@ -7,7 +7,9 @@
     <div id="header" class="row">
         <div id="headerTitle" class="col-lg-2">
             Filters
-            <i class="fa fa-plus round" aria-hidden="true" onclick="CreateFilterModalShow()"></i>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add filter">
+                <i class="fa fa-plus round" style="margin: 0;" aria-hidden="true" onclick="CreateFilterModalShow()"></i>
+            </div>
         </div>
 
         <div class="pull-right" id="Local-search">
@@ -97,7 +99,7 @@
     function showCloseIcon(divId) {
         $(divId).children(".fa").show();
 
-        $(divId).on("mouseleave", function() {
+        $(divId).on("mouseleave", function () {
             $(divId).children(".fa").hide();
         });
     }

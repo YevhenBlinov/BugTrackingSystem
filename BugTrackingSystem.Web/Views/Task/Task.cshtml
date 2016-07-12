@@ -12,14 +12,14 @@
         @Model.Subject
     </h1>
     <div class="col-xs-12 row padding0">
-        <div class="pull-right">
+        <div class="pull-right" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Mark as closed">
             <i class="fa fa-trash round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal" style="font-size: 24px"></i>
         </div>
-        <div class="pull-right">
+        <div class="pull-right" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="No idea what is that">
             <i class="fa fa-clone round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal" style="font-size: 24px"></i>
         </div>
-        <div class="pull-right">
-            <i class="fa fa-pencil round" aria-hidden="true"style="font-size: 24px" data-toggle="modal" data-target="#editTask"></i>
+        <div class="pull-right" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit task">
+            <i class="fa fa-pencil round" aria-hidden="true" style="font-size: 24px" data-toggle="modal" data-target="#editTask"></i>
         </div>
     </div>
     <div class="col-xs-12 padding0 row" style="margin-top: 15px;">
@@ -72,12 +72,15 @@
                     <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
                 </div>
                 <div class="col-xs-12">
-                    <ul style="padding: 0; color:#4D868D">
-                        @foreach (var attachment in Model.Attachments)
-                        {
-                            <li><a href="@attachment.Value">@attachment.Key</a></li>
-                        }
-                    </ul>
+                    @if(@Model.Attachments != null)
+                    {
+                        <ul style="padding: 0; color: #4D868D">
+                            @foreach (var attachment in Model.Attachments)
+                            {
+                                <li><a href="@attachment.Value">@attachment.Key</a></li>
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
         </div>

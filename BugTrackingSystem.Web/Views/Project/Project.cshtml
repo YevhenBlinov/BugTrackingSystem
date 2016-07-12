@@ -8,10 +8,18 @@
     <div id="header" class="row">
         <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
             @Model.Name
-            <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
-            <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
-            <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
-            <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add task">
+                <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
+            </div>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit project">
+                <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
+            </div>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Pause project">
+                <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
+            </div>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Delete project">
+                <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
+            </div>
         </div>
 
         <div class="pull-right col-sm-6 col-xs-12 padding0" id="Local-search">
@@ -42,10 +50,10 @@
     </div>
     <div class="col-sm-12" style="margin-bottom: 15px;">
         <div class="projectInfo col-sm-4 pull-left">
-            <div>
+            <div style="display: inline-flex">
                 <div class="inline-block" style="">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; padding-top: 5px;">
-                        <span style="font-size: 14px;">@Model.BugsCount</span>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; padding-top: 5px; display: inline-flex">
+                        <span style="font-size: 14px; margin-top: 7px; margin-left: 3px;">@Model.BugsCount</span>
                     </i>
                 </div>
                 @Html.Action("ProjectUsers", "Project")
@@ -78,7 +86,7 @@
         </div>
     </div>
     <div class="col-xs-12 padding0">
-        @Html.Action("ProjectBugs", "Project", new {projectId = @Model.ProjectId})
+        @Html.Action("ProjectBugs", "Project", new { projectId = @Model.ProjectId })
     </div>
     <div class="col-xs-12" style="margin: 15px 20px;">
         <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: @Model.BugsCount</i>

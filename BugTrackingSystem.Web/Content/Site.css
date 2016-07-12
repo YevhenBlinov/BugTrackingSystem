@@ -47,15 +47,17 @@ textarea {
 
 /*-----------------General--------------------*/
 
-body::-webkit-scrollbar {
-    width: 1em;
-}
+
 
 .disabled {
     pointer-events: none;
     opacity: 0.4;
 }
  
+body::-webkit-scrollbar {
+    width: 1em;
+}
+
 body::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
     background-color: #92C1BA;
@@ -63,6 +65,19 @@ body::-webkit-scrollbar-track {
  
 body::-webkit-scrollbar-thumb {
   background-color: #4D868D;
+}
+
+ul::-webkit-scrollbar {
+    width: 5px;
+}
+
+ul::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    background-color: #E3F0F2;
+}
+ 
+ul::-webkit-scrollbar-thumb {
+  background-color: #92C1BA;
 }
 
 .dropdown-toggle {
@@ -293,74 +308,7 @@ option:hover {
      background-color: #4D868D; 
      color: white
 }
-/*.nav, nav li, nav li a {
-    height: 40px;
-}
 
-/*nav {
-    height: 40px;
-    background-color: #4D868D;
-    padding: 0 30px 0 30px;
-}
-
-.navbar-header {
-    padding: 0 35px 0 10px;
-    height: 40px;
-}
-
-nav {
-    height: 40px;
-    padding: 0;
-}*/
-
-/*.menu {
-    list-style-type: none;
-    height: 40px;
-    padding: 0;
-    display: block;
-    margin: 0;
-}
-
-    .menu li {
-        display: inline-block;
-        padding: 10px 20px 4px 20px;
-        min-height: 40px;
-    }
-
-        .menu li:hover {
-            background-color: #92C1BA;
-        }
-
-        .menu li a {
-            font-size: 16px;
-            color: white;
-            min-height: 40px;
-            text-decoration: none;
-        }*/
-
-/*.btn-header {
-    height: 30px;
-    border-radius: 0 !important;
-    background: #92C1BA;
-    color: white;
-    margin: 3px;
-}
-
-    .btn-header:hover {
-        color: white !important;
-    }
-
-.nav-search {
-    background-color: #4D868D;
-    border-color: white;
-    border-radius: 0;
-}
-
-
-
-#createTaskButtonCol {
-    display: none;
-}*/
 
 
 @media only screen and (max-width : 1010px) {
