@@ -163,6 +163,7 @@
     <Content Include="Content\Images\close-icon.png" />
     <Content Include="Content\Images\Closed.png" />
     <Content Include="Content\Images\Critical.png" />
+    <Content Include="Content\Images\DefaultPhoto.png" />
     <Content Include="Content\Images\Done.png" />
     <Content Include="Content\Images\icon edit copy 2.ico" />
     <Content Include="Content\Images\icon edit copy 2.png" />
@@ -174,6 +175,7 @@
     <Content Include="Content\Images\Major.png" />
     <Content Include="Content\Images\Minor.png" />
     <Content Include="Content\Images\orwell.jpeg" />
+    <Content Include="Content\Images\Paused.png" />
     <Content Include="Content\Images\search icon.png" />
     <Content Include="Content\Images\searchicon.ico" />
     <Content Include="Content\Images\ToDo.png" />

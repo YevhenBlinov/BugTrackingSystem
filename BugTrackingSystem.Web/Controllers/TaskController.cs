@@ -27,6 +27,8 @@ namespace BugTrackingSystem.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void CreateTask(BugFormViewModel bug, HttpPostedFileBase[] image)
         {
+            if(image != null)
+            { 
             bug.Attachments = new Dictionary<string, byte[]>();
             foreach (HttpPostedFileBase item in image)
             {
@@ -42,7 +44,7 @@ namespace BugTrackingSystem.Web.Controllers
                     bug.Attachments.Add(item.FileName, data);
                 }
             }
-
+            }
 
             throw new NotImplementedException();
         }

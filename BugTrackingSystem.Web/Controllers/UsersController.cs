@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
+using Microsoft.Ajax.Utilities;
 
 namespace BugTrackingSystem.Web.Controllers
 {
@@ -45,9 +49,25 @@ namespace BugTrackingSystem.Web.Controllers
             throw new NotImplementedException();
         }
 
-        public void ChangeUserInfo(UserViewModel user)
+        [HttpPost]
+        public void ChangeUser(EditUserFormViewModel user, HttpPostedFileBase image)
         {
+            if (image != null)
+            {
+                using (Stream inputStream = image.InputStream)
+                {
+                    MemoryStream memoryStream = inputStream as MemoryStream;
+                    if (memoryStream == null)
+                    {
+                        memoryStream = new MemoryStream();
+                        inputStream.CopyTo(memoryStream);
+                    }
+                    byte[] data = memoryStream.ToArray();
+                    user.Photo = data;
+                }
+            }
             throw new NotImplementedException();
         }
+        
     }
 }

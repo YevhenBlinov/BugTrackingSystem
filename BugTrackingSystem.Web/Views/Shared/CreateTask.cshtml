@@ -35,7 +35,7 @@
                            @foreach (var user in Model.Item2)
                            {
                             <div class="item" data-value="@user.UserId">
-                                <img src="../../Content/Images/orwell.jpeg" class="img-responsive img-circle" />
+                                <img src="@user.Photo" class="img-responsive img-circle" />
                                 @user.FirstName @user.LastName
                             </div>
                            }

@@ -65,23 +65,24 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit user data</h3>
             </div>
-            @using (Html.BeginForm("ChangeUserInfo", "Users", FormMethod.Post))
+            @using (Html.BeginForm("ChangeUser", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div style="margin-bottom: 15px;">
                         <div style="display: inline-flex">
                             <div class="inline-block">
-                                <img src="../../Content/Images/orwell.jpeg" class="img-circle" width="40" height="40"/>
+                                <img src="@Model.Photo" id="UserPhotoModalPreview" class="img-circle" width="40" height="40" />
                             </div>
                             <div class="inline-block" style="margin-left: 10px; padding-top: 7px;">
                                 <div>
-                                    <a style="color: #4D868D; font-size: 12px; text-decoration: underline; margin-top: 10px">Edit photo</a>
+                                    <a id="EditPhoto" style="color: #4D868D; font-size: 12px; text-decoration: underline; margin-top: 10px; cursor: pointer">Edit photo</a>
                                 </div>
                                 <div>
-                                    <a style="color: #4D868D; font-size: 12px; text-decoration: underline;">Clear photo</a>
+                                    <a id="ClearPhoto" onclick="ClearUserPhoto()" style="color: #4D868D; font-size: 12px; text-decoration: underline; cursor: pointer">Clear photo</a>
                                 </div>
                             </div>
                         </div>
+                        <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden"/>
                         <div class="ui selection dropdown modalSingleDropdown pull-right" style="width: 265px; margin: 10px 0 0 0;">
                             <input type="hidden" name="Role">
                             <i class="dropdown icon"></i>
@@ -121,28 +122,32 @@
     }
 </script>
 
+
 <script>
-    function ChangeUserInfo(id) {
-        var firstName = $('#FirstName').val;
-        var lastName = $('#LastName').val;
-        var email = $('#Email').val;
-        var role = $('.text.inner').val;
-        $.ajax({
-            type: 'POST',
-            data: {
-                userId: id,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                role: role
-            },
-            url: '/Users/ChangeUserInfo',
-            error: function () {
-                alert('An error occured. Please try again.');
-            }
-        });
+    $('#EditPhoto').click(function() {
+        $('#UserPhoto').click();
+    })
+</script>
+
+<script>
+    function PreviewPhoto() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("UserPhoto").files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            document.getElementById("UserPhotoModalPreview").src = oFREvent.target.result;
+        };
+    };
+</script>
+
+<script>
+    function ClearUserPhoto() {
+        document.getElementById("UserPhotoModalPreview").src = "../../Content/Images/DefaultPhoto.png";
+        $('#UserPhoto').wrap('<form>').closest('form').get(0).reset();
+        $('#UserPhoto').unwrap();
     }
 </script>
+
 
 <script>
     $('.ui.dropdown')

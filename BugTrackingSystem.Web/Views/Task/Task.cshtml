@@ -71,6 +71,14 @@
                     <label style="font-size: 13px;">Attachments</label>
                     <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
                 </div>
+                <div>
+                    <ul>
+                        @foreach (var attachment in Model.Attachments)
+                        {
+                            <li><a href="@attachment">Fuck</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
