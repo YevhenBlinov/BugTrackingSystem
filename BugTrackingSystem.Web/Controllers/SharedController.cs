@@ -31,7 +31,9 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult CreateTask()
         {
-            return PartialView();
+            var projects = _projectService.GetAllRunningProjects();
+            var users = _userService.GetAllUsers();
+            return PartialView(Tuple.Create(projects, users));
         }
 
         public ActionResult CreateFilter()

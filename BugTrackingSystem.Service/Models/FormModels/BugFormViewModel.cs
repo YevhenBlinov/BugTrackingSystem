@@ -1,23 +1,22 @@
 ﻿using System;
 
+
 namespace BugTrackingSystem.Service.Models.FormModels
 {
     public class BugFormViewModel
     {
-        public int AssignedUserID { get; set; }
+        public string Title { get; set; }
 
-        public int ProjectID { get; set; }
+        public int Project { get; set; }
 
-        public string Subject { get; set; }
+        public int Assignee { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public string Priority { get; set; }
 
-        public DateTime ModificationDate { get; set; }
-
-        public byte StatusID { get; set; }
-
-        public byte PriorityID { get; set; }
+        public string Status { get; set; }
 
         public string Description { get; set; }
+
+        public byte[][] Attachments { get; set; }
     }
 }

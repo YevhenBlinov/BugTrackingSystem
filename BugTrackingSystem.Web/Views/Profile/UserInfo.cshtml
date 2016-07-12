@@ -1,19 +1,150 @@
 ﻿@model BugTrackingSystem.Service.Models.UserViewModel
 
-<div class="paddingRight10" style="margin-bottom: 30px;">
-    <div class="pull-left padding0 inline-block">
-        <img src="~/Content/Images/orwell.jpeg" class="img-circle marginRight10" alt="George Orwell" />
-    </div>
-    <div class="inline-block">
-        <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.FirstName</h4>
-        <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.LastName</h4>
-    </div>
-</div>
 <div>
-    <h6 class="text-left h6grey">Email</h6>
-    <h5 class="text-left">@Model.Email</h5>
+    <h1 style="margin: 0;">My Profile</h1>
+    <div class="container col-xs-12 divsWithBorder" style="padding: 15px;">
+        <div class="paddingRight10" style="margin-bottom: 30px;">
+            <div class="pull-left padding0 inline-block">
+                <img src="~/Content/Images/orwell.jpeg" class="img-circle marginRight10" alt="George Orwell" />
+            </div>
+            <div class="inline-block">
+                <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.FirstName</h4>
+                <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.LastName</h4>
+            </div>
+        </div>
+        <div>
+            <h6 class="text-left h6grey">Email</h6>
+            <h5 class="text-left">@Model.Email</h5>
+        </div>
+        <div>
+            <h6 class="text-left h6grey">Role</h6>
+            <h5 class="text-left">@Model.Role</h5>
+        </div>
+    </div>
+    <div class="container col-xs-12 padding0" style="margin-top: 10px;">
+        <div class="padding0 pull-right inline-block" style="padding: 20px 10px 0 10px;" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit">
+            <a data-toggle="modal" data-target="#ChangeUserModal">
+                <img src="~/Content/Images/icon edit copy 2.png" />
+            </a>
+        </div>
+        <div class="padding0 pull-right inline-block" style="padding: 20px 10px 0 10px;" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Change password">
+            <a href="#" data-toggle="modal" data-target="#ChangeUserPasswordModal">
+                <img src="~/Content/Images/icon password.png" />
+            </a>
+
+        </div>
+    </div>
 </div>
-<div>
-    <h6 class="text-left h6grey">Role</h6>
-    <h5 class="text-left">@Model.Role</h5>
+
+<div class="modal fade" id="ChangeUserPasswordModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Change password</h3>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" id="Password" placeholder="Password" style="margin: 0 10px 0 0; display: inline-block; width: 275px">
+                <input class="form-control" id="RepeatPassword" placeholder="Repeat Password" style="margin: 0; display: inline-block; width: 275px">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton" onclick="ChangeUserPassword(@Model.UserId)">Save</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<div class="modal fade" id="ChangeUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit user data</h3>
+            </div>
+            @using (Html.BeginForm("ChangeUserInfo", "Users", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: inline-flex">
+                            <div class="inline-block">
+                                <img src="../../Content/Images/orwell.jpeg" class="img-circle" width="40" height="40"/>
+                            </div>
+                            <div class="inline-block" style="margin-left: 10px; padding-top: 7px;">
+                                <div>
+                                    <a style="color: #4D868D; font-size: 12px; text-decoration: underline; margin-top: 10px">Edit photo</a>
+                                </div>
+                                <div>
+                                    <a style="color: #4D868D; font-size: 12px; text-decoration: underline;">Clear photo</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui selection dropdown modalSingleDropdown pull-right" style="width: 265px; margin: 10px 0 0 0;">
+                            <input type="hidden" name="Role">
+                            <i class="dropdown icon"></i>
+                            <div class="default text inner">Role</div>
+                            <div class="menu">
+                                <div class="item" data-value="UserRole.User">User</div>
+                                <div class="item" data-value="UserRole.Admin">Admin</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px">
+                        <input class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" placeholder="First Name" style="margin: 0 12px 0 0; display: inline-block; width: 38%">
+                        <input class="form-control" id="LastName" name="LastName" value="@Model.LastName" placeholder="Last Name" style="margin: 0; display: inline-block; width: 59%">
+                    </div>
+                    <input class="form-control" id="Email" name="Email" value="@Model.Email" placeholder="Email" style="margin: 0;">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit"  class="btn modalCreateButton">Save</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function ChangeUserPassword(id) {
+        var password = $('#Password').val;
+        $.ajax({
+            type: 'POST',
+            data: { userId: id, password: password },
+            url: '/Users/ChangeUserPassword',
+            error: function() {
+                alert('An error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    function ChangeUserInfo(id) {
+        var firstName = $('#FirstName').val;
+        var lastName = $('#LastName').val;
+        var email = $('#Email').val;
+        var role = $('.text.inner').val;
+        $.ajax({
+            type: 'POST',
+            data: {
+                userId: id,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                role: role
+            },
+            url: '/Users/ChangeUserInfo',
+            error: function () {
+                alert('An error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>

@@ -14,25 +14,12 @@
 <div class="general-container marginFromMenu">
     <div class="row">
         <div class="col-sm-3 col-xs-12 padding0">
-            <div>
-                <h1 style="margin: 0;">My Profile</h1>
-                <div class="container col-xs-12 divsWithBorder" style="padding: 15px;">
+           
+                
                     @Html.Action("UserInfo", "Profile", new {userId = 1})
-                </div>
-                <div class="container col-xs-12 padding0" style="margin-top: 10px;">
-                    <div class="padding0 pull-right inline-block" style="padding: 20px 10px 0 10px;" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit">
-                        <a>
-                            <img src="~/Content/Images/icon edit copy 2.png" />
-                        </a>
-                    </div>
-                    <div class="padding0 pull-right inline-block" style="padding: 20px 10px 0 10px;" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Security">
-                        <a href="#">
-                            <img src="~/Content/Images/icon password.png" />
-                        </a>
-
-                    </div>
-                </div>
-            </div>
+                
+                
+            
             <div class="col-xs-12 padding0 marginFromMenu">
                 <div class="col-xs-12">
                     <h1>My Projects</h1>
@@ -51,3 +38,4 @@
         </div>
     </div>
 </div>
+
