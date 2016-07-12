@@ -78,6 +78,7 @@
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FilterViewModel.cs" />
     <Compile Include="Models\FormModels\ProjectFormViewModel.cs" />
+    <Compile Include="Models\FormModels\UserFormViewModel.cs" />
     <Compile Include="Models\FullBugViewModel.cs" />
     <Compile Include="Models\ProjectViewModel.cs" />
     <Compile Include="Models\BugStatus.cs" />

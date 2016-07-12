@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BugTrackingSystem.Service.Services;
 
 namespace BugTrackingSystem.Web.Controllers
@@ -28,7 +27,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public void DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            _userService.DeleteUser(userId);
         }
 
         public void AddUser(string userData)

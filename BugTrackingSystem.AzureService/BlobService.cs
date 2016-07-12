@@ -24,43 +24,22 @@ namespace BugTrackingSystem.AzureService
             _container.CreateIfNotExists();
         }
 
-        public void UploadBlobIntoContainer(string pathToFile)
+        public string UploadBlobIntoContainerFromFile(string pathToFile)
         {
-            if (File.Exists(pathToFile)) 
-                return;
+            if (!File.Exists(pathToFile)) 
+                return String.Empty;
 
-            var fileName = string.Empty;
-
-            using (var fileStream = File.OpenRead(pathToFile))
-            {
-                fileName = Path.GetFileName(pathToFile);
-                var blockBlob = _container.GetBlockBlobReference(fileName);
-                blockBlob.UploadFromStream(fileStream);
-            }
+            var fileName = Path.GetFileName(pathToFile);
+            var blockBlob = _container.GetBlockBlobReference(fileName);
+            blockBlob.UploadFromFile(pathToFile);
+            return fileName;
         }
 
-        public List<string> GetBlockBlobList()
+        public Dictionary<string, string> GetBlockBlobDictionary()
         {
-            foreach (var item in _container.ListBlobs())
-            {
-                if (item.GetType() == typeof(CloudBlockBlob))
-                {
-                    var blob = (CloudBlockBlob)item;
-                    Console.WriteLine("Block blob with name {0} of length {1}: {2}", blob.Name, blob.Properties.Length, blob.Uri);
-                }
-                else if (item.GetType() == typeof(CloudPageBlob))
-                {
-                    var pageBlob = (CloudPageBlob)item;
-                    Console.WriteLine("Page blob with name {0} of length {1}: {2}", pageBlob.Name, pageBlob.Properties.Length, pageBlob.Uri);
-                }
-                else if (item.GetType() == typeof(CloudBlobDirectory))
-                {
-                    var directory = (CloudBlobDirectory)item;
-                    Console.WriteLine("Directory: {0}", directory.Uri);
-                }
-            }
-
-            return new List<string>();
+            var listBlockBlobs = _container.ListBlobs().Where(b => b.GetType() == typeof(CloudBlockBlob));
+            var blobDicrionary = listBlockBlobs.Cast<CloudBlockBlob>().ToDictionary(listBlockBlob => listBlockBlob.Name, listBlockBlob => listBlockBlob.Uri.AbsoluteUri);
+            return blobDicrionary;
         }
 
         public void DownloadBlobFromContainer(string blobName, string pathToFile)
@@ -71,11 +50,22 @@ namespace BugTrackingSystem.AzureService
             if (!isBlobExists)
                 return;
 
-            using (var fileStream = File.OpenWrite(pathToFile))
+            var blockBlob = _container.GetBlockBlobReference(blobName);
+            blockBlob.DownloadToFile(pathToFile, FileMode.OpenOrCreate);
+        }
+
+        public string GetBlobSasUri(string blobName)
+        {
+            var blob = _container.GetBlockBlobReference(blobName);
+            var sasConstraints = new SharedAccessBlobPolicy
             {
-                var blockBlob = _container.GetBlockBlobReference(blobName);
-                blockBlob.DownloadToStream(fileStream);
-            }
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                Permissions = SharedAccessBlobPermissions.Read
+            };
+
+            var sasBlobToken = blob.GetSharedAccessSignature(sasConstraints);
+            var uri = new Uri(blob.Uri.AbsoluteUri + sasBlobToken);
+            return uri.ToString();
         }
 
         public void DeleteBlobFromContainer(string blobName)

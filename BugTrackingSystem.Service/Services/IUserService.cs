@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
 
 namespace BugTrackingSystem.Service.Services
 {
@@ -13,6 +14,8 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<BaseBugViewModel> GetUsersBugs(int userId);
 
-        void AddUser(string firstName, string lastName, string email, string password, string role);
+        void AddUser(UserFormViewModel userFormViewModel);
+
+        void DeleteUser(int userId);
     }
 }

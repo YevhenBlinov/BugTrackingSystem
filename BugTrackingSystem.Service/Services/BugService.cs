@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using BugTrackingSystem.AzureService;
 using BugTrackingSystem.Data.Model;
@@ -16,6 +17,7 @@ namespace BugTrackingSystem.Service.Services
     {
         private readonly IBugRepository _bugRepository;
         private readonly IMapper _mapper;
+        private readonly BlobService _blobService;
 
         public BugService(IBugRepository bugRepository)
         {
@@ -43,6 +45,7 @@ namespace BugTrackingSystem.Service.Services
             });
 
             _mapper = config.CreateMapper();
+            _blobService = new BlobService(UserService.UsersPhotosContainerName);
         }
 
         public IEnumerable<BaseBugViewModel> GetAllBugs()
@@ -90,13 +93,21 @@ namespace BugTrackingSystem.Service.Services
                 };
             }
 
+            fullbugModel.AssignedUser.Photo = _blobService.GetBlobSasUri(fullbugModel.AssignedUser.Photo);
+
             return fullbugModel;
         }
 
         public IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId)
         {
             var allprojectsbugs = _bugRepository.GetMany(b => b.ProjectID == projectId);
-            var allprojectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(allprojectsbugs);
+            var allprojectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(allprojectsbugs).ToList();
+
+            foreach (var projectBugViewModel in allprojectbugmodels)
+            {
+                projectBugViewModel.AssignedUser.Photo = _blobService.GetBlobSasUri(projectBugViewModel.AssignedUser.Photo);
+            }
+
             return allprojectbugmodels;
         }
 
