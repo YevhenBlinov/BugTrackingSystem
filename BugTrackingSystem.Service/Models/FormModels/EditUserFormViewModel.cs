@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BugTrackingSystem.Service.Models.FormModels
+﻿namespace BugTrackingSystem.Service.Models.FormModels
 {
     public class EditUserFormViewModel
     {

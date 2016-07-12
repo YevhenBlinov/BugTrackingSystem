@@ -17,5 +17,9 @@ namespace BugTrackingSystem.Service.Services
         void AddUser(UserFormViewModel userFormViewModel);
 
         void DeleteUser(int userId);
+
+        void EditUserInformation(EditUserFormViewModel editUserFormViewModel);
+
+        void ChangeUserPassword(int userId, string password);
     }
 }

@@ -46,7 +46,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public void ChangeUserPassword(int userId, string password)
         {
-            throw new NotImplementedException();
+            _userService.ChangeUserPassword(userId, password);
         }
 
         [HttpPost]
@@ -67,8 +67,8 @@ namespace BugTrackingSystem.Web.Controllers
                 }
             }
 
+            _userService.EditUserInformation(user);
             return RedirectToActionPermanent("Users", "Users");
-
         }
         
     }

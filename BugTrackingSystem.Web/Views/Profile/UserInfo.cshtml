@@ -89,8 +89,8 @@
                             <i class="dropdown icon"></i>
                             <div class="default text inner">Role</div>
                             <div class="menu">
-                                <div class="item" data-value="UserRole.User">User</div>
-                                <div class="item" data-value="UserRole.Admin">Admin</div>
+                                <div class="item" data-value="User">User</div>
+                                <div class="item" data-value="Administrator">Administrator</div>
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
 
 <script>
     function ChangeUserPassword(id) {
-        var password = $('#Password').val;
+        var password = $('#Password').val();
         $.ajax({
             type: 'POST',
             data: { userId: id, password: password },
