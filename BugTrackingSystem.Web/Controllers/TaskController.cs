@@ -16,6 +16,7 @@ namespace BugTrackingSystem.Web.Controllers
         {
             _bugService = bugService;
         }
+
         //
         // GET: /Task/
         public ActionResult Task(int bugId = 1)
@@ -27,26 +28,28 @@ namespace BugTrackingSystem.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void CreateTask(BugFormViewModel bug, HttpPostedFileBase[] image)
         {
-            if(image != null)
-            { 
-            bug.Attachments = new Dictionary<string, byte[]>();
-            foreach (HttpPostedFileBase item in image)
+            if (image[0] != null)
             {
-                using (Stream inputStream = item.InputStream)
+                bug.Attachments = new Dictionary<string, byte[]>();
+
+                foreach (HttpPostedFileBase item in image)
                 {
-                    MemoryStream memoryStream = inputStream as MemoryStream;
-                    if (memoryStream == null)
+                    using (Stream inputStream = item.InputStream)
                     {
-                        memoryStream = new MemoryStream();
-                        inputStream.CopyTo(memoryStream);
+                        MemoryStream memoryStream = inputStream as MemoryStream;
+
+                        if (memoryStream == null)
+                        {
+                            memoryStream = new MemoryStream();
+                            inputStream.CopyTo(memoryStream);
+                        }
+
+                        byte[] data = memoryStream.ToArray();
+                        bug.Attachments.Add(item.FileName, data);
                     }
-                    byte[] data = memoryStream.ToArray();
-                    bug.Attachments.Add(item.FileName, data);
                 }
             }
-            }
-
-            throw new NotImplementedException();
+            _bugService.AddNewBug(bug);
         }
     }
 }

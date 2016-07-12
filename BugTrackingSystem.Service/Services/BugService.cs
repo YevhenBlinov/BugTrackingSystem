@@ -16,12 +16,14 @@ namespace BugTrackingSystem.Service.Services
     public class BugService : IBugService
     {
         private readonly IBugRepository _bugRepository;
+        private readonly IBugAttachmentRepository _bugAttachmentRepository;
         private readonly IMapper _mapper;
         private readonly BlobService _blobService;
 
-        public BugService(IBugRepository bugRepository)
+        public BugService(IBugRepository bugRepository, IBugAttachmentRepository bugAttachmentRepository)
         {
             _bugRepository = bugRepository;
+            _bugAttachmentRepository = bugAttachmentRepository;
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -41,7 +43,18 @@ namespace BugTrackingSystem.Service.Services
                     .ForMember(fbvm => fbvm.Priority, opt => opt.MapFrom(b => (BugPriority)b.PriorityID))
                     .ForMember(fbvm => fbvm.Comments, opt => opt.Ignore());
                 cfg.CreateMap<CommentModel, CommentViewModel>();
-                cfg.CreateMap<BugFormViewModel, Bug>();
+                cfg.CreateMap<BugFormViewModel, Bug>()
+                .ForMember(b => b.Subject, opt => opt.MapFrom(bfvm => bfvm.Title))
+                .ForMember(b => b.ProjectID, opt => opt.MapFrom(bfvm => bfvm.Project))
+                .ForMember(b => b.AssignedUserID, opt => opt.MapFrom(bfvm => bfvm.Assignee))
+                .ForMember(b => b.PriorityID, opt => opt.MapFrom(bfvm => (byte)((BugPriority)Enum.Parse(typeof(BugPriority), bfvm.Priority))))
+                .ForMember(b => b.StatusID, opt => opt.MapFrom(bfvm => (byte)((BugStatus)Enum.Parse(typeof(BugStatus), bfvm.Status))))
+                .ForMember(b => b.Description, opt => opt.MapFrom(bfvm => bfvm.Description))
+                .ForMember(b => b.BugID, opt => opt.Ignore())
+                .ForMember(b => b.BugAttachments, opt => opt.Ignore())
+                .ForMember(b => b.Comments, opt => opt.Ignore())
+                .ForMember(b => b.Project, opt => opt.Ignore())
+                .ForMember(b => b.User, opt => opt.Ignore());
             });
 
             _mapper = config.CreateMapper();
@@ -75,25 +88,37 @@ namespace BugTrackingSystem.Service.Services
 
             var fullbugModel = _mapper.Map<Bug, FullBugViewModel>(bug);
             var tableService = new TableService();
-            var comments = tableService.RetrieveAllCommentsForBug(bugId.ToString());
 
-            if (comments.Count != 0)
+            if (bug.Comments != null)
             {
-                fullbugModel.Comments = _mapper.Map<List<CommentModel>, List<CommentViewModel>>(comments);
-            }
-            else
-            {
-                fullbugModel.Comments = new List<CommentViewModel>()
+                var comments = tableService.RetrieveAllCommentsForBug(bugId.ToString());
+
+                if (comments.Count != 0)
                 {
-                    new CommentViewModel()
+                    fullbugModel.Comments = _mapper.Map<List<CommentModel>, List<CommentViewModel>>(comments);
+                }
+                else
+                {
+                    fullbugModel.Comments = new List<CommentViewModel>()
                     {
-                        Comment = "There is not any comment yet",
-                        UserName = fullbugModel.AssignedUser.FirstName + fullbugModel.AssignedUser.LastName
-                    }
-                };
+                        new CommentViewModel()
+                        {
+                            Comment = "There is not any comment yet",
+                            UserName = fullbugModel.AssignedUser.FirstName + fullbugModel.AssignedUser.LastName
+                        }
+                    };
+                }
             }
 
             fullbugModel.AssignedUser.Photo = _blobService.GetBlobSasUri(fullbugModel.AssignedUser.Photo);
+
+            if (bug.BugAttachments.Count == 0) 
+                return fullbugModel;
+
+            var attachmentBlobService = new BlobService("attachments" + bugId);
+            var bugAttachmentsList = bug.BugAttachments.ToDictionary(bugAttachment => bugAttachment.Attachment,
+                bugAttachment => attachmentBlobService.GetBlobSasUri(bugAttachment.Attachment));
+            fullbugModel.Attachments = bugAttachmentsList;
 
             return fullbugModel;
         }
@@ -111,22 +136,42 @@ namespace BugTrackingSystem.Service.Services
             return allprojectbugmodels;
         }
 
-        public void AddNewBug(int assignedUserId, int projectId, string subject, BugStatus status, BugPriority priority, string description)
+        public void AddNewBug(BugFormViewModel bugFormViewModel)
         {
-            //var bugFormViewModel = new BugFormViewModel()
-            //{
-            //    AssignedUserID = assignedUserId,
-            //    ProjectID = projectId,
-            //    Subject = subject,
-            //    StatusID = (byte)status,
-            //    PriorityID = (byte)priority,
-            //    Description = description,
-            //    CreationDate = DateTime.Now,
-            //    ModificationDate = DateTime.Now
-            //};
-            //var bug = _mapper.Map<BugFormViewModel, Bug>(bugFormViewModel);
-            //_bugRepository.Add(bug);
-            //_bugRepository.Save();
+            var bug = _mapper.Map<BugFormViewModel, Bug>(bugFormViewModel);
+            var dateTimeNow = DateTime.Now;
+            bug.CreationDate = dateTimeNow;
+            bug.ModificationDate = dateTimeNow;
+            _bugRepository.Add(bug);
+            _bugRepository.Save();
+
+            if (bug.BugAttachments.Count == 0)
+                return;
+
+            var addedBugId =
+                _bugRepository.Get(
+                    b =>
+                        b.ProjectID == bug.ProjectID && b.AssignedUserID == bug.AssignedUserID &&
+                        b.CreationDate == bug.CreationDate && b.ModificationDate == bug.ModificationDate &&
+                        b.PriorityID == bug.PriorityID && b.StatusID == bug.StatusID && b.Description == bug.Description).BugID;
+            AddBugAttachments(addedBugId, bugFormViewModel.Attachments);
+
+            foreach (var bugAttachment in bugFormViewModel.Attachments)
+            {
+                _bugAttachmentRepository.Add(new BugAttachment() { Attachment = bugAttachment.Key, BugID = addedBugId });
+            }
+
+            _bugAttachmentRepository.Save();
+        }
+
+        private void AddBugAttachments(int bugId, Dictionary<string, byte[]> bugAttachmentsDictionary)
+        {
+            var blobService = new BlobService("attachments" + bugId);
+
+            foreach (var bugAttachment in bugAttachmentsDictionary)
+            {
+                blobService.UploadBlobIntoContainerFromByteArray(bugAttachment.Key, bugAttachment.Value);
+            }
         }
     }
 }

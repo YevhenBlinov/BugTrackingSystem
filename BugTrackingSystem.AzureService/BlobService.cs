@@ -35,6 +35,16 @@ namespace BugTrackingSystem.AzureService
             return fileName;
         }
 
+        public void UploadBlobIntoContainerFromByteArray(string name, byte[] byteArray)
+        {
+            var blockBlob = _container.GetBlockBlobReference(name);
+
+            using (var stream = new MemoryStream(byteArray, false))
+            {
+                blockBlob.UploadFromStream(stream);
+            }
+        }
+
         public Dictionary<string, string> GetBlockBlobDictionary()
         {
             var listBlockBlobs = _container.ListBlobs().Where(b => b.GetType() == typeof(CloudBlockBlob));

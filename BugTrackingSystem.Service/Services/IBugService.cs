@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
 
 namespace BugTrackingSystem.Service.Services
 {
@@ -13,6 +14,6 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId);
 
-        void AddNewBug(int assignedUserId, int projectId, string subject, BugStatus status, BugPriority priority, string description);
+        void AddNewBug(BugFormViewModel bugFormViewModel);
     }
 }
