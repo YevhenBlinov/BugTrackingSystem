@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace BugTrackingSystem.Service.Models.FormModels
 {
     public class BugFormViewModel
     {
+
         public string Title { get; set; }
 
         public int Project { get; set; }
@@ -17,6 +19,6 @@ namespace BugTrackingSystem.Service.Models.FormModels
 
         public string Description { get; set; }
 
-        public byte[][] Attachments { get; set; }
+        public Dictionary<string, byte[]> Attachments { get; set; }
     }
 }

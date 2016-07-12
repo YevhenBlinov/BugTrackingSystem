@@ -13,8 +13,9 @@ namespace BugTrackingSystem.Web.Controllers
             _userService = userService;
         }
         // GET: Profile
-        public ActionResult Index()
+        public ActionResult Index(int userId = 1)
         {
+            ViewBag.UserId = userId;
             return View();
         }
         public ActionResult UserProjects(int userId = 1)

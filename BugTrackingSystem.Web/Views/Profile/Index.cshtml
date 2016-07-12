@@ -16,7 +16,7 @@
         <div class="col-sm-3 col-xs-12 padding0">
            
                 
-                    @Html.Action("UserInfo", "Profile", new {userId = 1})
+                    @Html.Action("UserInfo", "Profile", new {userId = @ViewBag.UserId})
                 
                 
             
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-xs-12 divsWithBorder" style="margin-bottom: 60px;">
                     <ul style="margin: 0;">
-                        @Html.Action("UserProjects", "Profile", new {userId = 1})
+                        @Html.Action("UserProjects", "Profile", new { userId = @ViewBag.UserId})
                     </ul>
                 </div>
             </div>

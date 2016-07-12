@@ -50,28 +50,32 @@
     <div class="row">
         @foreach (var user in Model)
         {
+
             <div class="col-lg-4 col-md-4" onmouseover="showCloseIcon(this)">
                 <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="DeleteProjectModalShow(@user.UserId)"></i>
-                <div class="custom-sticker">
-                    <div class="userInfo">
-                        <img src="@user.Photo" class="img-circle" height="45" width="45" alt="userPhoto" />
-                        <div id="FirstLastName">@user.FirstName @user.LastName</div>
-                        <div id="email">@user.Email</div>
-                    </div>
-                    <div class="row">
-                        <div class="pull-left projectInfo">
-                            @if (false)
-                            {
-                                <span id="" style="border: 1px solid orange; padding: 5px;">Me</span>
-                            }
+                <a class="redirectAncore" href="@Url.Action("Index", "Profile", new {userId = user.UserId})">
+                    <div class="custom-sticker">
+                        <div class="userInfo">
+                            <img src="@user.Photo" class="img-circle" height="45" width="45" alt="userPhoto" />
+                            <div id="FirstLastName">@user.FirstName @user.LastName</div>
+                            <div id="email">@user.Email</div>
                         </div>
-                        <div class="projectInfo pull-right">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"><span style="margin: 0 5px;">@user.BugsCount</span></i>
-                            <i class="fa fa-th-list" aria-hidden="true"><span style="margin-left: 5px;">@user.ProjectsCount</span></i>
+                        <div class="row">
+                            <div class="pull-left projectInfo">
+                                @if (false)
+                                {
+                                    <span id="" style="border: 1px solid orange; padding: 5px;">Me</span>
+                                }
+                            </div>
+                            <div class="projectInfo pull-right">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"><span style="margin: 0 5px;">@user.BugsCount</span></i>
+                                <i class="fa fa-th-list" aria-hidden="true"><span style="margin-left: 5px;">@user.ProjectsCount</span></i>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
+
         }
 
 
@@ -111,14 +115,14 @@
                             <input class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password" style="margin: 0 10px 0 0; display: inline-block; width: 165px">
                             <input type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password" style="margin: 0 10px 0 0; display: inline-block; width: 165px;">
                             <div class="ui selection dropdown modalSingleDropdown pull-right cn" style="width: 165px;">
-                                    <input type="hidden" name="Role">
-                                    <i class="dropdown icon"></i>
-                                    <div class="default text inner">Role</div>
-                                    <div class="menu">
-                                        <div class="item" data-value="UserRole.User">User</div>
-                                        <div class="item" data-value="UserRole.Admin">Admin</div>
-                                    </div>
+                                <input type="hidden" name="Role">
+                                <i class="dropdown icon"></i>
+                                <div class="default text inner">Role</div>
+                                <div class="menu">
+                                    <div class="item" data-value="User">User</div>
+                                    <div class="item" data-value="Administrator">Admin</div>
                                 </div>
+                            </div>
                         </div>
                     </div>
 

@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Services;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
 
 namespace BugTrackingSystem.Web.Controllers
 {
@@ -33,10 +35,9 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [WebMethod()]
-        public void AddUser(UserViewModel userModel)
+        public void AddUser(UserFormViewModel userModel)
         {
-            //MyClass myClass = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<MyClass>(userData);
-            //_userService.AddUser(firstName, lastName, email, password, role);
+            _userService.AddUser(userModel);
         }
 
         public void ChangeUserPassword(int userId, string password)

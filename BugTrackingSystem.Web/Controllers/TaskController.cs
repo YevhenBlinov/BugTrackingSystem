@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -26,10 +27,10 @@ namespace BugTrackingSystem.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void CreateTask(BugFormViewModel bug, HttpPostedFileBase[] image)
         {
-            byte[][] data = new byte[image.Length][];
-            for (int i = 0; i < image.Length; i++)
+            bug.Attachments = new Dictionary<string, byte[]>();
+            foreach (HttpPostedFileBase item in image)
             {
-                using (Stream inputStream = image[i].InputStream)
+                using (Stream inputStream = item.InputStream)
                 {
                     MemoryStream memoryStream = inputStream as MemoryStream;
                     if (memoryStream == null)
@@ -37,28 +38,13 @@ namespace BugTrackingSystem.Web.Controllers
                         memoryStream = new MemoryStream();
                         inputStream.CopyTo(memoryStream);
                     }
-                    data[i] = memoryStream.ToArray();
+                    byte[] data = memoryStream.ToArray();
+                    bug.Attachments.Add(item.FileName, data);
                 }
             }
-            
-            bug.Attachments = data;
+
+
             throw new NotImplementedException();
         }
-
-    }
-
-    public class MyClass
-    {
-        public string Title { get; set; }
-
-        public string Project { get; set; }
-
-        public string Assignee { get; set; }
-
-        public string Priority { get; set; }
-
-        public string Status { get; set; }
-
-        public string Description { get; set; }
     }
 }
