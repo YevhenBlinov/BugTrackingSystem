@@ -5,7 +5,7 @@
 }
 <div class="col-lg-12 general-container" style="margin-top: 30px;">
     <ol class="breadcrumb inline-block padding0" style="background-color: inherit">
-        <li><a href=""> @Model.ProjectName </a></li>        
+        <li><a href="@Url.Action("Project", "Project", new { projectId = @Model.ProjectID })"> @Model.ProjectName </a></li>        
         <li class="active">@Model.ProjectPrefix-@Model.BugId</li>
     </ol>
     <h1>
@@ -71,11 +71,11 @@
                     <label style="font-size: 13px;">Attachments</label>
                     <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
                 </div>
-                <div>
-                    <ul>
+                <div class="col-xs-12">
+                    <ul style="padding: 0; color:#4D868D">
                         @foreach (var attachment in Model.Attachments)
                         {
-                            <li><a href="@attachment">Fuck</a></li>
+                            <li><a href="@attachment.Value">@attachment.Key</a></li>
                         }
                     </ul>
                 </div>

@@ -8,6 +8,8 @@ namespace BugTrackingSystem.Service.Models.FormModels
 {
     public class EditUserFormViewModel
     {
+        public int UserId { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

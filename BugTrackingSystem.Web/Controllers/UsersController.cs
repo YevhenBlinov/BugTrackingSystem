@@ -50,7 +50,7 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [HttpPost]
-        public void ChangeUser(EditUserFormViewModel user, HttpPostedFileBase image)
+        public ActionResult EditUser(EditUserFormViewModel user, HttpPostedFileBase image)
         {
             if (image != null)
             {
@@ -66,7 +66,9 @@ namespace BugTrackingSystem.Web.Controllers
                     user.Photo = data;
                 }
             }
-            throw new NotImplementedException();
+
+            return RedirectToActionPermanent("Users", "Users");
+
         }
         
     }

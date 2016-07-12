@@ -65,7 +65,7 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit user data</h3>
             </div>
-            @using (Html.BeginForm("ChangeUser", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditUser", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div style="margin-bottom: 15px;">
@@ -83,6 +83,7 @@
                             </div>
                         </div>
                         <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden"/>
+                        <input name="UserId" value="@Model.UserId" class="hidden"/>
                         <div class="ui selection dropdown modalSingleDropdown pull-right" style="width: 265px; margin: 10px 0 0 0;">
                             <input type="hidden" name="Role">
                             <i class="dropdown icon"></i>

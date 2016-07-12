@@ -23,10 +23,11 @@
                        <div class="menu">
                            @foreach (var project in Model.Item1)
                            {
-                            <div class="item" data-value="@project.ProjectId">@project.Name</div>
+                               <div class="item" data-value="@project.ProjectId">@project.Name</div>
                            }
                        </div>
                    </div>
+                   
                    <div class="ui selection dropdown modalSingleDropdown pull-right cn">
                        <input type="hidden" name="Assignee">
                        <i class="dropdown icon"></i>
