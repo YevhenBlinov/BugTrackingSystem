@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using BugTrackingSystem.AzureService;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
+using UserRole = BugTrackingSystem.Service.Models.UserRole;
 
 namespace BugTrackingSystem.Service.Services
 {
@@ -24,6 +26,10 @@ namespace BugTrackingSystem.Service.Services
                 .ForMember(pvm => pvm.BugsCount, opt => opt.MapFrom(p => p.Bugs.Count))
                 .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Count));
                 cfg.CreateMap<ProjectFormViewModel, Project>();
+                cfg.CreateMap<User, UserViewModel>()
+                .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
+                .ForMember(uvm => uvm.ProjectsCount, opt => opt.MapFrom(u => u.Projects.Where(p => p.DeletedOn == null).Count(p => p.IsPaused == false)))
+                .ForMember(uvm => uvm.BugsCount, opt => opt.MapFrom(u => u.Bugs.Where(b => b.Project.DeletedOn == null).Count(b => b.Project.IsPaused == false)));
             });
 
             _mapper = config.CreateMapper();
@@ -102,6 +108,42 @@ namespace BugTrackingSystem.Service.Services
             project.IsPaused = !project.IsPaused;
             _projectRepository.Update(project);
             _projectRepository.Save();
+        }
+
+        public void RemoveUserFromProject(int projectId, int userId)
+        {
+            var project = _projectRepository.GetById(projectId);
+
+            if (project == null)
+                throw new Exception("Sorry, but the project doesn't exist.");
+
+            var userToRemove = project.Users.First(u => u.UserID == userId);
+            project.Users.Remove(userToRemove);
+            _projectRepository.Update(project);
+            _projectRepository.Save();
+        }
+
+        public IEnumerable<UserViewModel> GetAllProjectUsers(int projectId)
+        {
+            var project = _projectRepository.GetById(projectId);
+
+            if (project == null)
+                throw new Exception("Sorry, but the project doesn't exist.");
+
+            var projectUsers = project.Users.ToList();
+            var projectUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(projectUsers).ToList();
+
+            if (projectUsersViewModels.Count == 0) 
+                return projectUsersViewModels;
+
+            var blobService = new BlobService(UserService.UsersPhotosContainerName);
+
+            for (var i = 0; i < projectUsersViewModels.Count; i++)
+            {
+                projectUsersViewModels[i].Photo = blobService.GetBlobSasUri(projectUsers[i].Photo);
+            }
+
+            return projectUsersViewModels;
         }
     }
 }

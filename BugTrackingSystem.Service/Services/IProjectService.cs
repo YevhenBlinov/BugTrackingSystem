@@ -16,6 +16,11 @@ namespace BugTrackingSystem.Service.Services
         void UpdateProjectName(int projectId, string name);
 
         IEnumerable<ProjectViewModel> GetAllRunningProjects();
+
         void PauseAndUnpauseProject(int projectId);
+
+        void RemoveUserFromProject(int projectId, int userId);
+
+        IEnumerable<UserViewModel> GetAllProjectUsers(int projectId);
     }
 }
