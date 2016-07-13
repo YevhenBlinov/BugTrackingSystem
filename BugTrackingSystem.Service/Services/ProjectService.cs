@@ -145,5 +145,15 @@ namespace BugTrackingSystem.Service.Services
 
             return projectUsersViewModels;
         }
+
+        public IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest)
+        {
+            if(string.IsNullOrEmpty(searchRequest))
+                return new List<ProjectViewModel>();
+
+            var findedProjects = _projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest));
+            var findedProjectsViewModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(findedProjects);
+            return findedProjectsViewModels;
+        }
     }
 }

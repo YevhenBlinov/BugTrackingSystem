@@ -41,5 +41,15 @@ namespace BugTrackingSystem.Service.Services
             _filterRepository.Update(filter);
             _filterRepository.Save();
         }
+
+        public IEnumerable<FilterViewModel> SearchFiltersByName(string searchRequest)
+        {
+            if(string.IsNullOrEmpty(searchRequest))
+                return new List<FilterViewModel>();
+
+            var findedFilters = _filterRepository.GetMany(f => f.DeletedOn == null && f.Title.Contains(searchRequest));
+            var findedFiltersViewModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(findedFilters);
+            return findedFiltersViewModels;
+        }
     }
 }

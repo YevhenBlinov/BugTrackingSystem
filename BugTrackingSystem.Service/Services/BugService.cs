@@ -110,7 +110,10 @@ namespace BugTrackingSystem.Service.Services
                 }
             }
 
-            fullbugModel.AssignedUser.Photo = _blobService.GetBlobSasUri(fullbugModel.AssignedUser.Photo);
+            if (bug.AssignedUserID != null)
+            {
+                fullbugModel.AssignedUser.Photo = _blobService.GetBlobSasUri(fullbugModel.AssignedUser.Photo);
+            }
 
             if (bug.BugAttachments.Count == 0) 
                 return fullbugModel;
@@ -130,6 +133,9 @@ namespace BugTrackingSystem.Service.Services
 
             foreach (var projectBugViewModel in allprojectbugmodels)
             {
+                if (projectBugViewModel.AssignedUser == null)
+                    continue;
+
                 projectBugViewModel.AssignedUser.Photo = _blobService.GetBlobSasUri(projectBugViewModel.AssignedUser.Photo);
             }
 
@@ -172,6 +178,26 @@ namespace BugTrackingSystem.Service.Services
             {
                 blobService.UploadBlobIntoContainerFromByteArray(bugAttachment.Key, bugAttachment.Value);
             }
+        }
+
+        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest)
+        {
+            if(string.IsNullOrEmpty(searchRequest))
+                return new List<BugViewModel>();
+
+            var findedBugs =
+                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest));
+            var findedBugsViewModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(findedBugs).ToList();
+
+            foreach (var projectBugViewModel in findedBugsViewModels)
+            {
+                if (projectBugViewModel.AssignedUser == null)
+                    continue;
+
+                projectBugViewModel.AssignedUser.Photo = _blobService.GetBlobSasUri(projectBugViewModel.AssignedUser.Photo);
+            }
+
+            return findedBugsViewModels;
         }
     }
 }

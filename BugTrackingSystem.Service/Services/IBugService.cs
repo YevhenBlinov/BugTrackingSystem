@@ -15,5 +15,7 @@ namespace BugTrackingSystem.Service.Services
         IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId);
 
         void AddNewBug(BugFormViewModel bugFormViewModel);
+
+        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest);
     }
 }

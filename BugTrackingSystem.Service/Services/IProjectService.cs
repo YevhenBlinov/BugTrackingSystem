@@ -22,5 +22,7 @@ namespace BugTrackingSystem.Service.Services
         void RemoveUserFromProject(int projectId, int userId);
 
         IEnumerable<UserViewModel> GetAllProjectUsers(int projectId);
+
+        IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest);
     }
 }
