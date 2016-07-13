@@ -158,7 +158,9 @@
     <Content Include="Content\dropdown.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\3.gif" />
     <Content Include="Content\Images\404.jpg" />
+    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\Blocker.png" />
     <Content Include="Content\Images\close-icon.png" />
     <Content Include="Content\Images\Closed.png" />
@@ -235,7 +237,7 @@
     <Content Include="Views\Project\Project.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Task\Task.cshtml" />
-    <Content Include="Views\Users\Users.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Project\Projects.cshtml" />
     <Content Include="Views\Project\ProjectUsers.cshtml" />
     <Content Include="Views\Project\ProjectBugs.cshtml" />
@@ -246,6 +248,10 @@
     <Content Include="Views\Shared\CreateFilter.cshtml" />
     <Content Include="Views\Shared\DeleteProjectModal.cshtml" />
     <Content Include="Views\Users\DeleteUserModal.cshtml" />
+    <Content Include="Views\Users\Users.cshtml" />
+    <Content Include="Views\Project\ProjectsInfo.cshtml" />
+    <Content Include="Views\Shared\UsersDropDown.cshtml" />
+    <Content Include="Views\Shared\ProjectsDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

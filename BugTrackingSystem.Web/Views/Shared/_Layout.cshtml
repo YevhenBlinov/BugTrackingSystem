@@ -36,9 +36,13 @@
         }
     </script>
     <script>
-    $(function () {
-        $('[data-toggle="popover"]').popover();
-    })
+        $(function() {
+            $('[data-toggle="popover"]').popover();
+        })
+    </script>
+    <script>
+    $('.ui.dropdown')
+        .dropdown();
     </script>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -78,7 +82,7 @@
             <div class="collapse navbar-collapse" id="NavbarCollapsed">
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.Action("Projects", "Project")">Projects</a></li>
-                    <li><a href="@Url.Action("Users", "Users")">Users</a></li>
+                    <li><a href="@Url.Action("Index", "Users")">Users</a></li>
                     <li><a href="@Url.Action("Filters", "Filters")">Filters</a></li>
                     <li><a class="visible-xs" onclick="CreateTaskModalShow()">Create task</a></li>
                 </ul>

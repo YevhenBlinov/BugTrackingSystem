@@ -1,0 +1,159 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
+@{
+    ViewBag.Title = "Users";
+}
+<div class="col-lg-12 general-container">
+
+    <div id="header" class="row">
+        <div id="headerTitle" class="col-sm-6 col-xs-12">
+            Users
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add user">
+                <i class="fa fa-plus round" style="margin: 0" aria-hidden="true" data-toggle="modal" data-target="#AddNewUser">
+                </i>
+            </div>
+        </div>
+
+        <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    <input type="search" id="userSearch" class="form-control" placeholder="Search">
+                    <span class="input-group-addon" style="background-color: #F8FEFE" onclick="SearchUser()">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-search" id="" style="font-size: 18px;"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="padding0" id="usersInfo">
+        @Html.Action("Users", "Users")
+    </div>
+</div>
+
+
+<div id="AddNewUser" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="TaskModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-users" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new user</h3>
+            </div>
+            @using (Html.BeginForm("AddUser", "Users", FormMethod.Post))
+            {
+                <div class="modal-body col-lg-12">
+
+                    <div class="form-group">
+                        <div style="margin-bottom: 15px">
+                            <input class="form-control" name="FirstName" id="UserFirstName" placeholder="Name" style="margin: 0; display: inline-block; width: 220px">
+                            <input class="form-control" name="LastName" id="UserLastName" placeholder="Surname" style="margin: 0 0 0 10px; display: inline-block; width: 315px">
+                        </div>
+                        <input class="form-control" type="email" name="Email" id="UserEmail" placeholder="E-mail" style="margin: 0; display: inline-block; margin-bottom: 15px;">
+                        <div>
+                            <input class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password" style="margin: 0 10px 0 0; display: inline-block; width: 165px">
+                            <input type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password" style="margin: 0 10px 0 0; display: inline-block; width: 165px;">
+                            <div class="ui selection dropdown modalSingleDropdown pull-right cn" style="width: 165px;">
+                                <input type="hidden" name="Role">
+                                <i class="dropdown icon"></i>
+                                <div class="default text inner">Role</div>
+                                <div class="menu">
+                                    <div class="item" data-value="User">User</div>
+                                    <div class="item" data-value="Administrator">Admin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" onclick="SaveUser()" class="btn modalCreateButton">Create</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div id="DeleteUserModalContainer" data-url="@Url.Action("DeleteUserModal", "Users")"></div>
+
+
+
+
+<script>
+    function SearchUser() {
+        var search = $('#userSearch').val();
+        $.ajax({
+            type: 'GET',
+            data: { search: search },
+            url: '/Users/Users',
+            success: function(html) {
+                $('#usersInfo').html(html);
+            },
+            error: function() {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    $('#userSearch').keypress(function (e) {
+        if (e.which == 13) {
+            SearchUser();
+        }
+    });
+</script>
+
+
+<script>
+    function SaveUser() {
+        var data = $('form').serialize();
+        $.ajax({
+            type: 'POST',
+            data: { userData: data },
+            url: '/Users/AddUser',
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+
+            }
+        });
+    }
+</script>
+
+<script>
+    function showCloseIcon(divId) {
+        $(divId).children(".fa").show();
+
+        $(divId).on("mouseleave", function () {
+            $(divId).children(".fa").hide();
+        });
+    }
+</script>
+
+<script>
+    function DeleteProjectModalShow(id) {
+        $(document).ready(function () {
+            var url = $('#DeleteUserModalContainer').data('url') + '?userId=' + id;
+
+            $.get(url, function (data) {
+                $('#DeleteUserModalContainer').html(data);
+
+                $('#DeleteUserModal').modal('show');
+            });
+        });
+    }
+</script>
+
+<script>
+    $('.ui.inline.dropdown')
+        .dropdown();;
+</script>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+

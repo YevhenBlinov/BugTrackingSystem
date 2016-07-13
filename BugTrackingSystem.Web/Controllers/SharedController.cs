@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Services;
 
 namespace BugTrackingSystem.Web.Controllers
@@ -50,6 +51,34 @@ namespace BugTrackingSystem.Web.Controllers
         {
             ViewBag.ProjectId = projectId;
             return PartialView();
+        }
+
+        public ActionResult UsersDropDown(int projectId = 0)
+        {
+            IEnumerable<UserViewModel> users;
+            if (projectId == 0)
+            {
+                users = _userService.GetAllUsers();
+            }
+            else
+            {
+                users = _projectService.GetAllProjectUsers(projectId);
+            }
+            return PartialView(users);
+        }
+
+        public ActionResult ProjectsDropDown(int userId = 0)
+        {
+            IEnumerable<ProjectViewModel> projects;
+            if (userId == 0)
+            {
+                projects = _projectService.GetAllProjects();
+            }
+            else
+            {
+                projects = _userService.GetUsersProjects(userId);
+            }
+            return PartialView(projects);
         }
     }
 }

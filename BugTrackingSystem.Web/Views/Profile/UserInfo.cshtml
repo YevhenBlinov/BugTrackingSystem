@@ -85,13 +85,13 @@
                         <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden"/>
                         <input name="UserId" value="@Model.UserId" class="hidden"/>
                         <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden"/>
-                        <div class="ui selection dropdown modalSingleDropdown pull-right" style="width: 265px; margin: 10px 0 0 0;">
+                        <div class="ui selection dropdown modalSingleDropdown pull-right" id="userRoleSelect" style="width: 265px; margin: 10px 0 0 0;">
                             <input type="hidden" name="Role">
                             <i class="dropdown icon"></i>
                             <div class="default text inner">Role</div>
                             <div class="menu">
-                                <div class="item" data-value="User">User</div>
-                                <div class="item" data-value="Administrator">Admin</div>
+                                <div class="item" data-value="User" >User</div>
+                                <div class="item" data-value="Administrator" id="roleAdmin">Administrator</div>
                             </div>
                         </div>
                     </div>
@@ -109,6 +109,20 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    var userRole = '@Model.Role';
+    if (userRole == 'Administrator') {
+        $('.ui.selection.dropdown').dropdown('set selected', 'Administrator');
+    }
+    else if (userRole == 'User') {
+        $('.ui.selection.dropdown').dropdown('set selected', 'User');
+    }
+    
+    $('.ui.dropdown').dropdown('refresh');
+</script>
+
 
 <script>
     function ChangeUserPassword(id) {

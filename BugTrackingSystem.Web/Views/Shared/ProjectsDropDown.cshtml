@@ -1,0 +1,21 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.ProjectViewModel>
+
+<div class="modalSingleDropdown ui selection dropdown pull-left cn">
+    <input type="hidden" name="Project" id="projectInput">
+    <i class="dropdown icon"></i>
+    <div class="default text inner">Project</div>
+    <div class="menu">
+        <div class="item" data-value="0">
+            Project
+        </div>
+        @foreach (var project in Model)
+        {
+            <div class="item" data-value="@project.ProjectId">@project.Name</div>
+        }
+    </div>
+</div>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>

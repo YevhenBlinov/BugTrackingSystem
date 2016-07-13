@@ -1,0 +1,24 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
+
+<div class="ui selection dropdown modalSingleDropdown pull-right cn">
+    <input type="hidden" name="Assignee" id="userInput">
+    <i class="dropdown icon"></i>
+    <div class="default text inner" id="assigneeDrop">Assignee</div>
+    <div class="menu">
+        <div class="item" data-value="0">
+            Assignee
+        </div>
+        @foreach (var user in Model)
+        {
+            <div class="item" data-value="@user.UserId">
+                <img src="@user.Photo" class="img-responsive img-circle"/>
+                @user.FirstName @user.LastName
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>

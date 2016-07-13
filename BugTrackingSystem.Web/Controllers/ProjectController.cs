@@ -30,10 +30,15 @@ namespace BugTrackingSystem.Web.Controllers
             return View(project);
         }
 
-        public ActionResult Projects(int userId = 1)
+        public ActionResult Projects()
+        {
+            return View();
+        }
+
+        public ActionResult ProjectsInfo(int userId = 1)
         {
             var projects = _projectService.GetAllProjects();
-            return View(projects);
+            return PartialView(projects);
         }
 
         public ActionResult ProjectUsers(int projectId)

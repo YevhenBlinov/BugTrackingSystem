@@ -21,10 +21,24 @@ namespace BugTrackingSystem.Web.Controllers
         }
         //
         // GET: /Users/
-        public ActionResult Users()
+
+        public ActionResult Index()
         {
-            var users = _userService.GetAllUsers();
-            return View(users);
+            return View();
+        }
+        public ActionResult Users(string search = null)
+        {
+            IEnumerable<UserViewModel> users;
+            if (string.IsNullOrEmpty(search))
+            {
+                users = _userService.GetAllUsers();  
+            }
+            else
+            {
+                users = _userService.SearchUserByFirstNameAndSecondName(search);
+            }
+            
+            return PartialView(users);
         }
 
         public ActionResult DeleteUserModal(int userId)
@@ -68,7 +82,7 @@ namespace BugTrackingSystem.Web.Controllers
             }
 
             _userService.EditUserInformation(user);
-            return RedirectToActionPermanent("Users", "Users");
+            return RedirectToActionPermanent("Index", "Users");
         }
         
     }
