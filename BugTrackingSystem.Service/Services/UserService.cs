@@ -165,14 +165,18 @@ namespace BugTrackingSystem.Service.Services
             userToEdit.Login = editUserFormViewModel.Email;
             userToEdit.UserRoleID = (byte)((UserRole)Enum.Parse(typeof(UserRole), editUserFormViewModel.Role));
 
-            if (editUserFormViewModel.Photo != null)
+            if (editUserFormViewModel.IsPhotoEdited)
             {
-                _blobService.UploadBlobIntoContainerFromByteArray(userToEdit.FirstName + userToEdit.LastName, editUserFormViewModel.Photo);
-                userToEdit.Photo = userToEdit.FirstName + userToEdit.LastName;
-            }
-            else
-            {
-                userToEdit.Photo = DefaultUserIconName;
+                if (editUserFormViewModel.Photo != null)
+                {
+                    _blobService.UploadBlobIntoContainerFromByteArray(userToEdit.FirstName + userToEdit.LastName,
+                        editUserFormViewModel.Photo);
+                    userToEdit.Photo = userToEdit.FirstName + userToEdit.LastName;
+                }
+                else
+                {
+                    userToEdit.Photo = DefaultUserIconName;
+                }
             }
 
             _userRepository.Update(userToEdit);
