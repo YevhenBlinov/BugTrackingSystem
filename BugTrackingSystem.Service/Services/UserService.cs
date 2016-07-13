@@ -199,19 +199,37 @@ namespace BugTrackingSystem.Service.Services
         {
             var splitFullName = fullName.Split(' ');
 
-            if(splitFullName.Length != 2)
-                return new List<UserViewModel>();
+            switch (splitFullName.Length)
+            {
+                case 1:
+                {
+                    var name = splitFullName[0];
+                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null).Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name));
 
-            var firstName = splitFullName[0];
-            var lastName = splitFullName[1];
+                    if(!findedUsers.Any())
+                        return new List<UserViewModel>();
 
-            var findedUsers = _userRepository.GetMany(u => u.FirstName == firstName && u.LastName == lastName);
+                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers);
+                    return findedUsersViewModels;
+                }
+                case 2:
+                {
+                    var firstName = splitFullName[0];
+                    var lastName = splitFullName[1];
 
-            if(findedUsers == null)
-                return new List<UserViewModel>();
+                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null).Where(u => u.FirstName.Contains(firstName) || u.LastName.Contains(lastName));
 
-            var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers);
-            return findedUsersViewModels;
+                    if (!findedUsers.Any())
+                        return new List<UserViewModel>();
+
+                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers);
+                    return findedUsersViewModels;
+                }
+                default:
+                {
+                    return new List<UserViewModel>();
+                }
+            }
         }
     }
 }
