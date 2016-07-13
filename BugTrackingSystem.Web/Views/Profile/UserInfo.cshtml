@@ -84,6 +84,7 @@
                         </div>
                         <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden"/>
                         <input name="UserId" value="@Model.UserId" class="hidden"/>
+                        <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden"/>
                         <div class="ui selection dropdown modalSingleDropdown pull-right" style="width: 265px; margin: 10px 0 0 0;">
                             <input type="hidden" name="Role">
                             <i class="dropdown icon"></i>
@@ -132,11 +133,13 @@
 
 <script>
     function PreviewPhoto() {
+        
         var oFReader = new FileReader();
         oFReader.readAsDataURL(document.getElementById("UserPhoto").files[0]);
 
         oFReader.onload = function(oFREvent) {
             document.getElementById("UserPhotoModalPreview").src = oFREvent.target.result;
+            $('#IsPhotoEdited').val('true');
         };
     };
 </script>
@@ -146,6 +149,7 @@
         document.getElementById("UserPhotoModalPreview").src = "../../Content/Images/DefaultPhoto.png";
         $('#UserPhoto').wrap('<form>').closest('form').get(0).reset();
         $('#UserPhoto').unwrap();
+        $('#IsPhotoEdited').val('true');
     }
 </script>
 
