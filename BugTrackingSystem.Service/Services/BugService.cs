@@ -58,7 +58,7 @@ namespace BugTrackingSystem.Service.Services
             });
 
             _mapper = config.CreateMapper();
-            _blobService = new BlobService(UserService.UsersPhotosContainerName);
+            _blobService = new BlobService(Constants.UsersPhotosContainerName);
         }
 
         public IEnumerable<BaseBugViewModel> GetAllBugs()
@@ -126,9 +126,10 @@ namespace BugTrackingSystem.Service.Services
             return fullbugModel;
         }
 
-        public IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId)
+        public IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId, string sortBy = Constants.SortBugsByTitle)
         {
             var allprojectsbugs = _bugRepository.GetMany(b => b.ProjectID == projectId);
+            allprojectsbugs = SortHelper.SortBugs(allprojectsbugs, sortBy);
             var allprojectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(allprojectsbugs).ToList();
 
             foreach (var projectBugViewModel in allprojectbugmodels)
@@ -180,13 +181,14 @@ namespace BugTrackingSystem.Service.Services
             }
         }
 
-        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest)
+        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, string sortBy = Constants.SortBugsByTitle)
         {
             if(string.IsNullOrEmpty(searchRequest))
                 return new List<BugViewModel>();
 
             var findedBugs =
                 _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest));
+            findedBugs = SortHelper.SortBugs(findedBugs, sortBy);
             var findedBugsViewModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(findedBugs).ToList();
 
             foreach (var projectBugViewModel in findedBugsViewModels)

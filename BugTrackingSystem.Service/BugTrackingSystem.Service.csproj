@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Models\FormModels\BugFormViewModel.cs" />
     <Compile Include="Models\BugViewModel.cs" />
     <Compile Include="Models\BugPriority.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="SortHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugTrackingSystem.AzureService\BugTrackingSystem.AzureService.csproj">

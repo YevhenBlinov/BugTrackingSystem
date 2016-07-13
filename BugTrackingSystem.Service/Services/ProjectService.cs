@@ -35,9 +35,10 @@ namespace BugTrackingSystem.Service.Services
             _mapper = config.CreateMapper();
         }
 
-        public IEnumerable<ProjectViewModel> GetAllProjects()
+        public IEnumerable<ProjectViewModel> GetAllProjects(string sortBy = Constants.SortProjectsByTitle)
         {
             var allProjects = _projectRepository.GetMany(p => p.DeletedOn == null);
+            allProjects = SortHelper.SortProjects(allProjects, sortBy);
             var allProjectsModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(allProjects);
             return allProjectsModels;
         }
@@ -136,7 +137,7 @@ namespace BugTrackingSystem.Service.Services
             if (projectUsersViewModels.Count == 0) 
                 return projectUsersViewModels;
 
-            var blobService = new BlobService(UserService.UsersPhotosContainerName);
+            var blobService = new BlobService(Constants.UsersPhotosContainerName);
 
             for (var i = 0; i < projectUsersViewModels.Count; i++)
             {

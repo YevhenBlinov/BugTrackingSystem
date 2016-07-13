@@ -15,8 +15,6 @@ namespace BugTrackingSystem.Service.Services
 {
     public class UserService : IUserService
     {
-        public const string UsersPhotosContainerName = "usersphotos";
-        private const string DefaultUserIconName = "DefaultUserIcon.png";
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly BlobService _blobService;
@@ -65,12 +63,13 @@ namespace BugTrackingSystem.Service.Services
             });
 
             _mapper = config.CreateMapper();
-            _blobService = new BlobService(UsersPhotosContainerName);
+            _blobService = new BlobService(Constants.UsersPhotosContainerName);
         }
 
-        public IEnumerable<UserViewModel> GetAllUsers()
+        public IEnumerable<UserViewModel> GetAllUsers(string sortBy = Constants.SortUsersByName)
         {
             var users = _userRepository.GetMany(u => u.DeletedOn == null).ToList();
+            users = SortHelper.SortUsers(users, sortBy);
             var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users).ToList();
 
             for (var i = 0; i < userModels.Count; i++)
@@ -126,7 +125,7 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the user with the same name, surname and email already exists.");
 
             var userToAdd = _mapper.Map<UserFormViewModel, User>(userFormViewModel);
-            userToAdd.Photo = DefaultUserIconName;
+            userToAdd.Photo = Constants.DefaultUserIconName;
             userToAdd.DeletedOn = null;
 
             _userRepository.Add(userToAdd);
@@ -145,10 +144,10 @@ namespace BugTrackingSystem.Service.Services
 
             userToDelete.DeletedOn = DateTime.Now;
 
-            if (userToDelete.Photo != DefaultUserIconName)
+            if (userToDelete.Photo != Constants.DefaultUserIconName)
             {
                 _blobService.DeleteBlobFromContainer(userToDelete.Photo);
-                userToDelete.Photo = DefaultUserIconName;
+                userToDelete.Photo = Constants.DefaultUserIconName;
             }
 
             _userRepository.Update(userToDelete);
@@ -175,7 +174,7 @@ namespace BugTrackingSystem.Service.Services
                 }
                 else
                 {
-                    userToEdit.Photo = DefaultUserIconName;
+                    userToEdit.Photo = Constants.DefaultUserIconName;
                 }
             }
 
