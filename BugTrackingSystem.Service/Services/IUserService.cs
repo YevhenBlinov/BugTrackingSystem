@@ -21,5 +21,7 @@ namespace BugTrackingSystem.Service.Services
         void EditUserInformation(EditUserFormViewModel editUserFormViewModel);
 
         void ChangeUserPassword(int userId, string password);
+
+        IEnumerable<UserViewModel> SearchUserByFirstNameAndSecondName(string fullName);
     }
 }

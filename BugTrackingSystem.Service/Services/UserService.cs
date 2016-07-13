@@ -194,5 +194,24 @@ namespace BugTrackingSystem.Service.Services
             _userRepository.Update(user);
             _userRepository.Save();
         }
+
+        public IEnumerable<UserViewModel> SearchUserByFirstNameAndSecondName(string fullName)
+        {
+            var splitFullName = fullName.Split(' ');
+
+            if(splitFullName.Length != 2)
+                return new List<UserViewModel>();
+
+            var firstName = splitFullName[0];
+            var lastName = splitFullName[1];
+
+            var findedUsers = _userRepository.GetMany(u => u.FirstName == firstName && u.LastName == lastName);
+
+            if(findedUsers == null)
+                return new List<UserViewModel>();
+
+            var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers);
+            return findedUsersViewModels;
+        }
     }
 }
