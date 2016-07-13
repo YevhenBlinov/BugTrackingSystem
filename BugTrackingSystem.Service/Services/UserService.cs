@@ -25,13 +25,20 @@ namespace BugTrackingSystem.Service.Services
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, UserViewModel>()
-                .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
-                .ForMember(uvm => uvm.ProjectsCount, opt => opt.MapFrom(u => u.Projects.Where(p => p.DeletedOn == null).Count(p => p.IsPaused == false)))
-                .ForMember(uvm => uvm.BugsCount, opt => opt.MapFrom(u => u.Bugs.Where(b => b.Project.DeletedOn == null).Count(b => b.Project.IsPaused == false)));
+                    .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole) u.UserRoleID))
+                    .ForMember(uvm => uvm.ProjectsCount,
+                        opt =>
+                            opt.MapFrom(u => u.Projects.Where(p => p.DeletedOn == null).Count(p => p.IsPaused == false)))
+                    .ForMember(uvm => uvm.BugsCount,
+                        opt =>
+                            opt.MapFrom(
+                                u =>
+                                    u.Bugs.Where(b => b.Project.DeletedOn == null)
+                                        .Count(b => b.Project.IsPaused == false)));
                 cfg.CreateMap<Project, ProjectViewModel>();
                 cfg.CreateMap<Bug, BaseBugViewModel>()
-                .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => (BugStatus)b.StatusID))
-                .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => (BugPriority)b.PriorityID));
+                    .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => (BugStatus) b.StatusID))
+                    .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => (BugPriority) b.PriorityID));
                 cfg.CreateMap<UserFormViewModel, User>()
                     .ForMember(u => u.Projects, opt => opt.Ignore())
                     .ForMember(u => u.Bugs, opt => opt.Ignore())
@@ -42,7 +49,7 @@ namespace BugTrackingSystem.Service.Services
                     .ForMember(u => u.Login, opt => opt.MapFrom(ufvm => ufvm.Email))
                     .ForMember(u => u.Email, opt => opt.MapFrom(ufvm => ufvm.Email))
                     .ForMember(u => u.UserRoleID,
-                        opt => opt.MapFrom(ufvm => (byte)((UserRole)Enum.Parse(typeof(UserRole), ufvm.Role))))
+                        opt => opt.MapFrom(ufvm => (byte) ((UserRole) Enum.Parse(typeof (UserRole), ufvm.Role))))
                     .ForMember(u => u.FirstName, opt => opt.MapFrom(ufvm => ufvm.FirstName))
                     .ForMember(u => u.LastName, opt => opt.MapFrom(ufvm => ufvm.LastName))
                     .ForMember(u => u.Password, opt => opt.MapFrom(ufvm => ufvm.Password));
@@ -66,9 +73,13 @@ namespace BugTrackingSystem.Service.Services
             _blobService = new BlobService(Constants.UsersPhotosContainerName);
         }
 
-        public IEnumerable<UserViewModel> GetAllUsers(string sortBy = Constants.SortUsersByName)
+        public IEnumerable<UserViewModel> GetUsers(int currentPage = 1, string sortBy = Constants.SortUsersByName)
         {
-            var users = _userRepository.GetMany(u => u.DeletedOn == null).ToList();
+            var users =
+                _userRepository.GetMany(u => u.DeletedOn == null)
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize)
+                    .ToList();
             users = SortHelper.SortUsers(users, sortBy);
             var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users).ToList();
 
@@ -78,6 +89,12 @@ namespace BugTrackingSystem.Service.Services
             }
 
             return userModels;
+        }
+
+        public int GetUsersCount()
+        {
+            var usersCount = _userRepository.GetMany(u => u.DeletedOn == null).Count();
+            return usersCount;
         }
 
         public UserViewModel GetUserById(int userId)
@@ -104,22 +121,42 @@ namespace BugTrackingSystem.Service.Services
             return projectModels;
         }
 
-        public IEnumerable<BaseBugViewModel> GetUsersBugs(int userId)
+        public IEnumerable<BaseBugViewModel> GetUsersBugs(int userId, int currentPage = 1)
         {
             var user = _userRepository.GetById(userId);
 
             if (user == null)
                 throw new Exception("Sorry, but the user doesn't exist.");
 
-            var bugs = user.Bugs.Where(b => b.Project.DeletedOn == null).Where(b => b.Project.IsPaused == false);
+            var bugs =
+                user.Bugs.Where(b => b.Project.DeletedOn == null)
+                    .Where(b => b.Project.IsPaused == false)
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize);
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;
+        }
+
+        public int GetUsersBugsCount(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            if (user == null)
+                throw new Exception("Sorry, but the user doesn't exist.");
+
+            var bugsCount =
+                user.Bugs.Where(b => b.Project.DeletedOn == null).Count(b => b.Project.IsPaused == false);
+            return bugsCount;
         }
 
         public void AddUser(UserFormViewModel userFormViewModel)
         {
             var allUsers = _userRepository.GetAll();
-            var isUserExist = allUsers.Any(u => u.FirstName == userFormViewModel.FirstName && u.LastName == userFormViewModel.LastName && u.Email == userFormViewModel.Email);
+            var isUserExist =
+                allUsers.Any(
+                    u =>
+                        u.FirstName == userFormViewModel.FirstName && u.LastName == userFormViewModel.LastName &&
+                        u.Email == userFormViewModel.Email);
 
             if (isUserExist)
                 throw new Exception("Sorry, but the user with the same name, surname and email already exists.");
@@ -162,7 +199,7 @@ namespace BugTrackingSystem.Service.Services
             userToEdit.LastName = editUserFormViewModel.LastName;
             userToEdit.Email = editUserFormViewModel.Email;
             userToEdit.Login = editUserFormViewModel.Email;
-            userToEdit.UserRoleID = (byte)((UserRole)Enum.Parse(typeof(UserRole), editUserFormViewModel.Role));
+            userToEdit.UserRoleID = (byte) ((UserRole) Enum.Parse(typeof (UserRole), editUserFormViewModel.Role));
 
             if (editUserFormViewModel.IsPhotoEdited)
             {
@@ -194,7 +231,7 @@ namespace BugTrackingSystem.Service.Services
             _userRepository.Save();
         }
 
-        public IEnumerable<UserViewModel> SearchUserByFirstNameAndSecondName(string fullName)
+        public IEnumerable<UserViewModel> SearchUsersByFirstNameAndSecondName(string fullName, int currentPage = 1)
         {
             var splitFullName = fullName.Split(' ');
 
@@ -203,12 +240,18 @@ namespace BugTrackingSystem.Service.Services
                 case 1:
                 {
                     var name = splitFullName[0];
-                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null && (u.FirstName.Contains(name) || u.LastName.Contains(name))).ToList();
+                    var findedUsers =
+                        _userRepository.GetMany(
+                            u => u.DeletedOn == null && (u.FirstName.Contains(name) || u.LastName.Contains(name)))
+                            .Skip((currentPage - 1)*Constants.PageSize)
+                            .Take(Constants.PageSize)
+                            .ToList();
 
-                    if(!findedUsers.Any())
+                    if (!findedUsers.Any())
                         return new List<UserViewModel>();
 
-                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
+                    var findedUsersViewModels =
+                        _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
 
                     for (var i = 0; i < findedUsersViewModels.Count; i++)
                     {
@@ -222,12 +265,18 @@ namespace BugTrackingSystem.Service.Services
                     var firstName = splitFullName[0];
                     var lastName = splitFullName[1];
 
-                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null && u.FirstName.Contains(firstName) && u.LastName.Contains(lastName)).ToList();
+                    var findedUsers =
+                        _userRepository.GetMany(
+                            u => u.DeletedOn == null && u.FirstName.Contains(firstName) && u.LastName.Contains(lastName))
+                            .Skip((currentPage - 1)*Constants.PageSize)
+                            .Take(Constants.PageSize)
+                            .ToList();
 
                     if (!findedUsers.Any())
                         return new List<UserViewModel>();
 
-                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
+                    var findedUsersViewModels =
+                        _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
 
                     for (var i = 0; i < findedUsersViewModels.Count; i++)
                     {
@@ -239,6 +288,39 @@ namespace BugTrackingSystem.Service.Services
                 default:
                 {
                     return new List<UserViewModel>();
+                }
+            }
+        }
+
+        public int GetFindedUsersByFirstNameAndSecondNameCount(string fullName)
+        {
+            var splitFullName = fullName.Split(' ');
+
+            switch (splitFullName.Length)
+            {
+                case 1:
+                {
+                    var name = splitFullName[0];
+                    var findedUsersCount =
+                        _userRepository.GetMany(
+                            u => u.DeletedOn == null && (u.FirstName.Contains(name) || u.LastName.Contains(name)))
+                            .Count();
+                    return findedUsersCount;
+                }
+                case 2:
+                {
+                    var firstName = splitFullName[0];
+                    var lastName = splitFullName[1];
+
+                    var findedUsersCount =
+                        _userRepository.GetMany(
+                            u => u.DeletedOn == null && u.FirstName.Contains(firstName) && u.LastName.Contains(lastName))
+                            .Count();
+                    return findedUsersCount;
+                }
+                default:
+                {
+                    return 0;
                 }
             }
         }

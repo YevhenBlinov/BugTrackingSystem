@@ -1,60 +1,89 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Data;
+using System.Linq;
+using System.Web.Mvc;
+using BugTrackingSystem.Service.Models;
+using BugTrackingSystem.Service.Models.FormModels;
 using BugTrackingSystem.Service.Services;
+using PagedList;
 
 namespace BugTrackingSystem.Web.Controllers
 {
     public class ProjectController : Controller
     {
-<<<<<<< Updated upstream
         private IProjectService _projectService;
+        private IUserService _userService;
+        private IBugService _bugService;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, IUserService userService, IBugService bugService)
         {
             _projectService = projectService;
-=======
-        private readonly IProjectService _projectService;
-        private readonly IBugService _bugService;
-        private readonly IUserService _userService;
-
-
-        public ProjectController(IProjectService projectService, IBugService bugService, IUserService userService)
-        {
-            _projectService = projectService;
-            _bugService = bugService;
             _userService = userService;
->>>>>>> Stashed changes
+            _bugService = bugService;
         }
         //
         // GET: /Project/
         [HttpGet]
         public ActionResult Project(int projectId)
         {
-<<<<<<< Updated upstream
-            var projects = _projectService.GetProjectById(projectId);
-            return View(projects);
+            var project = _projectService.GetProjectById(projectId);
+            return View(project);
         }
 
         public ActionResult Projects()
         {
-
-=======
-            //var projectBugs = _bugService.GetAllProjectsBugs(1);
-            //var bug = _bugService.GetFullBugById(1);
-            var userBugs = _userService.GetUsersBugs(1);
-            var userProjects = _userService.GetUsersProjects(1);
->>>>>>> Stashed changes
             return View();
         }
 
-        public ActionResult ProjectUsers()
+        public ActionResult ProjectsInfo(int userId = 1)
         {
-            return PartialView();
+<<<<<<< Updated upstream
+            var projects = _projectService.GetAllProjects();
+            return PartialView(projects);
+=======
+            var projects = _projectService.GetProjects();
+            return View(projects);
+>>>>>>> Stashed changes
+        }
+
+        public ActionResult ProjectUsers(int projectId)
+        {
+            var users = _projectService.GetAllProjectUsers(projectId);
+            ViewBag.ProjectId = projectId;
+            return PartialView(users);
         }
 
         [HttpGet]
-        public ActionResult ProjectBugs()
+        public ActionResult ProjectBugs(int projectId)
         {
-            return PartialView();
+            var bugs = _bugService.GetProjectsBugs(projectId);
+            return PartialView(bugs);
+        }
+
+        public void AddProject(string name, string prefix)
+        {
+            _projectService.AddNewProject(name, prefix);
+        }
+
+        public void DeleteProject(int projectId)
+        {
+            _projectService.DeleteProject(projectId);
+        }
+
+        public void EditProject(int projectId, string name)
+        {
+            _projectService.UpdateProjectName(projectId, name);
+        }
+
+        public void PauseProject(int projectId)
+        {
+            _projectService.PauseAndUnpauseProject(projectId);
+        }
+
+        [HttpPost]
+        public void DeleteUserFromProject(int projectId, int userId)
+        {
+            _projectService.RemoveUserFromProject(projectId, userId);
         }
     }
 }

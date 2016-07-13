@@ -126,13 +126,16 @@ namespace BugTrackingSystem.Service.Services
             return fullbugModel;
         }
 
-        public IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId, string sortBy = Constants.SortBugsByTitle)
+        public IEnumerable<BugViewModel> GetProjectsBugs(int projectId, int currentPage = 1, string sortBy = Constants.SortBugsByTitle)
         {
-            var allprojectsbugs = _bugRepository.GetMany(b => b.ProjectID == projectId);
-            allprojectsbugs = SortHelper.SortBugs(allprojectsbugs, sortBy);
-            var allprojectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(allprojectsbugs).ToList();
+            var projectsbugs =
+                _bugRepository.GetMany(b => b.ProjectID == projectId)
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize);
+            projectsbugs = SortHelper.SortBugs(projectsbugs, sortBy);
+            var projectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(projectsbugs).ToList();
 
-            foreach (var projectBugViewModel in allprojectbugmodels)
+            foreach (var projectBugViewModel in projectbugmodels)
             {
                 if (projectBugViewModel.AssignedUser == null)
                     continue;
@@ -140,7 +143,13 @@ namespace BugTrackingSystem.Service.Services
                 projectBugViewModel.AssignedUser.Photo = _blobService.GetBlobSasUri(projectBugViewModel.AssignedUser.Photo);
             }
 
-            return allprojectbugmodels;
+            return projectbugmodels;
+        }
+
+        public int GetAllProjectsBugsCount(int projectId)
+        {
+            var projectsbugsCount = _bugRepository.GetMany(b => b.ProjectID == projectId).Count();
+            return projectsbugsCount;
         }
 
         public void AddNewBug(BugFormViewModel bugFormViewModel)
@@ -181,13 +190,15 @@ namespace BugTrackingSystem.Service.Services
             }
         }
 
-        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, string sortBy = Constants.SortBugsByTitle)
+        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, int currentPage = 1, string sortBy = Constants.SortBugsByTitle)
         {
             if(string.IsNullOrEmpty(searchRequest))
                 return new List<BugViewModel>();
 
             var findedBugs =
-                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest));
+                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest))
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize);
             findedBugs = SortHelper.SortBugs(findedBugs, sortBy);
             var findedBugsViewModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(findedBugs).ToList();
 
@@ -200,6 +211,17 @@ namespace BugTrackingSystem.Service.Services
             }
 
             return findedBugsViewModels;
+        }
+
+        public int GetFindedBugsBySubjectCount(string searchRequest)
+        {
+            if(string.IsNullOrEmpty(searchRequest))
+                return 0;
+
+            var findedBugsCount =
+                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest)).Count();
+
+            return findedBugsCount;
         }
     }
 }

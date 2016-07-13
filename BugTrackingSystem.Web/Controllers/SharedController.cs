@@ -33,7 +33,7 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult CreateTask()
         {
             var projects = _projectService.GetAllRunningProjects();
-            var users = _userService.GetAllUsers();
+            var users = _userService.GetUsers();
             return PartialView(Tuple.Create(projects, users));
         }
 
@@ -58,7 +58,7 @@ namespace BugTrackingSystem.Web.Controllers
             IEnumerable<UserViewModel> users;
             if (projectId == 0)
             {
-                users = _userService.GetAllUsers();
+                users = _userService.GetUsers();
             }
             else
             {
@@ -72,7 +72,7 @@ namespace BugTrackingSystem.Web.Controllers
             IEnumerable<ProjectViewModel> projects;
             if (userId == 0)
             {
-                projects = _projectService.GetAllProjects();
+                projects = _projectService.GetProjects();
             }
             else
             {

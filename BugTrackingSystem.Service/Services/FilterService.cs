@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using BugTrackingSystem.Data.Model;
 using BugTrackingSystem.Data.Repositories;
@@ -23,11 +24,20 @@ namespace BugTrackingSystem.Service.Services
 
             _mapper = config.CreateMapper();
         }
-        public IEnumerable<FilterViewModel> GetAllUserFilters(int userId)
+        public IEnumerable<FilterViewModel> GetUserFilters(int userId, int currentPage = 1)
         {
-            var filters = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null);
+            var filters =
+                _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null)
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize);
             var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
             return filterModels;
+        }
+
+        public int GetAllUserFiltersCount(int userId)
+        {
+            var filtersCount = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null).Count();
+            return filtersCount;
         }
 
         public void DeleteFilter(int filterId)
@@ -42,14 +52,26 @@ namespace BugTrackingSystem.Service.Services
             _filterRepository.Save();
         }
 
-        public IEnumerable<FilterViewModel> SearchFiltersByName(string searchRequest)
+        public IEnumerable<FilterViewModel> SearchFiltersByTitle(string searchRequest, int currentPage = 1)
         {
             if(string.IsNullOrEmpty(searchRequest))
                 return new List<FilterViewModel>();
 
-            var findedFilters = _filterRepository.GetMany(f => f.DeletedOn == null && f.Title.Contains(searchRequest));
+            var findedFilters = _filterRepository.GetMany(f => f.DeletedOn == null && f.Title.Contains(searchRequest))
+                .Skip((currentPage - 1)*Constants.PageSize)
+                .Take(Constants.PageSize);
             var findedFiltersViewModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(findedFilters);
             return findedFiltersViewModels;
+        }
+
+        public int GetFindedFiltersByTitleCount(string searchRequest)
+        {
+            if(string.IsNullOrEmpty(searchRequest))
+                return 0;
+
+            var findedFiltersCount =
+                _filterRepository.GetMany(f => f.DeletedOn == null && f.Title.Contains(searchRequest)).Count();
+            return findedFiltersCount;
         }
     }
 }

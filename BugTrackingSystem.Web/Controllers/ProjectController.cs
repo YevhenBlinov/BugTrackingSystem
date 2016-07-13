@@ -37,7 +37,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult ProjectsInfo(int userId = 1)
         {
-            var projects = _projectService.GetAllProjects();
+            var projects = _projectService.GetProjects();
             return PartialView(projects);
         }
 
@@ -51,7 +51,7 @@ namespace BugTrackingSystem.Web.Controllers
         [HttpGet]
         public ActionResult ProjectBugs(int projectId)
         {
-            var bugs = _bugService.GetAllProjectsBugs(projectId);
+            var bugs = _bugService.GetProjectsBugs(projectId);
             return PartialView(bugs);
         }
 

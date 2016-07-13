@@ -31,11 +31,11 @@ namespace BugTrackingSystem.Web.Controllers
             IEnumerable<UserViewModel> users;
             if (string.IsNullOrEmpty(search))
             {
-                users = _userService.GetAllUsers();  
+                users = _userService.GetUsers();  
             }
             else
             {
-                users = _userService.SearchUserByFirstNameAndSecondName(search);
+                users = _userService.SearchUsersByFirstNameAndSecondName(search);
             }
             
             return PartialView(users);

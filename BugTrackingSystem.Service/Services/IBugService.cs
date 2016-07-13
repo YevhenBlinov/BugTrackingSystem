@@ -12,10 +12,14 @@ namespace BugTrackingSystem.Service.Services
 
         FullBugViewModel GetFullBugById(int bugId);
 
-        IEnumerable<BugViewModel> GetAllProjectsBugs(int projectId, string sortBy = Constants.SortBugsByTitle);
+        IEnumerable<BugViewModel> GetProjectsBugs(int projectId, int currentPage = 1, string sortBy = Constants.SortBugsByTitle);
+
+        int GetAllProjectsBugsCount(int projectId);
 
         void AddNewBug(BugFormViewModel bugFormViewModel);
 
-        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, string sortBy = Constants.SortBugsByTitle);
+        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, int currentPage = 1, string sortBy = Constants.SortBugsByTitle);
+
+        int GetFindedBugsBySubjectCount(string searchRequest);
     }
 }

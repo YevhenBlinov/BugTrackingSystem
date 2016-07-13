@@ -35,12 +35,21 @@ namespace BugTrackingSystem.Service.Services
             _mapper = config.CreateMapper();
         }
 
-        public IEnumerable<ProjectViewModel> GetAllProjects(string sortBy = Constants.SortProjectsByTitle)
+        public IEnumerable<ProjectViewModel> GetProjects(int currentPage = 1, string sortBy = Constants.SortProjectsByTitle)
         {
-            var allProjects = _projectRepository.GetMany(p => p.DeletedOn == null);
-            allProjects = SortHelper.SortProjects(allProjects, sortBy);
-            var allProjectsModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(allProjects);
+            var projects =
+                _projectRepository.GetMany(p => p.DeletedOn == null)
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize);
+            projects = SortHelper.SortProjects(projects, sortBy);
+            var allProjectsModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(projects);
             return allProjectsModels;
+        }
+
+        public int GetAllProjectsCount()
+        {
+            var allProjectsCount = _projectRepository.GetMany(p => p.DeletedOn == null).Count();
+            return allProjectsCount;
         }
 
         public ProjectViewModel GetProjectById(int projectId)
@@ -147,14 +156,27 @@ namespace BugTrackingSystem.Service.Services
             return projectUsersViewModels;
         }
 
-        public IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest)
+        public IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, int currentPage = 1)
         {
             if(string.IsNullOrEmpty(searchRequest))
                 return new List<ProjectViewModel>();
 
-            var findedProjects = _projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest));
+            var findedProjects =
+                _projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest))
+                    .Skip((currentPage - 1)*Constants.PageSize)
+                    .Take(Constants.PageSize);
             var findedProjectsViewModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(findedProjects);
             return findedProjectsViewModels;
+        }
+
+        public int GetFindedProjectsByNameCount(string searchRequest)
+        {
+            if (string.IsNullOrEmpty(searchRequest))
+                return 0;
+
+            var findedProjectsCount =
+                _projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest)).Count();
+            return findedProjectsCount;
         }
     }
 }

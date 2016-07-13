@@ -6,13 +6,17 @@ namespace BugTrackingSystem.Service.Services
 {
     public interface IUserService
     {
-        IEnumerable<UserViewModel> GetAllUsers(string sortBy = Constants.SortUsersByName);
+        IEnumerable<UserViewModel> GetUsers(int currentPage = 1, string sortBy = Constants.SortUsersByName);
+
+        int GetUsersCount();
 
         UserViewModel GetUserById(int userId);
 
         IEnumerable<ProjectViewModel> GetUsersProjects(int userId);
 
-        IEnumerable<BaseBugViewModel> GetUsersBugs(int userId);
+        IEnumerable<BaseBugViewModel> GetUsersBugs(int userId, int currentPage = 1);
+
+        int GetUsersBugsCount(int userId);
 
         void AddUser(UserFormViewModel userFormViewModel);
 
@@ -22,6 +26,8 @@ namespace BugTrackingSystem.Service.Services
 
         void ChangeUserPassword(int userId, string password);
 
-        IEnumerable<UserViewModel> SearchUserByFirstNameAndSecondName(string fullName);
+        IEnumerable<UserViewModel> SearchUsersByFirstNameAndSecondName(string fullName, int currentPage = 1);
+
+        int GetFindedUsersByFirstNameAndSecondNameCount(string fullName);
     }
 }

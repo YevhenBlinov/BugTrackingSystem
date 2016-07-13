@@ -13,5 +13,6 @@
         public const string SortBugsByAssigneedUser = "Assignee";
         public const string SortBugsByStatus = "Status";
         public const string SortBugsByPriority = "Priority";
+        public const int PageSize = 8;
     }
 }
