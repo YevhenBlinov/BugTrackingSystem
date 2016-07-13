@@ -204,12 +204,18 @@ namespace BugTrackingSystem.Service.Services
                 case 1:
                 {
                     var name = splitFullName[0];
-                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null).Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name));
+                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null && (u.FirstName.Contains(name) || u.LastName.Contains(name))).ToList();
 
                     if(!findedUsers.Any())
                         return new List<UserViewModel>();
 
-                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers);
+                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
+
+                    for (var i = 0; i < findedUsersViewModels.Count; i++)
+                    {
+                        findedUsersViewModels[i].Photo = _blobService.GetBlobSasUri(findedUsers[i].Photo);
+                    }
+
                     return findedUsersViewModels;
                 }
                 case 2:
@@ -217,12 +223,18 @@ namespace BugTrackingSystem.Service.Services
                     var firstName = splitFullName[0];
                     var lastName = splitFullName[1];
 
-                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null).Where(u => u.FirstName.Contains(firstName) || u.LastName.Contains(lastName));
+                    var findedUsers = _userRepository.GetMany(u => u.DeletedOn == null && u.FirstName.Contains(firstName) && u.LastName.Contains(lastName)).ToList();
 
                     if (!findedUsers.Any())
                         return new List<UserViewModel>();
 
-                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers);
+                    var findedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
+
+                    for (var i = 0; i < findedUsersViewModels.Count; i++)
+                    {
+                        findedUsersViewModels[i].Photo = _blobService.GetBlobSasUri(findedUsers[i].Photo);
+                    }
+
                     return findedUsersViewModels;
                 }
                 default:
