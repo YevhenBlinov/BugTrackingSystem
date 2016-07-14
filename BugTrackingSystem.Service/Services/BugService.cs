@@ -46,7 +46,7 @@ namespace BugTrackingSystem.Service.Services
                 cfg.CreateMap<BugFormViewModel, Bug>()
                 .ForMember(b => b.Subject, opt => opt.MapFrom(bfvm => bfvm.Title))
                 .ForMember(b => b.ProjectID, opt => opt.MapFrom(bfvm => bfvm.Project))
-                .ForMember(b => b.AssignedUserID, opt => opt.MapFrom(bfvm => bfvm.Assignee))
+                .ForMember(b => b.AssignedUserID, opt => opt.MapFrom(bfvm => bfvm.Assignee == 0 ? (int?)null : bfvm.Assignee))
                 .ForMember(b => b.PriorityID, opt => opt.MapFrom(bfvm => (byte)((BugPriority)Enum.Parse(typeof(BugPriority), bfvm.Priority))))
                 .ForMember(b => b.StatusID, opt => opt.MapFrom(bfvm => (byte)((BugStatus)Enum.Parse(typeof(BugStatus), bfvm.Status))))
                 .ForMember(b => b.Description, opt => opt.MapFrom(bfvm => bfvm.Description))
