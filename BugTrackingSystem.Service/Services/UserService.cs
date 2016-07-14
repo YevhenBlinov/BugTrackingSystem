@@ -308,7 +308,7 @@ namespace BugTrackingSystem.Service.Services
             if (project == null)
                 throw new Exception("Sorry, but the project doesn't exist.");
 
-            var projectUsers = _userRepository.GetMany(u => u.Projects.Contains(project) && u.DeletedOn == null);
+            var projectUsers = _userRepository.GetMany(u => u.DeletedOn == null).Where(u => u.Projects.Contains(project));
             var notAssignedUsers = _userRepository.GetMany(u => u.DeletedOn == null).Except(projectUsers).ToList();
             var notAssignedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(notAssignedUsers).ToList();
 
