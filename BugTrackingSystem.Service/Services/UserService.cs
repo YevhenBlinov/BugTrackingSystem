@@ -81,7 +81,7 @@ namespace BugTrackingSystem.Service.Services
                 _userRepository.GetMany(u => u.DeletedOn == null).ToList();
             allUsersCount = users.Count;
             users = SortHelper.SortUsers(users, sortBy);
-            users = users.Skip((currentPage - 1) * Constants.PageSize).Take(Constants.PageSize).ToList();
+            users = users.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize).ToList();
             var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users).ToList();
 
             for (var i = 0; i < userModels.Count; i++)
@@ -125,7 +125,7 @@ namespace BugTrackingSystem.Service.Services
 
             var bugs = user.Bugs.Where(b => b.Project.DeletedOn == null).Where(b => b.Project.IsPaused == false);
             allBugsCount = bugs.Count();
-            bugs = bugs.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
+            bugs = bugs.Skip((currentPage - 1)*Constants.ListPageSize).Take(Constants.ListPageSize);
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;
         }
@@ -234,7 +234,7 @@ namespace BugTrackingSystem.Service.Services
 
                     findedUsersCount = findedUsers.Count;
                     findedUsers = SortHelper.SortUsers(findedUsers, sortBy);
-                    findedUsers = findedUsers.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize).ToList();
+                    findedUsers = findedUsers.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize).ToList();
 
                     var findedUsersViewModels =
                         _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
@@ -264,7 +264,7 @@ namespace BugTrackingSystem.Service.Services
 
                     findedUsersCount = findedUsers.Count;
                     findedUsers =
-                        findedUsers.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize).ToList();
+                        findedUsers.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.ListPageSize).ToList();
                     var findedUsersViewModels =
                         _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
 

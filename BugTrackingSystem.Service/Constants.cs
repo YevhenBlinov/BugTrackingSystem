@@ -13,6 +13,7 @@
         public const string SortBugsOrFiltersByAssigneedUser = "Assignee";
         public const string SortBugsOrFiltersByStatus = "Status";
         public const string SortBugsOrFiltersByPriority = "Priority";
-        public const int PageSize = 8;
+        public const int ListPageSize = 8;
+        public const int StickerPageSize = 9;
     }
 }
