@@ -5,9 +5,8 @@ namespace BugTrackingSystem.Service.Services
 {
     public interface IProjectService
     {
-        IEnumerable<ProjectViewModel> GetProjects(int currentPage = 1, string sortBy = Constants.SortProjectsByTitle);
-
-        int GetAllProjectsCount();
+        IEnumerable<ProjectViewModel> GetProjects(out int projectsCount, int currentPage = 1,
+            string sortBy = Constants.SortProjectsByTitle);
 
         ProjectViewModel GetProjectById(int projectId);
 
@@ -25,8 +24,7 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<UserViewModel> GetAllProjectUsers(int projectId);
 
-        IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, int currentPage = 1);
-
-        int GetFindedProjectsByNameCount(string searchRequest);
+        IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, out int findedProjectsCount,
+            int currentPage = 1, string sortBy = Constants.SortProjectsByTitle);
     }
 }

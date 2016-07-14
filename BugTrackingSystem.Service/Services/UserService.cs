@@ -73,14 +73,13 @@ namespace BugTrackingSystem.Service.Services
             _blobService = new BlobService(Constants.UsersPhotosContainerName);
         }
 
-        public IEnumerable<UserViewModel> GetUsers(int currentPage = 1, string sortBy = Constants.SortUsersByName)
+        public IEnumerable<UserViewModel> GetUsers(out int allUsersCount, int currentPage = 1, string sortBy = Constants.SortUsersByName)
         {
             var users =
-                _userRepository.GetMany(u => u.DeletedOn == null)
-                    .Skip((currentPage - 1)*Constants.PageSize)
-                    .Take(Constants.PageSize)
-                    .ToList();
+                _userRepository.GetMany(u => u.DeletedOn == null).ToList();
+            allUsersCount = users.Count;
             users = SortHelper.SortUsers(users, sortBy);
+            users = users.Skip((currentPage - 1) * Constants.PageSize).Take(Constants.PageSize).ToList();
             var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users).ToList();
 
             for (var i = 0; i < userModels.Count; i++)
@@ -89,12 +88,6 @@ namespace BugTrackingSystem.Service.Services
             }
 
             return userModels;
-        }
-
-        public int GetUsersCount()
-        {
-            var usersCount = _userRepository.GetMany(u => u.DeletedOn == null).Count();
-            return usersCount;
         }
 
         public UserViewModel GetUserById(int userId)
@@ -121,32 +114,18 @@ namespace BugTrackingSystem.Service.Services
             return projectModels;
         }
 
-        public IEnumerable<BaseBugViewModel> GetUsersBugs(int userId, int currentPage = 1)
+        public IEnumerable<BaseBugViewModel> GetUsersBugs(int userId, out int allBugsCount, int currentPage = 1)
         {
             var user = _userRepository.GetById(userId);
 
             if (user == null)
                 throw new Exception("Sorry, but the user doesn't exist.");
 
-            var bugs =
-                user.Bugs.Where(b => b.Project.DeletedOn == null)
-                    .Where(b => b.Project.IsPaused == false)
-                    .Skip((currentPage - 1)*Constants.PageSize)
-                    .Take(Constants.PageSize);
+            var bugs = user.Bugs.Where(b => b.Project.DeletedOn == null).Where(b => b.Project.IsPaused == false);
+            allBugsCount = bugs.Count();
+            bugs = bugs.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
             return bugModels;
-        }
-
-        public int GetUsersBugsCount(int userId)
-        {
-            var user = _userRepository.GetById(userId);
-
-            if (user == null)
-                throw new Exception("Sorry, but the user doesn't exist.");
-
-            var bugsCount =
-                user.Bugs.Where(b => b.Project.DeletedOn == null).Count(b => b.Project.IsPaused == false);
-            return bugsCount;
         }
 
         public void AddUser(UserFormViewModel userFormViewModel)
@@ -231,7 +210,7 @@ namespace BugTrackingSystem.Service.Services
             _userRepository.Save();
         }
 
-        public IEnumerable<UserViewModel> SearchUsersByFirstNameAndSecondName(string fullName, int currentPage = 1)
+        public IEnumerable<UserViewModel> SearchUsersByFirstNameAndSecondName(string fullName, out int findedUsersCount, int currentPage = 1, string sortBy = Constants.SortUsersByName)
         {
             var splitFullName = fullName.Split(' ');
 
@@ -243,12 +222,17 @@ namespace BugTrackingSystem.Service.Services
                     var findedUsers =
                         _userRepository.GetMany(
                             u => u.DeletedOn == null && (u.FirstName.Contains(name) || u.LastName.Contains(name)))
-                            .Skip((currentPage - 1)*Constants.PageSize)
-                            .Take(Constants.PageSize)
                             .ToList();
 
                     if (!findedUsers.Any())
+                    {
+                        findedUsersCount = 0;
                         return new List<UserViewModel>();
+                    }
+
+                    findedUsersCount = findedUsers.Count;
+                    findedUsers = SortHelper.SortUsers(findedUsers, sortBy);
+                    findedUsers = findedUsers.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize).ToList();
 
                     var findedUsersViewModels =
                         _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
@@ -268,13 +252,17 @@ namespace BugTrackingSystem.Service.Services
                     var findedUsers =
                         _userRepository.GetMany(
                             u => u.DeletedOn == null && u.FirstName.Contains(firstName) && u.LastName.Contains(lastName))
-                            .Skip((currentPage - 1)*Constants.PageSize)
-                            .Take(Constants.PageSize)
                             .ToList();
 
                     if (!findedUsers.Any())
+                    {
+                        findedUsersCount = 0;
                         return new List<UserViewModel>();
+                    }
 
+                    findedUsersCount = findedUsers.Count;
+                    findedUsers =
+                        findedUsers.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize).ToList();
                     var findedUsersViewModels =
                         _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();
 
@@ -287,40 +275,8 @@ namespace BugTrackingSystem.Service.Services
                 }
                 default:
                 {
+                    findedUsersCount = 0;
                     return new List<UserViewModel>();
-                }
-            }
-        }
-
-        public int GetFindedUsersByFirstNameAndSecondNameCount(string fullName)
-        {
-            var splitFullName = fullName.Split(' ');
-
-            switch (splitFullName.Length)
-            {
-                case 1:
-                {
-                    var name = splitFullName[0];
-                    var findedUsersCount =
-                        _userRepository.GetMany(
-                            u => u.DeletedOn == null && (u.FirstName.Contains(name) || u.LastName.Contains(name)))
-                            .Count();
-                    return findedUsersCount;
-                }
-                case 2:
-                {
-                    var firstName = splitFullName[0];
-                    var lastName = splitFullName[1];
-
-                    var findedUsersCount =
-                        _userRepository.GetMany(
-                            u => u.DeletedOn == null && u.FirstName.Contains(firstName) && u.LastName.Contains(lastName))
-                            .Count();
-                    return findedUsersCount;
-                }
-                default:
-                {
-                    return 0;
                 }
             }
         }

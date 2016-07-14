@@ -61,13 +61,6 @@ namespace BugTrackingSystem.Service.Services
             _blobService = new BlobService(Constants.UsersPhotosContainerName);
         }
 
-        public IEnumerable<BaseBugViewModel> GetAllBugs()
-        {
-            var bugs = _bugRepository.GetAll();
-            var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
-            return bugModels;
-        }
-
         public BaseBugViewModel GetBugById(int bugId)
         {
             var bug = _bugRepository.GetById(bugId);
@@ -126,13 +119,13 @@ namespace BugTrackingSystem.Service.Services
             return fullbugModel;
         }
 
-        public IEnumerable<BugViewModel> GetProjectsBugs(int projectId, int currentPage = 1, string sortBy = Constants.SortBugsByTitle)
+        public IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
             var projectsbugs =
-                _bugRepository.GetMany(b => b.ProjectID == projectId)
-                    .Skip((currentPage - 1)*Constants.PageSize)
-                    .Take(Constants.PageSize);
+                _bugRepository.GetMany(b => b.ProjectID == projectId);
+            projectsBugsCount = projectsbugs.Count();
             projectsbugs = SortHelper.SortBugs(projectsbugs, sortBy);
+            projectsbugs = projectsbugs.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
             var projectbugmodels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(projectsbugs).ToList();
 
             foreach (var projectBugViewModel in projectbugmodels)
@@ -144,12 +137,6 @@ namespace BugTrackingSystem.Service.Services
             }
 
             return projectbugmodels;
-        }
-
-        public int GetAllProjectsBugsCount(int projectId)
-        {
-            var projectsbugsCount = _bugRepository.GetMany(b => b.ProjectID == projectId).Count();
-            return projectsbugsCount;
         }
 
         public void AddNewBug(BugFormViewModel bugFormViewModel)
@@ -190,16 +177,19 @@ namespace BugTrackingSystem.Service.Services
             }
         }
 
-        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, int currentPage = 1, string sortBy = Constants.SortBugsByTitle)
+        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
-            if(string.IsNullOrEmpty(searchRequest))
+            if (string.IsNullOrEmpty(searchRequest))
+            {
+                findedBugsCount = 0;
                 return new List<BugViewModel>();
+            }
 
             var findedBugs =
-                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest))
-                    .Skip((currentPage - 1)*Constants.PageSize)
-                    .Take(Constants.PageSize);
+                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest));
+            findedBugsCount = findedBugs.Count();
             findedBugs = SortHelper.SortBugs(findedBugs, sortBy);
+            findedBugs = findedBugs.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
             var findedBugsViewModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BugViewModel>>(findedBugs).ToList();
 
             foreach (var projectBugViewModel in findedBugsViewModels)
@@ -213,15 +203,17 @@ namespace BugTrackingSystem.Service.Services
             return findedBugsViewModels;
         }
 
-        public int GetFindedBugsBySubjectCount(string searchRequest)
+        public void UpdateBugStatus(int bugId, string status)
         {
-            if(string.IsNullOrEmpty(searchRequest))
-                return 0;
+            var bugToUpdate = _bugRepository.GetById(bugId);
 
-            var findedBugsCount =
-                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest)).Count();
-
-            return findedBugsCount;
+            if (bugToUpdate == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+            
+            var updateStatusValue = (BugStatus) Enum.Parse(typeof(BugStatus), status, true);
+            bugToUpdate.StatusID = (byte)updateStatusValue;
+            _bugRepository.Update(bugToUpdate);
+            _bugRepository.Save();
         }
     }
 }

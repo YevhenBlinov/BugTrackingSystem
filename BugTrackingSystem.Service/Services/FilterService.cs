@@ -24,20 +24,15 @@ namespace BugTrackingSystem.Service.Services
 
             _mapper = config.CreateMapper();
         }
-        public IEnumerable<FilterViewModel> GetUserFilters(int userId, int currentPage = 1)
+
+        public IEnumerable<FilterViewModel> GetUserFilters(int userId, out int filtersCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
-            var filters =
-                _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null)
-                    .Skip((currentPage - 1)*Constants.PageSize)
-                    .Take(Constants.PageSize);
+            var filters = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null);
+            filtersCount = filters.Count();
+            filters = SortHelper.SortFilters(filters, sortBy);
+            filters = filters.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
             var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
             return filterModels;
-        }
-
-        public int GetAllUserFiltersCount(int userId)
-        {
-            var filtersCount = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null).Count();
-            return filtersCount;
         }
 
         public void DeleteFilter(int filterId)
@@ -52,26 +47,22 @@ namespace BugTrackingSystem.Service.Services
             _filterRepository.Save();
         }
 
-        public IEnumerable<FilterViewModel> SearchFiltersByTitle(string searchRequest, int currentPage = 1)
+        public IEnumerable<FilterViewModel> SearchFiltersByTitle(int userId, string searchRequest, out int findedFiltersCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
-            if(string.IsNullOrEmpty(searchRequest))
+            if (string.IsNullOrEmpty(searchRequest))
+            {
+                findedFiltersCount = 0;
                 return new List<FilterViewModel>();
+            }
 
-            var findedFilters = _filterRepository.GetMany(f => f.DeletedOn == null && f.Title.Contains(searchRequest))
-                .Skip((currentPage - 1)*Constants.PageSize)
-                .Take(Constants.PageSize);
+            var findedFilters =
+                _filterRepository.GetMany(
+                    f => f.UserID == userId && f.DeletedOn == null && f.Title.Contains(searchRequest));
+            findedFiltersCount = findedFilters.Count();
+            findedFilters = SortHelper.SortFilters(findedFilters, sortBy);
+            findedFilters = findedFilters.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
             var findedFiltersViewModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(findedFilters);
             return findedFiltersViewModels;
-        }
-
-        public int GetFindedFiltersByTitleCount(string searchRequest)
-        {
-            if(string.IsNullOrEmpty(searchRequest))
-                return 0;
-
-            var findedFiltersCount =
-                _filterRepository.GetMany(f => f.DeletedOn == null && f.Title.Contains(searchRequest)).Count();
-            return findedFiltersCount;
         }
     }
 }

@@ -10,23 +10,23 @@ namespace BugTrackingSystem.Service
         {
             switch (sortBy)
             {
-                case Constants.SortBugsByTitle:
+                case Constants.SortBugsOrFiltersByTitle:
                     {
                         return bugsToSort.OrderBy(b => b.Subject).ToList();
                     }
-                case Constants.SortBugsByProject:
+                case Constants.SortBugsOrFiltersByProject:
                     {
                         return bugsToSort.OrderBy(b => b.ProjectID).ToList();
                     }
-                case Constants.SortBugsByAssigneedUser:
+                case Constants.SortBugsOrFiltersByAssigneedUser:
                     {
                         return bugsToSort.OrderBy(b => b.AssignedUserID).ToList();
                     }
-                case Constants.SortBugsByStatus:
+                case Constants.SortBugsOrFiltersByStatus:
                     {
                         return bugsToSort.OrderBy(b => b.StatusID).ToList();
                     }
-                case Constants.SortBugsByPriority:
+                case Constants.SortBugsOrFiltersByPriority:
                     {
                         return bugsToSort.OrderBy(b => b.PriorityID).ToList();
                     }
@@ -71,6 +71,37 @@ namespace BugTrackingSystem.Service
                 default:
                     {
                         return projectsToSort;
+                    }
+            }
+        }
+
+        public static IEnumerable<Filter> SortFilters(IEnumerable<Filter> filtersToSort, string sortBy)
+        {
+            switch (sortBy)
+            {
+                case Constants.SortBugsOrFiltersByTitle:
+                    {
+                        return filtersToSort.OrderBy(f => f.Title).ToList();
+                    }
+                case Constants.SortBugsOrFiltersByProject:
+                    {
+                        return filtersToSort.OrderBy(f => f.Project).ToList();
+                    }
+                case Constants.SortBugsOrFiltersByAssigneedUser:
+                    {
+                        return filtersToSort.OrderBy(f => f.AssignedUser).ToList();
+                    }
+                case Constants.SortBugsOrFiltersByStatus:
+                    {
+                        return filtersToSort.OrderBy(f => f.BugStatus).ToList();
+                    }
+                case Constants.SortBugsOrFiltersByPriority:
+                    {
+                        return filtersToSort.OrderBy(f => f.BugPriority).ToList();
+                    }
+                default:
+                    {
+                        return filtersToSort;
                     }
             }
         }

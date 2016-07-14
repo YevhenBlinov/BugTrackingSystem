@@ -29,13 +29,15 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult Users(string search = null)
         {
             IEnumerable<UserViewModel> users;
+            var usersCount = 0;
+
             if (string.IsNullOrEmpty(search))
             {
-                users = _userService.GetUsers();  
+                users = _userService.GetUsers(out usersCount);  
             }
             else
             {
-                users = _userService.SearchUsersByFirstNameAndSecondName(search);
+                users = _userService.SearchUsersByFirstNameAndSecondName(search, out usersCount);
             }
             
             return PartialView(users);

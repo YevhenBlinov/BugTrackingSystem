@@ -6,20 +6,18 @@ namespace BugTrackingSystem.Service.Services
 {
     public interface IBugService
     {
-        IEnumerable<BaseBugViewModel> GetAllBugs();
-
         BaseBugViewModel GetBugById(int bugId);
 
         FullBugViewModel GetFullBugById(int bugId);
 
-        IEnumerable<BugViewModel> GetProjectsBugs(int projectId, int currentPage = 1, string sortBy = Constants.SortBugsByTitle);
-
-        int GetAllProjectsBugsCount(int projectId);
+        IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1,
+            string sortBy = Constants.SortBugsOrFiltersByTitle);
 
         void AddNewBug(BugFormViewModel bugFormViewModel);
 
-        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, int currentPage = 1, string sortBy = Constants.SortBugsByTitle);
+        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1,
+            string sortBy = Constants.SortBugsOrFiltersByTitle);
 
-        int GetFindedBugsBySubjectCount(string searchRequest);
+        void UpdateBugStatus(int bugId, string status);
     }
 }

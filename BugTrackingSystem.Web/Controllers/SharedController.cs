@@ -21,7 +21,8 @@ namespace BugTrackingSystem.Web.Controllers
         // GET: Shared
         public ActionResult UserBugs(int userId = 1)
         {
-            var userBugs = _userService.GetUsersBugs(userId);
+            var bugsCount = 0;
+            var userBugs = _userService.GetUsersBugs(userId, out bugsCount);
             return PartialView(userBugs);
         }
 
@@ -33,7 +34,8 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult CreateTask()
         {
             var projects = _projectService.GetAllRunningProjects();
-            var users = _userService.GetUsers();
+            var usersCount = 0;
+            var users = _userService.GetUsers(out usersCount);
             return PartialView(Tuple.Create(projects, users));
         }
 
@@ -58,7 +60,8 @@ namespace BugTrackingSystem.Web.Controllers
             IEnumerable<UserViewModel> users;
             if (projectId == 0)
             {
-                users = _userService.GetUsers();
+                var usersCount = 0;
+                users = _userService.GetUsers(out usersCount);
             }
             else
             {
@@ -72,7 +75,8 @@ namespace BugTrackingSystem.Web.Controllers
             IEnumerable<ProjectViewModel> projects;
             if (userId == 0)
             {
-                projects = _projectService.GetProjects();
+                var projectsCount = 0;
+                projects = _projectService.GetProjects(out projectsCount);
             }
             else
             {

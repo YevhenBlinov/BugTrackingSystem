@@ -8,11 +8,11 @@
         public const string SortProjectsByPrefix = "Prefix";
         public const string UsersPhotosContainerName = "usersphotos";
         public const string DefaultUserIconName = "DefaultUserIcon.png";
-        public const string SortBugsByTitle = "Title";
-        public const string SortBugsByProject = "Project";
-        public const string SortBugsByAssigneedUser = "Assignee";
-        public const string SortBugsByStatus = "Status";
-        public const string SortBugsByPriority = "Priority";
+        public const string SortBugsOrFiltersByTitle = "Title";
+        public const string SortBugsOrFiltersByProject = "Project";
+        public const string SortBugsOrFiltersByAssigneedUser = "Assignee";
+        public const string SortBugsOrFiltersByStatus = "Status";
+        public const string SortBugsOrFiltersByPriority = "Priority";
         public const int PageSize = 8;
     }
 }
