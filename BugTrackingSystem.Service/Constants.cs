@@ -2,8 +2,8 @@
 {
     public static class Constants
     {
-        public const string SortUsersByName = "Name";
-        public const string SortUsersBySurname = "Surname";
+        public const string SortUsersByName = "First Name";
+        public const string SortUsersBySurname = "Last Name";
         public const string SortProjectsByTitle = "Title";
         public const string SortProjectsByPrefix = "Prefix";
         public const string UsersPhotosContainerName = "usersphotos";

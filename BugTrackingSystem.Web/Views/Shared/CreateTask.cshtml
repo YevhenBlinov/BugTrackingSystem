@@ -87,14 +87,28 @@
             success: function(data) {
                 $('#userDropDown').html(data);
             },
-            complete: function() {
+            complete: function () {
+                var usersCount = $('#userDropDownMenu').children('div').size();
+                if (usersCount > 0) {
+                    $('#taskUserDropDown').removeClass('disabled');
+                }
+
                 $('.loader').hide();
                 $('.loading-image').hide();
+
             }
         });
     });
 </script>
+
 <script>
+    var userValue = $('#projectInput');
+    if (userValue == undefined) {
+        $('#taskUserDropDown').addClass('disabled');
+        $('.ui.dropdown').dropdown('refresh');
+    }
+</script>
+@*<script>
     $('#userInput').on('change', function () {
         var userId = $('#userInput').val();
         $.ajax({
@@ -114,7 +128,7 @@
             }
         });
     });
-</script>
+</script>*@
 
 
 

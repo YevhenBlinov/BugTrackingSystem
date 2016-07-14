@@ -155,19 +155,17 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\checkbox.min.css" />
     <Content Include="Content\dropdown.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\3.gif" />
     <Content Include="Content\Images\404.jpg" />
-    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\Blocker.png" />
-    <Content Include="Content\Images\close-icon.png" />
     <Content Include="Content\Images\Closed.png" />
     <Content Include="Content\Images\Critical.png" />
     <Content Include="Content\Images\DefaultPhoto.png" />
     <Content Include="Content\Images\Done.png" />
-    <Content Include="Content\Images\icon edit copy 2.ico" />
     <Content Include="Content\Images\icon edit copy 2.png" />
     <Content Include="Content\Images\icon password.png" />
     <Content Include="Content\Images\InProgress.png" />
@@ -178,10 +176,10 @@
     <Content Include="Content\Images\Minor.png" />
     <Content Include="Content\Images\orwell.jpeg" />
     <Content Include="Content\Images\Paused.png" />
-    <Content Include="Content\Images\search icon.png" />
-    <Content Include="Content\Images\searchicon.ico" />
     <Content Include="Content\Images\ToDo.png" />
     <Content Include="Content\login_style.css" />
+    <Content Include="Content\multiple-select.css" />
+    <Content Include="Content\multiple-select.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\ProfileStyle.css" />
     <Content Include="Content\transition.min.css" />
@@ -201,6 +199,7 @@
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\checkbox.min.js" />
     <Content Include="Scripts\dropdown.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -210,6 +209,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\multiple-select.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\transition.min.js" />
@@ -229,7 +229,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\MyProjects.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Filters\Filters.cshtml" />
+    <Content Include="Views\Filters\Index.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\ResetPassword.cshtml" />
@@ -238,7 +238,7 @@
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Task\Task.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Project\Projects.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\ProjectUsers.cshtml" />
     <Content Include="Views\Project\ProjectBugs.cshtml" />
     <Content Include="Views\Profile\UserInfo.cshtml" />
@@ -252,6 +252,10 @@
     <Content Include="Views\Project\ProjectsInfo.cshtml" />
     <Content Include="Views\Shared\UsersDropDown.cshtml" />
     <Content Include="Views\Shared\ProjectsDropDown.cshtml" />
+    <Content Include="Views\Filters\FiltersInfo.cshtml" />
+    <Content Include="Views\Filters\DeleteFilterModal.cshtml" />
+    <Content Include="Views\Filters\ProjectMultipleSelect.cshtml" />
+    <Content Include="Views\Project\AddUserToProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

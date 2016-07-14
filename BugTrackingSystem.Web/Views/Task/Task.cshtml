@@ -5,14 +5,14 @@
 }
 <div class="col-lg-12 general-container" style="margin-top: 30px;">
     <ol class="breadcrumb inline-block padding0" style="background-color: inherit">
-        <li><a href="@Url.Action("Project", "Project", new { projectId = @Model.ProjectID })"> @Model.ProjectName </a></li>        
+        <li><a href="@Url.Action("Project", "Project", new { projectId = @Model.ProjectID })"> @Model.ProjectName </a></li>
         <li class="active">@Model.ProjectPrefix-@Model.BugId</li>
     </ol>
     <h1>
         @Model.Subject
     </h1>
     <div class="col-xs-12 row padding0">
-        <div class="pull-right" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Mark as closed">
+        <div class="pull-right" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Mark as closed" id="closeTask">
             <i class="fa fa-trash round" aria-hidden="true" data-toggle="modal" data-target="#addProjectModal" style="font-size: 24px"></i>
         </div>
         <div class="pull-right" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="No idea what is that">
@@ -23,34 +23,42 @@
         </div>
     </div>
     <div class="col-xs-12 padding0 row" style="margin-top: 15px;">
-        <div class="col-sm-8 col-xs-12 custom-sticker-howerless">
+        <div class="col-md-8 col-xs-12 custom-sticker-howerless">
             <div class="inline-block">
                 <label style="margin-right: 10px;">Priority:</label>
                 @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
-                <img src="@priority"/>
+                <img src="@priority" />
                 <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
             </div>
             <div class="pull-right inline-block">
                 <label style="margin-right: 10px">Status:</label>
-                <select>
-                    <option>@Model.Status</option>
-                    <option>2</option>
-                </select>
+                <div class="ui selection dropdown" id="statusDropDown" style="padding-left: 10px;">
+                    <input type="hidden" name="Status" id="statusChangeDropDown">
+                    <i class="dropdown icon"></i>
+                    <div class="default text inner">Status</div>
+                    <div class="menu">
+                        <div class="item" data-value="ToDo">To do</div>
+                        <div class="item" data-value="InProgress">In progress</div>
+                        <div class="item" data-value="InTesting">In testing</div>
+                        <div class="item" data-value="Done">Done</div>
+                        <div class="item" data-value="Closed">Closed</div>
+                    </div>
+                </div>
             </div>
             <hr style="margin: 15px 0 30px 0;">
             <div style="font-size: 14px;">
                 @Model.Description
             </div>
         </div>
-        <div class="col-sm-4 col-xs-12 padding0">
-            <div class="custom-sticker-howerless col-xs-11 pull-right" style="margin-left: 20px;">
+        <div class="col-md-4 col-xs-12 padding0" id="taskAssigneeSticker">
+            <div class="custom-sticker-howerless pull-right">
                 <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
                     <label style="font-size: 14px;">Assignee:</label>
                     <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
                 </div>
                 <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
                     <div class="col-xs-3 padding0">
-                        <img src="../../Content/Images/orwell.jpeg" class="img-circle"/>
+                        <img src="@Model.AssignedUser.Photo" class="img-circle" />
                     </div>
                     <div class="col-xs-9 padding0" style="margin-top: 5px;">
                         <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
@@ -72,7 +80,7 @@
                     <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
                 </div>
                 <div class="col-xs-12">
-                    @if(@Model.Attachments != null)
+                    @if (@Model.Attachments != null)
                     {
                         <ul style="padding: 0; color: #4D868D">
                             @foreach (var attachment in Model.Attachments)
@@ -87,68 +95,174 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="editTask" tabindex="-1" role="dialog">
+<div id="editTask" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" id="TaskModalDialog">
-        <div class="modal-content">
+        <img class="loading-image" src="../../Content/Images/3.gif">
+        <div class="loader"></div>
+        <div class="modal-content" style="display: block">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
-                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0 "></i>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit task</h3>
             </div>
-            <div class="modal-body col-lg-12">
-                <form>
+            @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body col-lg-12">
                     <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" value="@Model.Subject" style="margin: 0; display: inline-block">
+                        <input class="form-control" id="Title" name="Title" placeholder="Title" value="@Model.Subject" style="margin: 0; display: inline-block">
                     </div>
-                </form>
-                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
-                    <select class="form-control" style="color: gray;">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
+                    <div id="projectDropDown">
+                        @Html.Action("ProjectsDropDown", "Shared")
+                    </div>
+                    <div id="userDropDown">
+                        @Html.Action("UsersDropDown", "Shared")
+                    </div>
+                    <div class="ui selection dropdown modalSingleDropdown pull-left cn" id="editTaskPriorityDropDown">
+                        <input type="hidden" name="Priority">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Priority</div>
+                        <div class="menu">
+                            <div class="item" data-value="Minor">
+                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle" />
+                                Minor
+                            </div>
+                            <div class="item" data-value="Major">
+                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle" />
+                                Major
+                            </div>
+                            <div class="item" data-value="Critical">
+                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle" />
+                                Critical
+                            </div>
+                            <div class="item" data-value="Blocker">
+                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle" />
+                                Blocker
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui selection dropdown modalSingleDropdown pull-right cn" id="editTaskStatusDropDown">
+                        <input type="hidden" name="Status">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Status</div>
+                        <div class="menu">
+                            <div class="item" data-value="ToDo">To do</div>
+                            <div class="item" data-value="InProgress">In progress</div>
+                            <div class="item" data-value="InTesting">In testing</div>
+                            <div class="item" data-value="Done">Done</div>
+                            <div class="item" data-value="Closed">Closed</div>
+                        </div>
+                    </div>
+                    <textarea class="form-control" name="Description" placeholder="Description" rows="5">@Model.Description</textarea>
+                    <div style="margin-top: 10px;">
+                        <b>Attachments</b>
+                        <ul id="fileNames" style="color: #4D868D; margin-top: 10px;">
+                            @if (@Model.Attachments != null)
+                            {
+                                foreach (var attachment in Model.Attachments)
+                                {
+                                    <li><a href="@attachment.Value">@attachment.Key</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
-                    <select class="form-control">
-                        <option selected="selected">Owner</option>
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
+                <div class="modal-footer">
+                    <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;">Create</button>
                 </div>
-                <div class="col-lg-6" style="padding: 0 5px 15px 0;">
-                    <select class="form-control">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-lg-6" style="padding: 0 0 15px 5px;">
-                    <select class="form-control">
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                </div>
-                <form>
-                    <textarea class="form-control" placeholder="Description" rows="5">@Model.Description</textarea>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="pull-left">
-                    <b>Attachments</b>
-                    <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
-                </div>
-                <button type="button" class="btn modalCreateButton" style="margin-top: 50px;">Save</button>
-            </div>
+            }
+
         </div>
     </div>
 </div>
+@*<script>
+    $('#projectInput').on('change', function () {
+        var projectId = $('#projectInput').val();
+        $.ajax({
+            beforeSend: function () {
+                $('.loader').show();
+                $('.loading-image').show();
+            },
+            type: 'GET',
+            url: '/Shared/UsersDropDown',
+            data: { projectId: projectId },
+            success: function (data) {
+                $('#userDropDown').html(data);
+            },
+            complete: function () {
+                $('.loader').hide();
+                $('.loading-image').hide();
+            }
+        });
+    });
+</script>
+<script>
+    $('#userInput').on('change', function () {
+        var userId = $('#userInput').val();
+        $.ajax({
+            beforeSend: function () {
+                $('.loader').show();
+                $('.loading-image').show();
+            },
+            type: 'GET',
+            url: '/Shared/ProjectsDropDown',
+            data: { userId: userId },
+            success: function (data) {
+                $('#projectDropDown').html(data);
+            },
+            complete: function () {
+                $('.loader').hide();
+                $('.loading-image').hide();
+            }
+        });
+    });
+</script>*@
+
+<script>
+    $('#statusChangeDropDown').on('change', function() {
+        var status = $('#statusChangeDropDown').val();
+        var id = @Model.BugId;
+        $.ajax({
+            type: 'POST',
+            data: {
+                bugId: id,
+                status: status
+            },
+            url: '/Task/ChangeStatus',
+            success: function() {
+            }
+        });
+    })
+</script>
+
+<script>
+    $('#closeTask').on('click', function() {
+        $('#statusDropDown').dropdown('set selected', 'Closed');
+        $('.ui.dropdown').dropdown('refresh');
+    })
+</script>
+
+<script>
+    $('#editTaskStatusDropDown').dropdown('set selected', '@Model.Status');
+    $('#editTaskPriorityDropDown').dropdown('set selected', '@Model.Priority');
+    $('#taskProjectDropDown').dropdown('set selected', '@Model.ProjectID');
+
+    $('#taskUserDropDown').dropdown('set selected', '@Model.AssignedUser.UserId');
+    $('.ui.dropdown').dropdown('refresh');
+</script>
+
+<script>
+    $('#fileIcon').click(function () {
+        $('#inputFile').click();
+    })
+</script>
+<script>
+    document.getElementById('inputFile').onchange = function () {
+        $('#fileNames').empty();
+        for (var i = 0; i < this.files.length; i++) {
+            $('#fileNames').append('<li>' + this.files[i].name + '</li>');
+        }
+    };
+</script>
 
 
 
@@ -158,15 +272,26 @@
 
 <script>
     if ('@Model.Priority' == 'Major') {
-        $('#priorityLable').css('color', 'orange');
+        $('#priorityLable').css('color', '#F69C00');
     }
     if ('@Model.Priority' == 'Minor') {
-        $('#priorityLable').css('color', 'gainsboro');
+        $('#priorityLable').css('color', '#B3ABA8');
     }
     if ('@Model.Priority' == 'Critical') {
-        $('#priorityLable').css('color', 'red');
+        $('#priorityLable').css('color', '#CD4C24');
     }
     if ('@Model.Priority' == 'Blocker') {
-        $('#priorityLable').css('color', 'red');
+        $('#priorityLable').css('color', '#CD4C24');
     }
+</script>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+
+<script>
+    var taskStatus = '@Model.Status';
+    $('#statusDropDown').dropdown('set selected', taskStatus);
+    $('.ui.dropdown').dropdown('refresh');
 </script>

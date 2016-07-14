@@ -52,29 +52,11 @@
                         <div class="item" data-value="5">Closed</div>
                     </div>
                 </div>
-                <div class="modalSingleDropdown ui selection dropdown pull-left cn">
-                    <input type="hidden" name="gender">
-                    <i class="dropdown icon"></i>
-                    <div class="default text inner">Project</div>
-                    <div class="menu">
-                        <div class="item" data-value="1">Project one</div>
-                        <div class="item" data-value="0">Project two</div>
-                    </div>
-                </div>
-                <div class="ui selection dropdown modalSingleDropdown pull-right cn">
-                    <input type="hidden" name="gender">
-                    <i class="dropdown icon"></i>
-                    <div class="default text inner" id="assigneeDrop">Assignee</div>
-                    <div class="menu">
-                        <div class="item" data-value="1">
-                            <img src="../../Content/Images/orwell.jpeg" class="img-responsive img-circle"/>
-                            George Orwell
-                        </div>
-                        <div class="item" data-value="2">
-                            <img src="../../Content/Images/orwell.jpeg" class="img-responsive img-circle"/>
-                            George Orwell
-                        </div>
-                    </div>
+                
+                    @Html.Action("ProjectMultipleSelect", "Filters")
+                
+                <div id="userDropDown">
+                    @Html.Action("UsersDropDown", "Shared")
                 </div>
             </div>
             <div class="modal-footer">

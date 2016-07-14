@@ -47,6 +47,19 @@ textarea {
 
 /*-----------------General--------------------*/
 
+.ui.inline.dropdown {
+    color: #4D868D;
+}
+
+.checkBoxHover {
+        margin: 0;
+    padding: 5px 0px 5px 10px; 
+}
+
+.checkBoxHover:hover {
+    background-color: #F2FBFA;
+}
+
 .loading-image {
     position: absolute;
     top: 34%;
@@ -124,10 +137,7 @@ ul::-webkit-scrollbar-thumb {
 }
 
  option {
-    background-color: white;
-    border-radius: 0;
-    height: 40px;
-     min-height: 40px;
+   
 }
 
 .redirectAncore, .redirectAncore:hover {
@@ -262,6 +272,10 @@ option:hover {
     margin-top: 45px;
 }
 
+ #taskAssigneeSticker {
+        padding-left: 20px;
+    }
+
 
 
 /*Header*/
@@ -389,6 +403,15 @@ option:hover {
 
     #userCol {
         display: none;
+    }
+
+
+}
+
+@media only screen and (max-width : 992px) {
+
+    #taskAssigneeSticker {
+        padding-left: 0;
     }
 
 

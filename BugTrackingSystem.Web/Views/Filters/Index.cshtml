@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Filters";
+}
+
+
+<div class="col-lg-12 general-container">
+    <div id="header" class="row">
+        <div id="headerTitle" class="col-lg-2">
+            Filters
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add filter">
+                <i class="fa fa-plus round" style="margin: 0;" aria-hidden="true" onclick="CreateFilterModalShow()"></i>
+            </div>
+        </div>
+
+        <div class="pull-right" id="Local-search">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="filterSearch">
+                    <span class="input-group-addon" style="background-color: #F8FEFE">
+                        <a onclick="searchFilters()">
+                            <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="content inline-block" style="margin: 30px 0 20px 30px;">
+        Sort by:
+        <div class="ui inline dropdown" style="color: #4D868D">
+            <div class="text" style="font-weight: normal" id="filtersSortBy">Title</div>
+            <i class="dropdown icon"></i>
+            <div class="menu" id="filtersSortByOptions">
+                <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                <div class="item inlineDropdown" data-text="Project">Project</div>
+                <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
+                <div class="item inlineDropdown" data-text="Status">Status</div>
+                <div class="item inlineDropdown" data-text="Priority">Priority</div>
+            </div>
+        </div>
+    </div>
+    <div id="filtersContainer">
+        @Html.Action("FiltersInfo", "Filters")
+    </div>
+</div>
+<div id="FilterModalContainer" data-url="@Url.Action("CreateFilter", "Shared")"></div>
+<div id="deleteFilterModalContainer" data-url="@Url.Action("DeleteFilterModal", "Filters")"></div>
+
+
+
+
+<script>
+    function deleteFilterModalShow(id) {
+        $(document).ready(function () {
+            var url = $('#deleteFilterModalContainer').data('url') + '?filterId=' + id;
+
+            $.get(url, function (data) {
+                $('#deleteFilterModalContainer').html(data);
+
+                $('#DeleteFilterModal').modal('show');
+            });
+        });
+    }
+</script>
+
+<script>
+    function searchFilters() {
+        var search = $('#filterSearch').val();
+        var sortBy = $('#filtersSortBy').html();
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy
+            },
+            url: '/Filters/FiltersInfo',
+            success: function(html) {
+                $('#filtersContainer').html(html);
+            },
+            error: function() {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    $('#filtersSortByOptions').children().on('click', function () {
+        var search = $('#filterSearch').val();
+        var sortBy = $(this).attr('data-text');
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy
+            },
+            url: '/Filters/FiltersInfo',
+            success: function (html) {
+                $('#filtersContainer').html(html);
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    })
+</script>
+
+
+
+<script>
+    $('#filterSearch').keypress(function (e) {
+        if (e.which == 13) {
+            searchFilters();
+        }
+    });
+</script>
+
+<script>
+    function hideFilter(el) {
+        $(el).parent().hide();
+    }
+</script>
+
+<script>
+    function showCloseIcon(divId) {
+        $(divId).children(".fa").show();
+
+        $(divId).on("mouseleave", function () {
+            $(divId).children(".fa").hide();
+        });
+    }
+</script>
+
+<script>
+    function CreateFilterModalShow() {
+        $(document).ready(function () {
+            var url = $('#FilterModalContainer').data('url');
+
+            $.get(url, function (data) {
+                $('#FilterModalContainer').html(data);
+
+                $('#FilterModalWindow').modal('show');
+            });
+        });
+    }
+</script>
+

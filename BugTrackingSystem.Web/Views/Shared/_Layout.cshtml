@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="../../Content/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="../../Content/dropdown.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../Content/transition.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/dropdown.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/checkbox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/transition.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/multiple-select.css"/>
     <link rel="stylesheet" type="text/css" href="../../Content/Site.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="../../Scripts/checkbox.min.js"></script>
     <script src="../../Scripts/dropdown.min.js"></script>
     <script src="../../Scripts/transition.min.js"></script>
+    <script src="../../Scripts/multiple-select.js"></script>
     <script>
         function ShowSearch() {
             $("#searchText").toggle();
@@ -81,9 +85,9 @@
 
             <div class="collapse navbar-collapse" id="NavbarCollapsed">
                 <ul class="nav navbar-nav">
-                    <li><a href="@Url.Action("Projects", "Project")">Projects</a></li>
+                    <li><a href="@Url.Action("Index", "Project")">Projects</a></li>
                     <li><a href="@Url.Action("Index", "Users")">Users</a></li>
-                    <li><a href="@Url.Action("Filters", "Filters")">Filters</a></li>
+                    <li><a href="@Url.Action("Index", "Filters")">Filters</a></li>
                     <li><a class="visible-xs" onclick="CreateTaskModalShow()">Create task</a></li>
                 </ul>
                 <button type="button" class="btn btn-header" onclick="CreateTaskModalShow()" id="taskButton" aria-label="Left Align">

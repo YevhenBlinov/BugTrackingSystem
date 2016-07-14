@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
+using BugTrackingSystem.Service;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
@@ -26,18 +27,18 @@ namespace BugTrackingSystem.Web.Controllers
         {
             return View();
         }
-        public ActionResult Users(string search = null)
+        public ActionResult Users(string sortBy = Constants.SortUsersByName, string search = null)
         {
             IEnumerable<UserViewModel> users;
             var usersCount = 0;
 
             if (string.IsNullOrEmpty(search))
             {
-                users = _userService.GetUsers(out usersCount);  
+                users = _userService.GetUsers(out usersCount, sortBy:sortBy);  
             }
             else
             {
-                users = _userService.SearchUsersByFirstNameAndSecondName(search, out usersCount);
+                users = _userService.SearchUsersByFirstNameAndSecondName(search, out usersCount, sortBy:sortBy);
             }
             
             return PartialView(users);

@@ -18,9 +18,9 @@
         <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" id="projectSearch">
                     <span class="input-group-addon" style="background-color: #F8FEFE">
-                        <a href="#">
+                        <a onclick="searchProject()">
                             <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
                         </a>
                     </span>
@@ -28,6 +28,17 @@
             </div>
         </div>
 
+    </div>
+    <div class="content inline-block" style="margin: 30px 0 20px 30px;">
+        Sort by:
+        <div class="ui inline dropdown">
+            <div class="text" style="font-weight: normal" id="projectSortBy">Title</div>
+            <i class="dropdown icon"></i>
+            <div class="menu" id="projectSortByOptions">
+                <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                <div class="item inlineDropdown" data-text="Prefix">Prefix</div>
+            </div>
+        </div>
     </div>
     <div id="projectsContainer">@Html.Action("ProjectsInfo", "Project")</div>
 
@@ -65,6 +76,56 @@
 
 <div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared")"></div>
 
+
+<script>
+    function searchProject() {
+        var search = $('#projectSearch').val();
+        var sortBy = $('#projectSortBy').html();
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy
+            },
+            url: '/Project/ProjectsInfo',
+            success: function(html) {
+                $('#projectsContainer').html(html);
+            },
+            error: function() {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    $('#projectSortByOptions').children().on('click', function () {
+        var search = $('#projectSearch').val();
+        var sortBy = $(this).attr('data-text');
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy
+            },
+            url: '/Project/ProjectsInfo',
+            success: function (html) {
+                $('#projectsContainer').html(html);
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    })   
+</script>
+
+<script>
+    $('#projectSearch').keypress(function (e) {
+        if (e.which == 13) {
+            searchProject();
+        }
+    });
+</script>
 
 <script>
     function DeleteProjectModalShow(id) {
@@ -116,5 +177,4 @@
 <script>
     $('.ui.inline.dropdown')
         .dropdown();
-    ;
 </script>

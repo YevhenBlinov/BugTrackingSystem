@@ -4,7 +4,7 @@
     ViewBag.Title = "Project";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-sm-12 general-container">
+<div class="col-sm-12 general-container" style="padding: 0 55px 0 65px">
     <div id="header" class="row">
         <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
             @Model.Name
@@ -22,10 +22,10 @@
             </div>
         </div>
 
-        <div class="pull-right col-sm-6 col-xs-12 padding0" id="Local-search">
+        <div class="pull-right col-sm-6 col-xs-12" id="Local-search" style="padding: 0; width: 240px">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" id="projectBugSearch">
                     <span class="input-group-addon" style="background-color: #F8FEFE">
                         <a href="#">
                             <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
@@ -36,20 +36,8 @@
         </div>
 
     </div>
-
-    <div class="col-xs-12">
-        <a class="pull-right" data-toggle="collapse" data-target="#extendedSearch" style="padding: 10px 0;">Advanced Search</a>
-
-        <div class="collapse col-xs-12 AdvancedSearch" id="extendedSearch">
-            <form>
-                <div class="form-group" style="padding: 10px 0; margin: 0;">
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title" style="margin: 0; display: inline-block">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="col-sm-12" style="margin-bottom: 15px;">
-        <div class="projectInfo col-sm-4 pull-left">
+    <div class="col-sm-12" style="margin-bottom: 15px; margin-top: 20px;">
+        <div class="projectInfo col-sm-4 pull-left padding0">
             <div style="display: inline-flex">
                 <div class="inline-block" style="">
                     <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; padding-top: 5px; display: inline-flex">
@@ -57,47 +45,31 @@
                     </i>
                 </div>
                 @Html.Action("ProjectUsers", "Project")
-            </div>
-
-
-        </div>
-    </div>
-    <div class="Sort_Title_Pagination">
-        <div class="content inline-block">
-            Sort by:
-            <div class="ui inline dropdown">
-                <div class="text" style="font-weight: normal">Title</div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <div class="item selected inlineDropdown" data-text="Title">Title</div>
-                    <div class="item inlineDropdown" data-text="Project">Project</div>
-                    <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
-                    <div class="item inlineDropdown" data-text="Status">Status</div>
-                    <div class="item inlineDropdown" data-text="Priority">Priority</div>
+                <div class="inline-block">
+                    <i class="fa fa-plus" aria-hidden="true" style="color: #BBBBBB; border: none; font-size: 17px;" onclick="addUserToProjectModalShow()"></i>
                 </div>
             </div>
-        </div>
-        <div class=" pull-right" style="display: inline-block">
-            <nav class="local-pagination">
-                <ul class="pagination pagination-sm">
-                    <li><a href="#">1</a></li>
-                </ul>
-            </nav>
+
+
         </div>
     </div>
-    <div class="col-xs-12 padding0">
+    <div class="content inline-block" style="margin: 0 0 20px 15px;">
+        Sort by:
+        <div class="ui inline dropdown">
+            <div class="text" style="font-weight: normal" id="projectBugSortBy">Title</div>
+            <i class="dropdown icon"></i>
+            <div class="menu" id="projectBugSortByOptions">
+                <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
+                <div class="item inlineDropdown" data-text="Status">Status</div>
+                <div class="item inlineDropdown" data-text="Priority">Priority</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 padding0" id="projectsBugContainer">
         @Html.Action("ProjectBugs", "Project", new { projectId = @Model.ProjectId })
     </div>
-    <div class="col-xs-12" style="margin: 15px 20px;">
-        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: @Model.BugsCount</i>
-        <div class=" pull-right" style="display: inline-block">
-            <nav class="local-pagination">
-                <ul class="pagination pagination-sm">
-                    <li><a href="#">1</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+
 </div>
 
 <div id="EditProjectModalWindow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="EditProjectLabel">
@@ -124,6 +96,7 @@
 
 <div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared", new {projectId = @Model.ProjectId})"></div>
 <div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
+<div id="addUserModalContainer" data-url="@Url.Action("AddUserToProject", "Project", new {projectId = Model.ProjectId})"></div>
 
 
 
@@ -146,6 +119,59 @@
     </div>
 </div>
 
+
+
+<script>
+    function searchProject() {
+        var search = $('#projectBugSearch').val();
+        var sortBy = $('#projectBugSortBy').html();
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                projectId: @Model.ProjectId
+            },
+            url: '/Project/ProjectBugs',
+            success: function(html) {
+                $('#projectsBugContainer').html(html);
+            },
+            error: function() {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    $('#projectBugSortByOptions').children().on('click', function() {
+        var search = $('#projectBugSearch').val();
+        var sortBy = $(this).attr('data-text');
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                projectId: @Model.ProjectId
+            },
+            url: '/Project/ProjectBugs',
+            success: function(html) {
+                $('#projectsBugContainer').html(html);
+            },
+            error: function() {
+                alert('En error occured. Please try again.');
+            }
+        });
+    })
+</script>
+
+<script>
+    $('#projectBugSearch').keypress(function (e) {
+        if (e.which == 13) {
+            searchFilters();
+        }
+    });
+</script>
 
 <script>
     function PauseProject(id) {
@@ -183,13 +209,27 @@
 
 <script>
     function DeleteProjectModalShow() {
-        $(document).ready(function () {
+        $(document).ready(function() {
             var url = $('#DeleteProjectModalContainer').data('url');
 
-            $.get(url, function (data) {
+            $.get(url, function(data) {
                 $('#DeleteProjectModalContainer').html(data);
 
                 $('#DeleteProjectModal').modal('show');
+            });
+        });
+    }
+</script>
+
+<script>
+    function addUserToProjectModalShow() {
+        $(document).ready(function () {
+            var url = $('#addUserModalContainer').data('url');
+
+            $.get(url, function (data) {
+                $('#addUserModalContainer').html(data);
+
+                $('#addUserToProjectModal').modal('show');
             });
         });
     }
@@ -199,6 +239,6 @@
 
 <script>
     $('.ui.inline.dropdown')
-        .dropdown();
-    ;
+        .dropdown();;
 </script>
+

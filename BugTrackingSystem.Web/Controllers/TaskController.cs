@@ -26,7 +26,7 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public void CreateTask(BugFormViewModel bug, HttpPostedFileBase[] image)
+        public ActionResult CreateTask(BugFormViewModel bug, HttpPostedFileBase[] image)
         {
             if (image[0] != null)
             {
@@ -50,6 +50,12 @@ namespace BugTrackingSystem.Web.Controllers
                 }
             }
             _bugService.AddNewBug(bug);
+            return RedirectToActionPermanent("Index", "Project");
+        }
+
+        public void ChangeStatus(int bugId, string status)
+        {
+            _bugService.UpdateBugStatus(bugId, status);
         }
     }
 }

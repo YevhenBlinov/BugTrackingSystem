@@ -27,6 +27,17 @@
         </div>
 
     </div>
+    <div class="content inline-block" style="margin: 30px 0 20px 30px;">
+        Sort by:
+        <div class="ui inline dropdown" style="color: #4D868D">
+            <div class="text" style="font-weight: normal" id="usersSortBy">First Name</div>
+            <i class="dropdown icon"></i>
+            <div class="menu" id="usersSortByOptions">
+                <div class="item selected inlineDropdown" data-text="First Name">First Name</div>
+                <div class="item inlineDropdown" data-text="Last Name">Last Name</div>
+            </div>
+        </div>
+    </div>
     <div class="padding0" id="usersInfo">
         @Html.Action("Users", "Users")
     </div>
@@ -69,7 +80,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" onclick="SaveUser()" class="btn modalCreateButton">Create</button>
+                    <button type="submit" onclick="" class="btn modalCreateButton">Create</button>
                 </div>
             }
         </div>
@@ -83,9 +94,13 @@
 <script>
     function SearchUser() {
         var search = $('#userSearch').val();
+        var sortBy = $('#usersSortBy').html();
         $.ajax({
             type: 'GET',
-            data: { search: search },
+            data: {
+                search: search,
+                sortBy: sortBy
+            },
             url: '/Users/Users',
             success: function(html) {
                 $('#usersInfo').html(html);
@@ -96,6 +111,29 @@
         });
     }
 </script>
+
+<script>
+    $('#usersSortByOptions').children().on('click', function () {
+        var search = $('#userSearch').val();
+        var sortBy = $(this).attr('data-text');
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy
+            },
+            url: '/Users/Users',
+            success: function (html) {
+                $('#usersInfo').html(html);
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    })
+</script>
+
+
 
 <script>
     $('#userSearch').keypress(function (e) {

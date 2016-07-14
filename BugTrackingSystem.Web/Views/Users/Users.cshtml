@@ -1,30 +1,6 @@
 ﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
 
-
-<div class="row Sort_Title_Pagination">
-
-    <div class="content inline-block">
-        Sort by:
-        <div class="ui inline dropdown" style="color: #4D868D">
-            <div class="text" style="font-weight: normal">First Name</div>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <div class="item selected inlineDropdown" data-text="First Name">First Name</div>
-                <div class="item inlineDropdown" data-text="Last Name">Last Name</div>
-                <div class="item inlineDropdown" data-text="Role">Role</div>
-            </div>
-        </div>
-    </div>
-
-    <div class=" pull-right" style="display: inline-block">
-        <nav class="local-pagination">
-            <ul class="pagination pagination-sm">
-                <li><a href="#">1</a></li>
-            </ul>
-        </nav>
-    </div>
-</div>
-<div class="row">
+<div class="row" id="users">
     @foreach (var user in Model)
     {
 
