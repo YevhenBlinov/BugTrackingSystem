@@ -14,11 +14,13 @@ namespace BugTrackingSystem.Service.Services
     public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ProjectService(IProjectRepository projectRepository)
+        public ProjectService(IProjectRepository projectRepository, IUserRepository userRepository)
         {
             _projectRepository = projectRepository;
+            _userRepository = userRepository;
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -163,6 +165,25 @@ namespace BugTrackingSystem.Service.Services
             findedProjects = findedProjects.Skip((currentPage - 1)*Constants.PageSize).Take(Constants.PageSize);
             var findedProjectsViewModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(findedProjects);
             return findedProjectsViewModels;
+        }
+
+        public void AddUsersToProject(int projectId, string usersIds)
+        {
+            var project = _projectRepository.GetById(projectId);
+
+            if (project == null)
+                throw new Exception("Sorry, but the project doesn't exist.");
+
+            var splittedIds = usersIds.Split(' ');
+
+            foreach (var userId in splittedIds)
+            {
+                var userToAdd = _userRepository.GetById(int.Parse(userId));
+                project.Users.Add(userToAdd);
+            }
+
+            _projectRepository.Update(project);
+            _projectRepository.Save();
         }
     }
 }

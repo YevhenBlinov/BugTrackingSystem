@@ -31,5 +31,7 @@ namespace BugTrackingSystem.Service.Services
         int GetUserIdByEmail(string email);
 
         UserRole GetUserRoleByEmail(string email);
+
+        IEnumerable<UserViewModel> GetNotAssignedToProjectUsers(int projectId);
     }
 }

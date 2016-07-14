@@ -16,12 +16,14 @@ namespace BugTrackingSystem.Service.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
         private readonly BlobService _blobService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IProjectRepository projectRepository)
         {
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, UserViewModel>()
@@ -297,6 +299,25 @@ namespace BugTrackingSystem.Service.Services
         {
             var userRoleId = _userRepository.Get(u => u.Email == email).UserRoleID;
             return (UserRole) userRoleId;
+        }
+
+        public IEnumerable<UserViewModel> GetNotAssignedToProjectUsers(int projectId)
+        {
+            var project = _projectRepository.GetById(projectId);
+
+            if (project == null)
+                throw new Exception("Sorry, but the project doesn't exist.");
+
+            var projectUsers = _userRepository.GetMany(u => u.Projects.Contains(project) && u.DeletedOn == null);
+            var notAssignedUsers = _userRepository.GetMany(u => u.DeletedOn == null).Except(projectUsers).ToList();
+            var notAssignedUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(notAssignedUsers).ToList();
+
+            for (var i = 0; i < notAssignedUsersViewModels.Count; i++)
+            {
+                notAssignedUsersViewModels[i].Photo = _blobService.GetBlobSasUri(notAssignedUsers[i].Photo);
+            }
+
+            return notAssignedUsersViewModels;
         }
     }
 }
