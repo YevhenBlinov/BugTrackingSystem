@@ -111,6 +111,18 @@ ul::-webkit-scrollbar-thumb {
   background-color: #92C1BA;
 }
 
+#addUserToProjectContainer::-webkit-scrollbar {
+    width: 5px;
+}
+#addUserToProjectContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    background-color: #E3F0F2;
+}
+ 
+#addUserToProjectContainer::-webkit-scrollbar-thumb {
+  background-color: #92C1BA;
+}
+
 .dropdown-toggle {
     margin-left: -20px;
 }

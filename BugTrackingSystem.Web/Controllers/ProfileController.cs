@@ -25,6 +25,7 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult UserProjects(int userId = 1)
         {
             var projects = _userService.GetUsersProjects(userId);
+            ViewBag.UserId = userId;
             return PartialView(projects);
         }
 

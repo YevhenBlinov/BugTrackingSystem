@@ -176,9 +176,9 @@ namespace BugTrackingSystem.Service.Services
 
             var splittedIds = usersIds.Split(' ');
 
-            foreach (var userId in splittedIds)
+            for (int i = 0; i < splittedIds.Length - 1; i++)
             {
-                var userToAdd = _userRepository.GetById(int.Parse(userId));
+                var userToAdd = _userRepository.GetById(int.Parse(splittedIds[i]));
                 project.Users.Add(userToAdd);
             }
 

@@ -44,7 +44,9 @@
                         <span style="font-size: 14px; margin-top: 7px; margin-left: 3px;">@Model.BugsCount</span>
                     </i>
                 </div>
-                @Html.Action("ProjectUsers", "Project")
+                <div id="projectUsers">
+                    @Html.Action("ProjectUsers", "Project")
+                </div>
                 <div class="inline-block">
                     <i class="fa fa-plus" aria-hidden="true" style="color: #BBBBBB; border: none; font-size: 17px;" onclick="addUserToProjectModalShow()"></i>
                 </div>

@@ -34,15 +34,18 @@
                             <span style="font-size: 12px">@bug.ModificationDate</span>
                         </div>
                     </div>
-                    <div class="col-sm-2 col-xs-12 xsPaddingNone">
-                        <div class="col-sm-4" style="padding: 0;">
-                            <img src="@bug.AssignedUser.Photo" class="img-circle" alt="userPhoto" height="40" width="40"/>
+                    @if (bug.AssignedUser != null)
+                    {
+                        <div class="col-sm-2 col-xs-12 xsPaddingNone">
+                            <div class="col-sm-4" style="padding: 0;">
+                                <img src="@bug.AssignedUser.Photo" class="img-circle" alt="userPhoto" height="40" width="40"/>
+                            </div>
+                            <div class="col-sm-8" style="padding-top: 10px;">
+                                <div style="font-size: 12px;">@bug.AssignedUser.FirstName</div>
+                                <div style="font-size: 12px;">@bug.AssignedUser.LastName</div>
+                            </div>
                         </div>
-                        <div class="col-sm-8" style="padding-top: 10px;">
-                            <div style="font-size: 12px;">@bug.AssignedUser.FirstName</div>
-                            <div style="font-size: 12px;">@bug.AssignedUser.LastName</div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </a>

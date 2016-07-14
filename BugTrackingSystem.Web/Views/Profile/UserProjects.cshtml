@@ -36,11 +36,18 @@
             type: 'POST',
             data: {
                 projectId: id,
-                userId: '1'
+                userId: @ViewBag.UserId
             },
             url: '/Project/DeleteUserFromProject',
             success: function () {
-                window.location = '/Profile/Index?id=1';
+                $.ajax({
+                    type: 'GET',
+                    data: { projectId: @ViewBag.UserId },
+                    url: '/Profile/UserProjects',
+                    success: function(data) {
+                        $('#userProjects').html(data);
+                    }
+                });
             },
             error: function () {
                 alert('En error occured. Please try again.');

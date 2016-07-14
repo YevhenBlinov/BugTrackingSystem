@@ -6,42 +6,33 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
-                <h3 style="display: inline-block; margin: 5px 0 0 0;">Delete user</h3>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Add user to the project</h3>
             </div>
             <div class="modal-body col-xs-12">
-                <div class="col-xs-12 padding0" style="border: 1px solid gainsboro" onclick="FUCK()">
-                    <div class="ui checkbox col-xs-12 checkBoxHover" style="display: inline-flex">
-                        <input type="checkbox" name="example">
-                        <img src="../../Content/Images/orwell.jpeg" style="width: 40px; height: 40px; margin: 0 10px;" class="img-circle" />
-                        <div class="inline-block" style="margin-top: 4px;">
-                            <div style="font-size: 14px">user.FirstName</div>
-                            <div style="font-size: 11px">user.Email</div>
+                <div class="col-xs-12 padding0" id="addUserToProjectContainer" style="border: 1px solid gainsboro; max-height: 185px; overflow-y:scroll">
+                    @foreach (var user in Model)
+                    {
+                        <div class="ui checkbox col-xs-12 checkBoxHover" id="@user.UserId" style="display: inline-flex">
+                            <input type="checkbox" name="example">
+                            <img src="@user.Photo" style="width: 40px; height: 40px; margin: 0 10px;" class="img-circle" />
+                            <div class="inline-block" style="margin-top: 4px; width: 60%;">
+                                <div style="font-size: 14px">@user.FirstName @user.LastName</div>
+                                <div style="font-size: 11px">@user.Email</div>
+                            </div>
+                            <div style="font-size: 12px; margin-top: 12px;">
+                                @user.Role
+                            </div>
                         </div>
-                        <div style="font-size: 12px; margin-left: 250px; margin-top: 12px;">
-                            user.Role
-                        </div>
-                    </div>
-                    <div class="ui checkbox col-xs-12 checkBoxHover" style="display: inline-flex">
-                        <input type="checkbox" name="example">
-                        <img src="../../Content/Images/orwell.jpeg" style="width: 40px; height: 40px; margin: 0 10px;" class="img-circle" />
-                        <div class="inline-block" style="margin-top: 4px;">
-                            <div style="font-size: 14px">user.FirstName</div>
-                            <div style="font-size: 11px">user.Email</div>
-                        </div>
-                        <div style="font-size: 12px; margin-left: 250px; margin-top: 12px;">
-                            user.Role
-                        </div>
-                    </div>        
+                    }
                 </div>
                 <div class="col-xs-12 padding0" style="font-size: 12px; margin-top: 5px;">
-                    <span>Users: Model.Count()</span>
+                    <span>Users: @Model.Count()</span>
                     <span class="pull-right" id="choosenCount">Choosen: 0</span>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
-                <button type="button" data-dismiss="modal" class="btn modalCreateButton" id="addUserButton" onclick="">Add user</button>
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton disabled" id="addUserButton" onclick="addUsers()">Add user</button>
             </div>
         </div>
     </div>
@@ -51,15 +42,51 @@
 
 <script>
     var count = 0;
-   $('.checkbox').checkbox({
-           onChecked: function () {
-               count++;
-               $('#choosenCount').html('Choosen: ' + count);
-           },
-           onUnchecked: function () {
-               count--;
-               $('#choosenCount').html('Choosen: ' + count);
-           }
-       });
-   
+    $('.checkbox').checkbox({
+        onChecked: function() {
+            count++;
+            $('#choosenCount').html('Choosen: ' + count);
+            triggerAddUserButton(count);
+        },
+        onUnchecked: function() {
+            count--;
+            $('#choosenCount').html('Choosen: ' + count);
+            triggerAddUserButton(count);
+        }
+    });
+</script>
+
+<script>
+    function triggerAddUserButton(count) {
+        if (count > 0) {
+            if ($('#addUserButton').hasClass('disabled')) {
+                $('#addUserButton').removeClass('disabled');
+            }
+        } else {
+            if (!$('#addUserButton').hasClass('disabled')) {
+                $('#addUserButton').addClass('disabled');
+            }
+        }
+    }
+</script>
+
+<script>
+    function addUsers() {
+        var checked = "";
+        $('.checked').each(function () {
+            checked += $(this).attr('id') + " ";
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/Project/AddUsers',
+            data: {
+                userIds: checked,
+                projectId: @ViewBag.ProjectId
+            },
+            success: function() {
+                location.reload();
+            }
+
+        });
+    };
 </script>

@@ -7,12 +7,12 @@
                 <span style="font-size: 14px;">@Model.Count()</span>
             </i>
         </a>
-        <ul class="dropdown-menu dropdown-toggle" style="max-height: 250px; overflow: hidden; overflow-y: scroll;">
+        <ul class="dropdown-menu dropdown-toggle" style="max-height: 180px; overflow: hidden; overflow-y: scroll;">
             @foreach (var user in Model)
             {
-                <li onmouseover="ShowDeleteIcon(this)" style="width: 300px; height: 60px; display: inline-flex">
+                <li onmouseover="ShowDeleteIcon(this)" style="width: 300px; max-width: 300px; overflow-x: hidden; height: 60px; display: inline-flex">
                     <img src="@user.Photo" style="height: 35px; width: 35px; margin: 15px 10px 0 10px;" class="img-circle inline-block"/>
-                    <div class="inline-block" style="margin-top: 10px;">
+                    <div class="inline-block" style="margin-top: 10px; width: 70%">
                         <div>
                             @user.FirstName @user.LastName
                         </div>
@@ -20,7 +20,7 @@
                             @user.Email
                         </div>
                     </div>
-                    <i class="fa fa-times" id="@user.UserId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetUserId(this.id)" aria-hidden="true" style="font-size: 26px; margin-left: 50px; margin-top: 17px; color: #E3F0F2; display: none"></i>
+                    <i class="fa fa-times" id="@user.UserId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetUserId(this.id)" aria-hidden="true" style="font-size: 26px; margin-top: 17px; color: #E3F0F2; display: none"></i>
                 </li>
 
             }
@@ -62,7 +62,14 @@
             },
             url: '/Project/DeleteUserFromProject',
             success: function () {
-                window.location = '/Project/DeleteUserFromProject';
+                $.ajax({
+                    type: 'GET',
+                    data: { projectId: @ViewBag.ProjectId },
+                    url: '/Project/ProjectUsers',
+                    success: function(data) {
+                        $('#projectUsers').html(data);
+                    }
+                });
             },
             error: function () {
                 alert('En error occured. Please try again.');

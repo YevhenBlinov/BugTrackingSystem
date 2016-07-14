@@ -56,9 +56,10 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [WebMethod()]
-        public void AddUser(UserFormViewModel userModel)
+        public ActionResult AddUser(UserFormViewModel userModel)
         {
             _userService.AddUser(userModel);
+            return RedirectToActionPermanent("Index", "Users");
         }
 
         public void ChangeUserPassword(int userId, string password)
@@ -85,7 +86,7 @@ namespace BugTrackingSystem.Web.Controllers
             }
 
             _userService.EditUserInformation(user);
-            return RedirectToActionPermanent("Index", "Users");
+            return RedirectToActionPermanent("Index", "Profile", new {userId = user.UserId});
         }
         
     }

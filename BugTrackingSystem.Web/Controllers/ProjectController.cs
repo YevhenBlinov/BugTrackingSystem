@@ -95,9 +95,14 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult AddUserToProject(int projectId)
         {
-            //var users = _userService.GetNotAssignedToProjectUsers(projectId);
+            var users = _userService.GetNotAssignedToProjectUsers(projectId);
             ViewBag.ProjectId = projectId;
-            return PartialView();
+            return PartialView(users);
+        }
+
+        public void AddUsers(string userIds, int projectId)
+        {
+            _projectService.AddUsersToProject(projectId, userIds);
         }
     }
 }
