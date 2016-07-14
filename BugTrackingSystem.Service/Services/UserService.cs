@@ -280,5 +280,23 @@ namespace BugTrackingSystem.Service.Services
                 }
             }
         }
+
+        public bool IsUserExists(string email, string password)
+        {
+            var user = _userRepository.Get(u => u.Email == email && u.Password == password);
+            return user != null;
+        }
+
+        public int GetUserIdByEmail(string email)
+        {
+            var userId = _userRepository.Get(u => u.Email == email).UserID;
+            return userId;
+        }
+
+        public UserRole GetUserRoleByEmail(string email)
+        {
+            var userRoleId = _userRepository.Get(u => u.Email == email).UserRoleID;
+            return (UserRole) userRoleId;
+        }
     }
 }

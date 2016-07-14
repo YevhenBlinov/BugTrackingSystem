@@ -25,5 +25,11 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<UserViewModel> SearchUsersByFirstNameAndSecondName(string fullName, out int findedUsersCount,
             int currentPage = 1, string sortBy = Constants.SortUsersByName);
+
+        bool IsUserExists(string email, string password);
+
+        int GetUserIdByEmail(string email);
+
+        UserRole GetUserRoleByEmail(string email);
     }
 }
