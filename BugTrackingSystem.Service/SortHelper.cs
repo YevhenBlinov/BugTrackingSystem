@@ -20,7 +20,11 @@ namespace BugTrackingSystem.Service
                     }
                 case Constants.SortBugsOrFiltersByAssigneedUser:
                     {
-                        return bugsToSort.OrderBy(b => b.AssignedUserID).ToList();
+                        return
+                            bugsToSort.Where(b => b.User != null)
+                                .OrderBy(b => b.User.LastName)
+                                .Concat(bugsToSort.Where(b => b.User == null))
+                                .ToList();
                     }
                 case Constants.SortBugsOrFiltersByStatus:
                     {
