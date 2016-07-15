@@ -80,27 +80,12 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the bug doesn't exist.");
 
             var fullbugModel = _mapper.Map<Bug, FullBugViewModel>(bug);
-            var tableService = new TableService();
+            var commentService = new CommentService();
 
-            if (bug.Comments != null)
+            if (!string.IsNullOrEmpty(bug.Comments))
             {
-                var comments = tableService.RetrieveAllCommentsForBug(bugId.ToString());
-
-                if (comments.Count != 0)
-                {
-                    fullbugModel.Comments = _mapper.Map<List<CommentModel>, List<CommentViewModel>>(comments);
-                }
-                else
-                {
-                    fullbugModel.Comments = new List<CommentViewModel>()
-                    {
-                        new CommentViewModel()
-                        {
-                            Comment = "There is not any comment yet",
-                            UserName = fullbugModel.AssignedUser.FirstName + fullbugModel.AssignedUser.LastName
-                        }
-                    };
-                }
+                var comments = commentService.GetCommentsForBug(bug.BugID);
+                fullbugModel.Comments = comments;
             }
 
             if (bug.AssignedUserID != null)
@@ -213,6 +198,24 @@ namespace BugTrackingSystem.Service.Services
             var updateStatusValue = (BugStatus) Enum.Parse(typeof(BugStatus), status, true);
             bugToUpdate.StatusID = (byte)updateStatusValue;
             _bugRepository.Update(bugToUpdate);
+            _bugRepository.Save();
+        }
+
+        public void AddCommentToBug(int bugId, string userName, string comment)
+        {
+            var bug = _bugRepository.GetById(bugId);
+
+            if (bug == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+
+            var commentService = new CommentService();
+            commentService.AddComment(bugId, userName, comment);
+
+            if (!string.IsNullOrEmpty(bug.Comments)) 
+                return;
+
+            bug.Comments = bugId.ToString();
+            _bugRepository.Update(bug);
             _bugRepository.Save();
         }
     }

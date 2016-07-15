@@ -19,5 +19,7 @@ namespace BugTrackingSystem.Service.Services
             string sortBy = Constants.SortBugsOrFiltersByTitle);
 
         void UpdateBugStatus(int bugId, string status);
+
+        void AddCommentToBug(int bugId, string userName, string comment);
     }
 }

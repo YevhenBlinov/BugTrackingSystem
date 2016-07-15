@@ -25,7 +25,12 @@ namespace BugTrackingSystem.Service.Services
 
             foreach (var commentModel in azureComments)
             {
-                comments.Add(new CommentViewModel { UserName = commentModel.UserName, Comment = commentModel.Comment });
+                comments.Add(new CommentViewModel
+                {
+                    UserName = commentModel.UserName,
+                    Comment = commentModel.Comment,
+                    Date = commentModel.Timestamp.LocalDateTime
+                });
             }
 
             return comments;
