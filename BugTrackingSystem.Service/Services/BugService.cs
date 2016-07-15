@@ -80,13 +80,6 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the bug doesn't exist.");
 
             var fullbugModel = _mapper.Map<Bug, FullBugViewModel>(bug);
-            var commentService = new CommentService();
-
-            if (!string.IsNullOrEmpty(bug.Comments))
-            {
-                var comments = commentService.GetCommentsForBug(bug.BugID);
-                fullbugModel.Comments = comments;
-            }
 
             if (bug.AssignedUserID != null)
             {
@@ -102,6 +95,21 @@ namespace BugTrackingSystem.Service.Services
             fullbugModel.Attachments = bugAttachmentsList;
 
             return fullbugModel;
+        }
+
+        public IEnumerable<CommentViewModel> GetBugCommentsByBugId(int bugId)
+        {
+            var bug = _bugRepository.GetById(bugId);
+
+            if (bug == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+
+            if (string.IsNullOrEmpty(bug.Comments)) 
+                return new List<CommentViewModel>();
+
+            var commentService = new CommentService();
+            var comments = commentService.GetCommentsForBug(bug.BugID);
+            return comments;
         }
 
         public IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)

@@ -10,6 +10,8 @@ namespace BugTrackingSystem.Service.Services
 
         FullBugViewModel GetFullBugById(int bugId);
 
+        IEnumerable<CommentViewModel> GetBugCommentsByBugId(int bugId);
+        
         IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle);
 
