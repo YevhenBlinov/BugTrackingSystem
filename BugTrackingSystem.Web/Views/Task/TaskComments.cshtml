@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.CommentViewModel>
+
+<div class="col-xs-12 col-md-8 custom-sticker-howerless" style="background-color:white;">
+    <div class="col-xs-12 padding0" style="margin-bottom:20px;">
+        <h3>Comments:</h3>
+        <textarea class="form-control" name="Comment" id="comment" placeholder="Write a comment" rows="5" style="background-color:white"></textarea>
+        <button type="submit" class="btn modalCreateButton pull-right" style="margin-top: 10px;" onclick="submitComment()">Submit</button>
+    </div>
+    @foreach (var comment in Model)
+    {
+        <div class="col-xs-12 padding0">
+            <div style="background-color:white; border: 1px solid gainsboro; padding: 10px 10px;">
+                <h4 style="margin-bottom: 10px">@comment.UserName</h4>
+                <h5>@comment.Comment</h5>
+            </div>
+        </div>
+    }    
+</div>
+
+<script>
+    function submitComment() {
+        var comment = $('#comment').val();
+        $.ajax({
+            type: 'POST',
+            data: {
+                bugId: @ViewBag.BugId,
+                comment: comment
+            },
+            url: '/Task/AddComment',
+            success: function (html) {
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        bugId: @ViewBag.BugId
+                        },
+                    url: '/Task/TaskComments',
+                    success: function(data){
+                        $('#taskComments').html(data);
+                    }
+                })
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>

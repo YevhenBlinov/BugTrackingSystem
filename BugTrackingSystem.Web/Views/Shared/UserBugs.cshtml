@@ -1,11 +1,5 @@
 ﻿@model IEnumerable<BugTrackingSystem.Service.Models.BaseBugViewModel>
-<div class="pull-right">
-    <nav class="local-pagination">
-        <ul class="pagination pagination-sm">
-            <li><a href="#">1</a></li>
-        </ul>
-    </nav>
-</div>
+
 <div id="UniversalTable" class="marginFromMenu">
     @foreach (var bug in Model)
     {
@@ -33,12 +27,36 @@
     }
 </div>
 <div class="row Sort_Title_Pagination">
-    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @Model.Count()</i>
-    <div class=" pull-right" style="display: inline-block">
+    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @ViewBag.TaskCount</i>
+    <div class="pull-right" style="display: inline-block">
         <nav class="local-pagination">
-            <ul class="pagination pagination-sm">
-                <li><a href="#">1</a></li>
+            <ul class="pagination pagination-sm" id="taskPagination">
+                @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                {
+                    <li id="@i" style="cursor:pointer"><a>@i</a></li>
+                }      
             </ul>
         </nav>
     </div>
 </div>
+
+<script>
+    var a = '#' + '@ViewBag.CurrentPage';
+    $('#taskPagination').children(a).addClass('active');
+</script>
+
+<script>
+    $('#taskPagination').children('li').on('click', function () {
+        var page = $(this).children('a').html();
+        $.ajax({
+            type: 'GET',
+            url: '/Shared/UserBugs',
+            data: {
+                page: page
+            },
+            success: function (data) {
+                $('#userTaskContainer').html(data);
+            }
+        })
+    })
+</script>

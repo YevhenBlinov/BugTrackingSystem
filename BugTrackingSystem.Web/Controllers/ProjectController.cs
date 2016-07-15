@@ -66,10 +66,23 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ProjectBugs(int projectId, string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle)
+        public ActionResult ProjectBugs(int projectId, string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle, int page = 1)
         {
+            IEnumerable<BugViewModel> bugs;
             var bugsCount = 0;
-            var bugs = _bugService.GetProjectsBugs(projectId, out bugsCount, 1, sortBy);
+            if(string.IsNullOrEmpty(search))
+            {
+                bugs = _bugService.GetProjectsBugs(projectId, out bugsCount, page, sortBy);
+            }
+            else
+            {
+                bugs = _bugService.SearchBugsBySubject(search, out bugsCount, page, sortBy);
+            }
+            double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.ListPageSize);
+            ViewBag.PagesCount = Math.Ceiling(pagesCount);
+            ViewBag.TaskCount = bugsCount;
+            ViewBag.CurrentPage = page;
+            ViewBag.ProjectId = projectId;
             return PartialView(bugs);
         }
 

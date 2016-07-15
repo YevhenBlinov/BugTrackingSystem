@@ -234,7 +234,7 @@ namespace BugTrackingSystem.Service.Services
 
                     findedUsersCount = findedUsers.Count;
                     findedUsers = SortHelper.SortUsers(findedUsers, sortBy);
-                    findedUsers = findedUsers.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize).ToList();
+                    findedUsers = findedUsers.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize).ToList();
 
                     var findedUsersViewModels =
                         _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(findedUsers).ToList();

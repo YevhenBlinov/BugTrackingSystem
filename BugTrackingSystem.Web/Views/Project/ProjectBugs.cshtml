@@ -52,13 +52,41 @@
     }
 </div>
 <div class="col-xs-12 padding0" style="margin: 15px 20px;">
-    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: @Model.Count()</i>
-    <div class=" pull-right inline-block" style="margin-right: 9px">
+    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: @ViewBag.TaskCount</i>
+    <div class="pull-right inline-block" style="margin-right: 9px">
         <nav class="local-pagination">
-            <ul class="pagination pagination-sm">
-                <li><a href="#">1</a></li>
+            <ul class="pagination pagination-sm" id="projectTaskPagination">
+                @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                {
+                    <li id="@i" style="cursor:pointer"><a>@i</a></li>
+                }      
             </ul>
         </nav>
     </div>
 </div>
 
+<script>
+    var a = '#' + '@ViewBag.CurrentPage';
+    $('#projectTaskPagination').children(a).addClass('active');
+</script>
+
+<script>
+    $('#projectTaskPagination').children('li').on('click', function () {
+        var page = $(this).children('a').html();
+        var sortBy = $('#projectBugSortBy').html();
+        var search = $('#projectBugSearch').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Project/ProjectBugs',
+            data: {
+                projectId: @ViewBag.ProjectId,
+                search: search,
+                sortBy:sortBy,
+                page: page
+            },
+            success: function (data) {
+                $('#projectsBugContainer').html(data);
+            }
+        })
+    })
+</script>

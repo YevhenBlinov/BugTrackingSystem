@@ -48,10 +48,10 @@
             data: { userId: id },
             url: '/Users/DeleteUser',
             success: function () {
-                window.location = '/Users/Users';
+                window.location = '/Users/Index';
             },
             error: function () {
-                alert('FUCK!');
+                alert('En error occured. Please try again.');
             }
         });
     }

@@ -28,10 +28,10 @@
             data: { projectId: id },
             url: '/Shared/DeleteProject',
             success: function () {
-                window.location = '/Project/Projects';
+                window.location = '/Project/Index';
             },
             error: function () {
-                alert('FUCK!');
+                alert('An error occured. Please try again.');
             }
         });
     }

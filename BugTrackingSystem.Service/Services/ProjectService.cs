@@ -162,7 +162,7 @@ namespace BugTrackingSystem.Service.Services
             var findedProjects =_projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest));
             findedProjectsCount = findedProjects.Count();
             findedProjects = SortHelper.SortProjects(findedProjects, sortBy);
-            findedProjects = findedProjects.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize);
+            findedProjects = findedProjects.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var findedProjectsViewModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(findedProjects);
             return findedProjectsViewModels;
         }

@@ -30,7 +30,7 @@ namespace BugTrackingSystem.Service.Services
             var filters = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null);
             filtersCount = filters.Count();
             filters = SortHelper.SortFilters(filters, sortBy);
-            filters = filters.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize);
+            filters = filters.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
             return filterModels;
         }
@@ -60,7 +60,7 @@ namespace BugTrackingSystem.Service.Services
                     f => f.UserID == userId && f.DeletedOn == null && f.Title.Contains(searchRequest));
             findedFiltersCount = findedFilters.Count();
             findedFilters = SortHelper.SortFilters(findedFilters, sortBy);
-            findedFilters = findedFilters.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize);
+            findedFilters = findedFilters.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var findedFiltersViewModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(findedFilters);
             return findedFiltersViewModels;
         }

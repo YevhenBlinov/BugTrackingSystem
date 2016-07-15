@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Services;
+using BugTrackingSystem.Service;
 
 namespace BugTrackingSystem.Web.Controllers
 {
@@ -19,10 +20,14 @@ namespace BugTrackingSystem.Web.Controllers
             _projectService = projectService;
         }
         // GET: Shared
-        public ActionResult UserBugs(int userId = 1)
+        public ActionResult UserBugs(int userId = 1, int page = 1)
         {
             var bugsCount = 0;
-            var userBugs = _userService.GetUsersBugs(userId, out bugsCount);
+            var userBugs = _userService.GetUsersBugs(userId, out bugsCount, page);
+            double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.StickerPageSize);
+            ViewBag.PagesCount = Math.Ceiling(pagesCount);
+            ViewBag.TaskCount = bugsCount;
+            ViewBag.CurrentPage = page;
             return PartialView(userBugs);
         }
 
@@ -75,8 +80,7 @@ namespace BugTrackingSystem.Web.Controllers
             IEnumerable<ProjectViewModel> projects;
             if (userId == 0)
             {
-                var projectsCount = 0;
-                projects = _projectService.GetProjects(out projectsCount);
+                projects = _projectService.GetAllRunningProjects();
             }
             else
             {

@@ -195,8 +195,10 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\Asignar - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Asignar - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\checkbox.min.js" />
@@ -256,6 +258,7 @@
     <Content Include="Views\Filters\DeleteFilterModal.cshtml" />
     <Content Include="Views\Filters\ProjectMultipleSelect.cshtml" />
     <Content Include="Views\Project\AddUserToProject.cshtml" />
+    <Content Include="Views\Task\TaskComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

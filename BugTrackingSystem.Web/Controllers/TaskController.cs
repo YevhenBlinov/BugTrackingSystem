@@ -57,5 +57,17 @@ namespace BugTrackingSystem.Web.Controllers
         {
             _bugService.UpdateBugStatus(bugId, status);
         }
+
+        public ActionResult TaskComments(int bugId)
+        {
+            var comments = _bugService.GetBugCommentsByBugId(bugId);
+            ViewBag.BugId = bugId;
+            return PartialView(comments);
+        }
+
+        public void AddComment(int bugId, string comment, string userId = "George Orwell")
+        {
+            _bugService.AddCommentToBug(bugId, userId, comment);
+        }
     }
 }

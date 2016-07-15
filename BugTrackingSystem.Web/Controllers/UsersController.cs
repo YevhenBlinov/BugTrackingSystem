@@ -42,7 +42,7 @@ namespace BugTrackingSystem.Web.Controllers
             }
             double pagesCount = Convert.ToDouble(usersCount) / Convert.ToDouble(Constants.StickerPageSize);
             ViewBag.PagesCount = Math.Ceiling(pagesCount);
-            ViewBag.ProjectsCount = usersCount;
+            ViewBag.UsersCount = usersCount;
             ViewBag.CurrentPage = page;
             return PartialView(users);
         }

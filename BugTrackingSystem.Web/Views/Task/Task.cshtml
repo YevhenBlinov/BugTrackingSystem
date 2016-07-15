@@ -52,19 +52,23 @@
         </div>
         <div class="col-md-4 col-xs-12 padding0" id="taskAssigneeSticker">
             <div class="custom-sticker-howerless pull-right">
-                <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
-                    <label style="font-size: 14px;">Assignee:</label>
-                    <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
-                </div>
-                <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
-                    <div class="col-xs-3 padding0">
-                        <img src="@Model.AssignedUser.Photo" class="img-circle" />
+                @if (Model.AssignedUser != null)
+                {
+                    <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
+                        <label style="font-size: 14px;">Assignee:</label>
+                        <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
                     </div>
-                    <div class="col-xs-9 padding0" style="margin-top: 5px;">
-                        <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
-                        <div>@Model.AssignedUser.Email</div>
+                    <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
+                        <div class="col-xs-3 padding0">
+                            <img src="@Model.AssignedUser.Photo" class="img-circle" />
+                        </div>
+                        <div class="col-xs-9 padding0" style="margin-top: 5px;">
+                            <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
+                            <div>@Model.AssignedUser.Email</div>
+                        </div>
                     </div>
-                </div>
+                }
+                
                 <div class="col-xs-12 padding0" style="font-size: 14px;">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     <label>Created:</label>
@@ -92,20 +96,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-md-8 custom-sticker-howerless" style="background-color:white;">
-        <div class="col-xs-12 padding0" style="margin-bottom:20px;">
-            <h3>Comments:</h3>
-            <textarea class="form-control" name="Comment" placeholder="Write a comment" rows="5" style="background-color:white"></textarea>
-            <button type="submit" class="btn modalCreateButton pull-right" style="margin-top: 10px;">Submit</button>
-        </div>
-        <div class="col-xs-12 padding0">
-            <div style="background-color:white; border: 1px solid gainsboro; padding: 10px 10px;">
-                <h4 style="margin-bottom: 10px">George Orwell</h4>
-                <h5>I find this bug very intresting</h5>
-            </div>
-        </div>
-    </div>
+        <div id="taskComments">@Html.Action("TaskComments", "Task", new { bugId = Model.BugId})</div>
+    </div>   
 </div>
 
 <div id="editTask" class="modal fade" tabindex="-1" role="dialog">
@@ -258,8 +250,10 @@
     $('#editTaskStatusDropDown').dropdown('set selected', '@Model.Status');
     $('#editTaskPriorityDropDown').dropdown('set selected', '@Model.Priority');
     $('#taskProjectDropDown').dropdown('set selected', '@Model.ProjectID');
-
-    $('#taskUserDropDown').dropdown('set selected', '@Model.AssignedUser.UserId');
+    @*if(@Model.AssignedUser != null)
+    {
+        $('#taskUserDropDown').dropdown('set selected', '@Model.AssignedUser.UserId');
+    }*@
     $('.ui.dropdown').dropdown('refresh');
 </script>
 
