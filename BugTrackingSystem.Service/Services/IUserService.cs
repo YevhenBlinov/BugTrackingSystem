@@ -28,9 +28,7 @@ namespace BugTrackingSystem.Service.Services
 
         bool IsUserExists(string email, string password);
 
-        int GetUserIdByEmail(string email);
-
-        UserRole GetUserRoleByEmail(string email);
+        UserViewModel GetUserByEmail(string email);
 
         IEnumerable<UserViewModel> GetNotAssignedToProjectUsers(int projectId);
     }

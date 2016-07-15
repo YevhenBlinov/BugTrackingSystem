@@ -285,20 +285,20 @@ namespace BugTrackingSystem.Service.Services
 
         public bool IsUserExists(string email, string password)
         {
-            var user = _userRepository.Get(u => u.Email == email && u.Password == password);
+            var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email && u.Password == password);
             return user != null;
         }
 
-        public int GetUserIdByEmail(string email)
+        public UserViewModel GetUserByEmail(string email)
         {
-            var userId = _userRepository.Get(u => u.Email == email).UserID;
-            return userId;
-        }
+            var user = _userRepository.Get(u => u. Email == email);
 
-        public UserRole GetUserRoleByEmail(string email)
-        {
-            var userRoleId = _userRepository.Get(u => u.Email == email).UserRoleID;
-            return (UserRole) userRoleId;
+            if (user.DeletedOn != null)
+                throw new Exception("Sorry, but the user was deleted.");
+
+            var userModel = _mapper.Map<User, UserViewModel>(user);
+            userModel.Photo = _blobService.GetBlobSasUri(user.Photo);
+            return userModel;
         }
 
         public IEnumerable<UserViewModel> GetNotAssignedToProjectUsers(int projectId)
