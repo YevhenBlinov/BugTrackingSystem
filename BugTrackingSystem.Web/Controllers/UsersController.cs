@@ -27,20 +27,23 @@ namespace BugTrackingSystem.Web.Controllers
         {
             return View();
         }
-        public ActionResult Users(string sortBy = Constants.SortUsersByName, string search = null)
+        public ActionResult Users(string sortBy = Constants.SortUsersByName, string search = null, int page = 1)
         {
             IEnumerable<UserViewModel> users;
             var usersCount = 0;
-
+            
             if (string.IsNullOrEmpty(search))
             {
-                users = _userService.GetUsers(out usersCount, sortBy:sortBy);  
+                users = _userService.GetUsers(out usersCount, page, sortBy);  
             }
             else
             {
-                users = _userService.SearchUsersByFirstNameAndSecondName(search, out usersCount, sortBy:sortBy);
+                users = _userService.SearchUsersByFirstNameAndSecondName(search, out usersCount, page, sortBy);
             }
-            
+            double pagesCount = Convert.ToDouble(usersCount) / Convert.ToDouble(Constants.StickerPageSize);
+            ViewBag.PagesCount = Math.Ceiling(pagesCount);
+            ViewBag.ProjectsCount = usersCount;
+            ViewBag.CurrentPage = page;
             return PartialView(users);
         }
 

@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="col-xs-12 padding0 row" style="margin-top: 15px;">
-        <div class="col-md-8 col-xs-12 custom-sticker-howerless">
+        <div class="col-md-8 col-xs-12 custom-sticker-howerless" style="min-height:301px">
             <div class="inline-block">
                 <label style="margin-right: 10px;">Priority:</label>
                 @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
@@ -90,6 +90,19 @@
                         </ul>
                     }
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-8 custom-sticker-howerless" style="background-color:white;">
+        <div class="col-xs-12 padding0" style="margin-bottom:20px;">
+            <h3>Comments:</h3>
+            <textarea class="form-control" name="Comment" placeholder="Write a comment" rows="5" style="background-color:white"></textarea>
+            <button type="submit" class="btn modalCreateButton pull-right" style="margin-top: 10px;">Submit</button>
+        </div>
+        <div class="col-xs-12 padding0">
+            <div style="background-color:white; border: 1px solid gainsboro; padding: 10px 10px;">
+                <h4 style="margin-bottom: 10px">George Orwell</h4>
+                <h5>I find this bug very intresting</h5>
             </div>
         </div>
     </div>

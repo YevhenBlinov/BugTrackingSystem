@@ -42,7 +42,7 @@ namespace BugTrackingSystem.Service.Services
             var projects =_projectRepository.GetMany(p => p.DeletedOn == null);
             projectsCount = projects.Count();
             projects = SortHelper.SortProjects(projects, sortBy);
-            projects = projects.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize);
+            projects = projects.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var allProjectsModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(projects);
             return allProjectsModels;
         }

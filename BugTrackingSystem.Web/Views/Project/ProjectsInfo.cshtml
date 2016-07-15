@@ -35,12 +35,41 @@
     }
 </div>
 <div class="row Sort_Title_Pagination">
-    <i class="fa fa-th-list col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Projects: @Model.Count()</i>
+    <i class="fa fa-th-list col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Projects: @ViewBag.ProjectsCount</i>
     <div class=" pull-right" style="display: inline-block">
         <nav class="local-pagination">
-            <ul class="pagination pagination-sm">
-                <li><a href="#">1</a></li>
+            <ul class="pagination pagination-sm" id="projectsPagination">
+                @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                {
+                    <li id="@i" style="cursor:pointer"><a id="@i">@i</a></li>
+                }       
             </ul>
         </nav>
     </div>
 </div>
+
+
+<script>
+    var a = '#' + '@ViewBag.CurrentPage';
+    $('#projectsPagination').children(a).addClass('active');
+</script>
+
+<script>
+    $('#projectsPagination').children('li').on('click', function () {
+        var page = $(this).children('a').html();
+        var search = $('#projectSearch').val();
+        var sortBy = $('#projectSortBy').html();
+        $.ajax({
+            type: 'GET',
+            url: '/Project/ProjectsInfo',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                page: page
+            },
+            success: function (data) {
+                $('#projectsContainer').html(data);
+            }
+        })
+    })
+</script>

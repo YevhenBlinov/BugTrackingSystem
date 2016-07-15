@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;">Create</button>
+                            <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;" id="submit-btn">Create</button>
                         </div>
                     }
                 
@@ -74,6 +74,20 @@
     </div>
 </div>
 <script>
+    //function validateForm(e) {
+    //    //TODO validation
+    //    if (!false) {
+    //        e.preventDefault();
+    //        return false;
+    //    }
+
+    //    return true;
+    //}
+
+    //$(function() {
+    //    $("#sub").on
+    //})
+
     $('#projectInput').on('change', function() {
         var projectId = $('#projectInput').val();
         $.ajax({

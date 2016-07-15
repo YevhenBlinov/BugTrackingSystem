@@ -446,6 +446,7 @@ body {
 .pagination > li > a {
     background-color: transparent;
     border: none;
+    color: #92C1BA;
 }
 
     .pagination > li > a:hover,
@@ -453,6 +454,10 @@ body {
         background-color: transparent;
         color: #4D868D;
     }
+.pagination>.active>a, .pagination>.active>a:hover{
+    background-color: transparent;
+        color: #4D868D;
+}
 
 .table tr, .table td {
     border-top: 100px !important;

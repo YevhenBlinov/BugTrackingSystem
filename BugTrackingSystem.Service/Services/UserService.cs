@@ -81,7 +81,7 @@ namespace BugTrackingSystem.Service.Services
                 _userRepository.GetMany(u => u.DeletedOn == null).ToList();
             allUsersCount = users.Count;
             users = SortHelper.SortUsers(users, sortBy);
-            users = users.Skip((currentPage - 1) * Constants.ListPageSize).Take(Constants.StickerPageSize).ToList();
+            users = users.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize).ToList();
             var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users).ToList();
 
             for (var i = 0; i < userModels.Count; i++)

@@ -34,12 +34,40 @@
 
 </div>
 <div class="col-xs-12" style="margin-top: 30px; padding: 0 0 0 30px;">
-    <i class="fa fa-users col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Users: @Model.Count()</i>
-    <div class=" pull-right" style="display: inline-block">
+    <i class="fa fa-users col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Users: @ViewBag.UsersCount</i>
+    <div class="pull-right" style="display: inline-block">
         <nav class="local-pagination">
-            <ul class="pagination pagination-sm">
-                <li><a href="#">1</a></li>
+            <ul class="pagination pagination-sm" id="usersPagination">
+                @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                {
+                    <li id="@i" style="cursor:pointer"><a id="@i">@i</a></li>
+                }       
             </ul>
         </nav>
     </div>
 </div>
+
+<script>
+    var a = '#' + '@ViewBag.CurrentPage';
+    $('#usersPagination').children(a).addClass('active');
+</script>
+
+<script>
+    $('#usersPagination').children('li').on('click', function () {
+        var page = $(this).children('a').html();
+        var search = $('#userSearch').val();
+        var sortBy = $('#usersSortBy').html();
+        $.ajax({
+            type: 'GET',
+            url: '/Users/Users',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                page: page
+            },
+            success: function (data) {
+                $('#usersInfo').html(data);
+            }
+        })
+    })
+</script>
