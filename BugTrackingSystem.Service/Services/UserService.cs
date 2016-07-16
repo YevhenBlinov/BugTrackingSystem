@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using AutoMapper;
 using BugTrackingSystem.AzureService;
 using BugTrackingSystem.Data.Model;
@@ -143,6 +145,7 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the user with the same name, surname and email already exists.");
 
             var userToAdd = _mapper.Map<UserFormViewModel, User>(userFormViewModel);
+            userToAdd.Password = CalculateMd5Hash(userToAdd.Password);
             userToAdd.Photo = Constants.DefaultUserIconName;
             userToAdd.DeletedOn = null;
 
@@ -207,7 +210,7 @@ namespace BugTrackingSystem.Service.Services
             if (user == null)
                 throw new Exception("Sorry, but the user doesn't exist.");
 
-            user.Password = password;
+            user.Password = CalculateMd5Hash(password);
             _userRepository.Update(user);
             _userRepository.Save();
         }
@@ -285,8 +288,24 @@ namespace BugTrackingSystem.Service.Services
 
         public bool IsUserExists(string email, string password)
         {
-            var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email && u.Password == password);
+            var hashPassword = CalculateMd5Hash(password);
+            var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email && u.Password == hashPassword);
             return user != null;
+        }
+
+        private string CalculateMd5Hash(string input)
+        {
+            var md5 = MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hash = md5.ComputeHash(inputBytes);
+            var sb = new StringBuilder();
+
+            foreach (var c in hash)
+            {
+                sb.Append(c.ToString("X2"));
+            }
+
+            return sb.ToString();
         }
 
         public UserViewModel GetUserByEmail(string email)
