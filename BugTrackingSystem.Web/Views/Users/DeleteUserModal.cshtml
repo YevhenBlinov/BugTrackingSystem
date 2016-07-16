@@ -23,22 +23,26 @@
 
 <script>
     function DeleteUser(id) {
-        $.ajax({
-            type: 'POST',
-            data: { userId: id },
-            url: '/Users/DeleteUser',
-            success: function () {
-                $.ajax({
-                    type: 'GET',
-                    url: '/Users/Users',
-                    success: function(data) {
-                        $('#usersInfo').html(data);
-                    }
-                });
-            },
-            error: function () {
-                alert('En error occured. Please try again.');
-            }
-        });
+        if (@ViewBag.TaskCount == 0) {
+            $.ajax({
+                type: 'POST',
+                data: { userId: id },
+                url: '/Users/DeleteUser',
+                success: function() {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Users/Users',
+                        success: function(data) {
+                            $('#usersInfo').html(data);
+                        }
+                    });
+                },
+                error: function() {
+                    alert('En error occured. Please try again.');
+                }
+            });
+        } else {
+            alert('You cant delete user with assigned tasks!');
+        }
     }
 </script>

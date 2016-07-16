@@ -9,7 +9,7 @@
         <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
             @Model.Name
             <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add task">
-                <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
+                <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#projectTaskModalWindow"></i>
             </div>
             <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit project">
                 <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
@@ -27,7 +27,7 @@
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" placeholder="Search" id="projectBugSearch">
                     <span class="input-group-addon" style="background-color: #F8FEFE">
-                        <a href="#">
+                        <a onclick="searchProjectBug()">
                             <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
                         </a>
                     </span>
@@ -122,9 +122,113 @@
 </div>
 
 
+<div id="projectTaskModalWindow" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="TaskModalDialog">
+        <img class="loading-image" src="../../Content/Images/3.gif">
+        <div class="loader"></div>
+        <div class="modal-content" style="display: block">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new task</h3>
+            </div>
+            @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body col-lg-12">
+                    <div class="form-group">
+                        <input class="form-control" id="Title" name="Title" placeholder="Title" style="margin: 0; display: inline-block">
+                    </div>
+                    <div id="projectDropDown">
+                        <div class="modalSingleDropdown ui selection dropdown pull-left cn disabled">
+                            <input type="hidden" name="Project" value="@Model.ProjectId">
+                            <i class="dropdown icon"></i>
+                            <div class="default text inner">@Model.Name</div>
+                        </div>
+                    </div>
+                    <div id="userDropDown">
+                        @Html.Action("UsersDropDown", "Shared", new {projectId = @Model.ProjectId})
+                    </div>
+                    <div class="ui selection dropdown modalSingleDropdown pull-left cn">
+                        <input type="hidden" name="Priority">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Priority</div>
+                        <div class="menu">
+                            <div class="item" data-value="Minor">
+                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle" />
+                                Minor
+                            </div>
+                            <div class="item" data-value="Major">
+                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle" />
+                                Major
+                            </div>
+                            <div class="item" data-value="Critical">
+                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle" />
+                                Critical
+                            </div>
+                            <div class="item" data-value="Blocker">
+                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle" />
+                                Blocker
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui selection dropdown modalSingleDropdown pull-right cn">
+                        <input type="hidden" name="Status">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Status</div>
+                        <div class="menu">
+                            <div class="item" data-value="ToDo">To do</div>
+                            <div class="item" data-value="InProgress">In progress</div>
+                            <div class="item" data-value="InTesting">In testing</div>
+                            <div class="item" data-value="Done">Done</div>
+                            <div class="item" data-value="Closed">Closed</div>
+                        </div>
+                    </div>
+                    <textarea class="form-control" name="Description" placeholder="Description" rows="5"></textarea>
+                    <div>
+                        <b>Attachments</b>
+                        <i class="fa fa-plus round" id="projectFileIcon" aria-hidden="true" style="font-size: 15px; margin-top: 10px;"></i>
+                        <ul id="projectFileNames" style="color: #4D868D; margin-top: 10px; padding-left: 20px;"></ul>
+                        <input type="file" name="image" multiple class="hidden" id="projectInputFile" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;" id="submit-btn">Create</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
 
 <script>
-    function searchProject() {
+    var usersCount = $('#userDropDownMenu').children('div').size();
+    if (usersCount != 0) {
+        $('#taskUserDropDown').removeClass('disabled');
+    }
+</script>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+<script>
+    $('#projectFileIcon').click(function () {
+        $('#projectInputFile').click();
+    })
+</script>
+<script>
+    document.getElementById('projectInputFile').onchange = function () {
+        $('#projectFileNames').empty();
+        for (var i = 0; i < this.files.length; i++) {
+            $('#projectFileNames').append('<li>' + this.files[i].name + '</li>');
+        }
+    };
+</script>
+
+
+<script>
+    function searchProjectBug() {
         var search = $('#projectBugSearch').val();
         var sortBy = $('#projectBugSortBy').html();
         $.ajax({
@@ -170,7 +274,7 @@
 <script>
     $('#projectBugSearch').keypress(function (e) {
         if (e.which == 13) {
-            searchFilters();
+            searchProjectBug();
         }
     });
 </script>

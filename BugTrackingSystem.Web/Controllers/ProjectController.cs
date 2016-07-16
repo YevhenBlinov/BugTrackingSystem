@@ -49,7 +49,7 @@ namespace BugTrackingSystem.Web.Controllers
             }
             else
             {
-                projects = _projectService.SearchProjectsByName(search, out projectsCount, page, sortBy);
+                projects = _projectService.SearchProjectsByName(search, UserRole.Administrator, out projectsCount, page, sortBy);
             }
 
             double pagesCount = Convert.ToDouble(projectsCount) / Convert.ToDouble(Constants.StickerPageSize);
@@ -78,7 +78,7 @@ namespace BugTrackingSystem.Web.Controllers
             }
             else
             {
-                bugs = _bugService.SearchBugsBySubject(search, out bugsCount, page, sortBy);
+                bugs = _bugService.SearchBugsBySubject(search, UserRole.Administrator, out bugsCount, page, sortBy, projectId);
             }
             double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.ListPageSize);
             ViewBag.PagesCount = Math.Ceiling(pagesCount);

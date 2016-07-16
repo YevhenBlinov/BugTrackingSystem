@@ -148,6 +148,13 @@ namespace BugTrackingSystem.Service.Services
             bug.ModificationDate = dateTimeNow;
             _bugRepository.Add(bug);
             _bugRepository.Save();
+
+<<<<<<< Updated upstream
+=======
+            if (bugFormViewModel.Attachments == null)
+                return;
+
+>>>>>>> Stashed changes
             var addedBugId =
                 _bugRepository.Get(
                     b =>
@@ -155,7 +162,7 @@ namespace BugTrackingSystem.Service.Services
                         b.CreationDate == bug.CreationDate && b.ModificationDate == bug.ModificationDate &&
                         b.PriorityID == bug.PriorityID && b.StatusID == bug.StatusID && b.Description == bug.Description).BugID;
 
-            if (bugFormViewModel.Attachments == null)
+            if (bugFormViewModel.Attachments.Count == 0)
                 return addedBugId;
 
             AddBugAttachmentsByBugId(addedBugId, bugFormViewModel.Attachments);
@@ -200,14 +207,9 @@ namespace BugTrackingSystem.Service.Services
             }
 
             _bugAttachmentRepository.Save();
-
-            var bug = _bugRepository.GetById(bugId);
-            bug.ModificationDate = DateTime.Now;
-            _bugRepository.Update(bug);
-            _bugRepository.Save();
         }
 
-        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, UserRole userRole, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null)
+        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
             if (string.IsNullOrEmpty(searchRequest))
             {
@@ -215,30 +217,8 @@ namespace BugTrackingSystem.Service.Services
                 return new List<BugViewModel>();
             }
 
-            var findedBugs = new List<Bug>() as IEnumerable<Bug>;
-
-            switch (userRole)
-            {
-                    case UserRole.User:
-                    findedBugs = projectId == null
-                        ? _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest))
-                            .Where(b => b.Project.IsPaused == false)
-                        : _bugRepository.GetMany(
-                            b =>
-                                b.ProjectID == projectId && b.Project.DeletedOn == null &&
-                                b.Subject.Contains(searchRequest))
-                            .Where(b => b.Project.IsPaused == false);
-                    break;
-                    case UserRole.Administrator:
-                    findedBugs = projectId == null
-                        ? _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest))
-                        : _bugRepository.GetMany(
-                            b =>
-                                b.ProjectID == projectId && b.Project.DeletedOn == null &&
-                                b.Subject.Contains(searchRequest));
-                    break;
-            }
-
+            var findedBugs =
+                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest));
             findedBugsCount = findedBugs.Count();
             findedBugs = SortHelper.SortBugs(findedBugs, sortBy);
             findedBugs = findedBugs.Skip((currentPage - 1)*Constants.ListPageSize).Take(Constants.ListPageSize);
@@ -264,7 +244,6 @@ namespace BugTrackingSystem.Service.Services
             
             var updateStatusValue = (BugStatus) Enum.Parse(typeof(BugStatus), status, true);
             bugToUpdate.StatusID = (byte)updateStatusValue;
-            bugToUpdate.ModificationDate = DateTime.Now;
             _bugRepository.Update(bugToUpdate);
             _bugRepository.Save();
         }
@@ -293,11 +272,6 @@ namespace BugTrackingSystem.Service.Services
             blobService.DeleteBlobFromContainer(attachmentName);
             _bugAttachmentRepository.Delete(ba => ba.BugID == bugId && ba.Attachment == attachmentName);
             _bugAttachmentRepository.Save();
-
-            var bug = _bugRepository.GetById(bugId);
-            bug.ModificationDate = DateTime.Now;
-            _bugRepository.Update(bug);
-            _bugRepository.Save();
         }
     }
 }

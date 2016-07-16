@@ -9,28 +9,21 @@
 <div class="general-container marginFromMenu">
     <div class="row">
         <div class="col-sm-3 col-xs-12 padding0">
-           
-                
-                    @Html.Action("UserInfo", "Profile", new {userId = @ViewBag.UserId})
-                
-                
-            
+            @Html.Action("UserInfo", "Profile", new { userId = @ViewBag.UserId })
             <div class="col-xs-12 padding0 marginFromMenu">
                 <div class="col-xs-12">
                     <h1>My Projects</h1>
                 </div>
-                <div class="col-xs-12 divsWithBorder" style="margin-bottom: 60px;">
-                    <ul style="margin: 0;" id="userProjects">
-                        @Html.Action("UserProjects", "Profile")
-                    </ul>
+                <div id="profileProjects">
+                    @Html.Action("UserProjects", "Profile") 
                 </div>
+
             </div>
         </div>
         <div class="col-sm-9 col-xs-12 assignedToMeTable">
 
             <h1 style="margin-top: 0;">Assigned To Me</h1>
-            <div id="userTaskContainer">@Html.Action("UserBugs", "Shared")</div>  
+            <div id="userTaskContainer">@Html.Action("UserBugs", "Shared")</div>
         </div>
     </div>
 </div>
-

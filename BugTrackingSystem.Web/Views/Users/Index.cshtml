@@ -173,15 +173,22 @@
 </script>
 
 <script>
-    function DeleteProjectModalShow(id) {
-        $(document).ready(function () {
-            var url = $('#DeleteUserModalContainer').data('url') + '?userId=' + id;
-
-            $.get(url, function (data) {
+    function DeleteProjectModalShow(id, taskCount) {
+        $.ajax({
+            type: 'GET',
+            url: '/Users/DeleteUserModal',
+            data: {
+                userId: id,
+                taskCount: taskCount
+            },
+            success: function(data) {
                 $('#DeleteUserModalContainer').html(data);
 
                 $('#DeleteUserModal').modal('show');
-            });
+            },
+            error: function() {
+                alert('En error occured. Please try again.');
+            }
         });
     }
 </script>

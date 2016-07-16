@@ -1,0 +1,14 @@
+﻿@model Dictionary<String, String>
+
+@if (@Model.Count != 0)
+{
+    <ul style="padding-left: 20px; color: #4D868D">
+        @foreach (var attachment in Model)
+        {
+            <li onmouseover="showDeleteIcon(this)">
+                <a href="@attachment.Value" style="color: #4D868D">@attachment.Key</a>
+                <i class="fa fa-times" id="@attachment.Key" data-toggle="modal" data-target="#deleteAttachmentModal" onclick="getAttachmentName(this.id)" aria-hidden="true" style="font-size: 14px; color: #E3F0F2; display: none; margin-left: 10px;"></i>
+            </li>
+        }
+    </ul>
+}

@@ -1,4 +1,5 @@
-﻿@model BugTrackingSystem.Service.Models.FullBugViewModel
+﻿@using BugTrackingSystem.Service.Models.FormModels
+@model BugTrackingSystem.Service.Models.FullBugViewModel
 @{
     ViewBag.Title = "Task";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,81 +24,79 @@
         </div>
     </div>
     <div class="col-xs-12 padding0 row" style="margin-top: 15px;">
-        <div class="col-md-8 col-xs-12 custom-sticker-howerless" style="min-height:301px">
-            <div class="inline-block">
-                <label style="margin-right: 10px;">Priority:</label>
-                @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
-                <img src="@priority" />
-                <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
-            </div>
-            <div class="pull-right inline-block">
-                <label style="margin-right: 10px">Status:</label>
-                <div class="ui selection dropdown" id="statusDropDown" style="padding-left: 10px;">
-                    <input type="hidden" name="Status" id="statusChangeDropDown">
-                    <i class="dropdown icon"></i>
-                    <div class="default text inner">Status</div>
-                    <div class="menu">
-                        <div class="item" data-value="ToDo">To do</div>
-                        <div class="item" data-value="InProgress">In progress</div>
-                        <div class="item" data-value="InTesting">In testing</div>
-                        <div class="item" data-value="Done">Done</div>
-                        <div class="item" data-value="Closed">Closed</div>
-                    </div>
+            <div class="col-md-8 col-xs-12 custom-sticker-howerless" style="min-height: 300px">
+                <div class="inline-block">
+                    <label style="margin-right: 10px;">Priority:</label>
+                    @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
+                    <img src="@priority" />
+                    <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
                 </div>
-            </div>
-            <hr style="margin: 15px 0 30px 0;">
-            <div style="font-size: 14px;">
-                @Model.Description
-            </div>
-        </div>
-        <div class="col-md-4 col-xs-12 padding0" id="taskAssigneeSticker">
-            <div class="custom-sticker-howerless pull-right">
-                @if (Model.AssignedUser != null)
-                {
-                    <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
-                        <label style="font-size: 14px;">Assignee:</label>
-                        <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
-                    </div>
-                    <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
-                        <div class="col-xs-3 padding0">
-                            <img src="@Model.AssignedUser.Photo" class="img-circle" />
-                        </div>
-                        <div class="col-xs-9 padding0" style="margin-top: 5px;">
-                            <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
-                            <div>@Model.AssignedUser.Email</div>
+                <div class="pull-right inline-block">
+                    <label style="margin-right: 10px">Status:</label>
+                    <div class="ui selection dropdown" id="statusDropDown" style="padding-left: 10px;">
+                        <input type="hidden" name="Status" id="statusChangeDropDown">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Status</div>
+                        <div class="menu">
+                            <div class="item" data-value="ToDo">To do</div>
+                            <div class="item" data-value="InProgress">In progress</div>
+                            <div class="item" data-value="InTesting">In testing</div>
+                            <div class="item" data-value="Done">Done</div>
+                            <div class="item" data-value="Closed">Closed</div>
                         </div>
                     </div>
-                }
-                
-                <div class="col-xs-12 padding0" style="font-size: 14px;">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    <label>Created:</label>
-                    <span>@Model.CreationDate</span>
                 </div>
-                <div class="col-xs-12 padding0" style="font-size: 14px; margin-bottom: 20px;">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    <label>Updated:</label>
-                    <span>@Model.ModificationDate</span>
+                <hr style="margin: 15px 0 30px 0;">
+                <div style="font-size: 14px;">
+                    @Model.Description
                 </div>
-                <div class="pull-left">
-                    <label style="font-size: 13px;">Attachments</label>
-                    <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;"></i>
-                </div>
-                <div class="col-xs-12">
-                    @if (@Model.Attachments != null)
+            </div>
+            <div class="col-md-4 col-xs-12 padding0" id="taskAssigneeSticker">
+                <div class="custom-sticker-howerless pull-right">
+                    @if (Model.AssignedUser != null)
                     {
-                        <ul style="padding: 0; color: #4D868D">
-                            @foreach (var attachment in Model.Attachments)
-                            {
-                                <li><a href="@attachment.Value">@attachment.Key</a></li>
-                            }
-                        </ul>
+                        <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
+                            <label style="font-size: 14px;">Assignee:</label>
+                            <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
+                        </div>
+                        <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
+                            <div class="col-xs-3 padding0">
+                                <img src="@Model.AssignedUser.Photo" class="img-circle" />
+                            </div>
+                            <div class="col-xs-9 padding0" style="margin-top: 5px;">
+                                <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
+                                <div>@Model.AssignedUser.Email</div>
+                            </div>
+                        </div>
                     }
+
+                    <div class="col-xs-12 padding0" style="font-size: 14px;">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <label>Created:</label>
+                        <span>@Model.CreationDate</span>
+                    </div>
+                    <div class="col-xs-12 padding0" style="font-size: 14px; margin-bottom: 20px;">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <label>Updated:</label>
+                        <span>@Model.ModificationDate</span>
+                    </div>
+                    <div class="pull-left">
+                        <label style="font-size: 13px;">Attachments</label>
+                        <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;" id="addAttachmentsIcon"></i>
+                        @using (Html.BeginForm("AddAttachment", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input value="@Model.BugId" name="bugId" class="hidden" />
+                            <input type="file" name="attachments" multiple class="hidden" id="addAttachments" />
+                            <input type="submit" id="submitAttachments" class="hidden" />
+                        }
+                    </div>
+                    <div class="col-xs-12 padding0" id="bugAttachments">
+                        @Html.Action("BugAttachments", "Task", new { bugId = @Model.BugId })
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="taskComments">@Html.Action("TaskComments", "Task", new { bugId = Model.BugId})</div>
-    </div>   
+        <div id="taskComments">@Html.Action("TaskComments", "Task", new { bugId = Model.BugId})</div>   
 </div>
 
 <div id="editTask" class="modal fade" tabindex="-1" role="dialog">
@@ -110,17 +109,27 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit task</h3>
             </div>
-            @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="modal-body col-lg-12">
                     <div class="form-group">
                         <input class="form-control" id="Title" name="Title" placeholder="Title" value="@Model.Subject" style="margin: 0; display: inline-block">
                     </div>
                     <div id="projectDropDown">
-                        @Html.Action("ProjectsDropDown", "Shared")
+                        <div class="modalSingleDropdown ui selection dropdown pull-left cn disabled" id="taskProjectDropDown">
+                            <input type="hidden" name="Project" id="projectInput" value="@Model.ProjectID">
+                            <i class="dropdown icon"></i>
+                            <div class="default text inner">@Model.ProjectName</div>
+                        </div>
                     </div>
                     <div id="userDropDown">
-                        @Html.Action("UsersDropDown", "Shared")
+                        @Html.Action("EditTaskUsers", "Task", new { projectId = Model.ProjectID })
+                        @if (Model.AssignedUser != null)
+                        {
+                            <script>
+                                $('#editTaskUserDropDown').dropdown('set selected', '@Model.AssignedUser.UserId');
+                            </script>
+                        }                      
                     </div>
                     <div class="ui selection dropdown modalSingleDropdown pull-left cn" id="editTaskPriorityDropDown">
                         <input type="hidden" name="Priority">
@@ -158,69 +167,110 @@
                         </div>
                     </div>
                     <textarea class="form-control" name="Description" placeholder="Description" rows="5">@Model.Description</textarea>
+                    <input class="hidden" name="BugId" value="@Model.BugId"/>
                     <div style="margin-top: 10px;">
                         <b>Attachments</b>
-                        <ul id="fileNames" style="color: #4D868D; margin-top: 10px;">
-                            @if (@Model.Attachments != null)
-                            {
-                                foreach (var attachment in Model.Attachments)
-                                {
-                                    <li><a href="@attachment.Value">@attachment.Key</a></li>
-                                }
-                            }
-                        </ul>
+                        <i class="fa fa-plus round" id="addAttachmentsModalIcon" aria-hidden="true" style="font-size: 15px; margin-top: 10px;"></i>
+                        <ul id="addAttachmentsList" style="color: #4D868D; margin-top: 10px; padding-left: 20px;"></ul>
+                        <input type="file" name="attachmentsModal" multiple class="hidden" id="addAttachmentsModal"/>
+                        <div id="modalAttachments">
+                            @Html.Action("BugAttachments", "Task", @Model.BugId)
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;">Create</button>
+                    <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;">Save</button>
                 </div>
             }
 
         </div>
     </div>
 </div>
-@*<script>
-    $('#projectInput').on('change', function () {
-        var projectId = $('#projectInput').val();
-        $.ajax({
-            beforeSend: function () {
-                $('.loader').show();
-                $('.loading-image').show();
-            },
-            type: 'GET',
-            url: '/Shared/UsersDropDown',
-            data: { projectId: projectId },
-            success: function (data) {
-                $('#userDropDown').html(data);
-            },
-            complete: function () {
-                $('.loader').hide();
-                $('.loading-image').hide();
-            }
-        });
-    });
+
+<div class="modal fade" id="deleteAttachmentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Delete attachment</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure?</h4>
+            </div>
+            <div class="modal-footer">
+                <span class="hidden" id="hiddenAttachmentName"></span>
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton" onclick="deleteAttachment()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $('#addAttachmentsModalIcon').click(function () {
+        $('#addAttachmentsModal').click();
+    })
 </script>
 <script>
-    $('#userInput').on('change', function () {
-        var userId = $('#userInput').val();
+    document.getElementById('addAttachmentsModal').onchange = function () {
+        $('#addAttachmentsList').empty();
+        for (var i = 0; i < this.files.length; i++) {
+            $('#addAttachmentsList').append('<li>' + this.files[i].name + '</li>');
+        }
+    };
+</script>
+
+<script>
+    $('#addAttachmentsIcon').on('click', function() {
+        $('#addAttachments').click();
+    })
+</script>
+
+<script>
+    $('#addAttachments').on('change', function() {
+        $('#submitAttachments').click();
+    });
+</script>
+
+<script>
+    function showDeleteIcon(liId) {
+        $(liId).children(".fa").show();
+
+        $(liId).on("mouseleave", function() {
+            $(liId).children(".fa").hide();
+        });
+    }
+</script>
+
+<script>
+    function getAttachmentName(id) {
+        $('#hiddenAttachmentName').html(id);
+    }
+</script>
+
+<script>
+    function deleteAttachment() {
+        var name = $('#hiddenAttachmentName').text();
         $.ajax({
-            beforeSend: function () {
-                $('.loader').show();
-                $('.loading-image').show();
+            type: 'POST',
+            data: {
+                bugId: @Model.BugId,
+                name: name
             },
-            type: 'GET',
-            url: '/Shared/ProjectsDropDown',
-            data: { userId: userId },
-            success: function (data) {
-                $('#projectDropDown').html(data);
+            url: '/Task/DeleteAttachment',
+            success: function(data) {
+                $('#bugAttachments').html(data);
+                $('#modalAttachments').html(data);
             },
-            complete: function () {
-                $('.loader').hide();
-                $('.loading-image').hide();
+            error: function () {
+                alert('En error occured. Please try again.');
             }
         });
-    });
-</script>*@
+    }
+</script>
 
 <script>
     $('#statusChangeDropDown').on('change', function() {
@@ -250,10 +300,6 @@
     $('#editTaskStatusDropDown').dropdown('set selected', '@Model.Status');
     $('#editTaskPriorityDropDown').dropdown('set selected', '@Model.Priority');
     $('#taskProjectDropDown').dropdown('set selected', '@Model.ProjectID');
-    @*if(@Model.AssignedUser != null)
-    {
-        $('#taskUserDropDown').dropdown('set selected', '@Model.AssignedUser.UserId');
-    }*@
     $('.ui.dropdown').dropdown('refresh');
 </script>
 

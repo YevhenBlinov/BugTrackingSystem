@@ -50,7 +50,7 @@ namespace BugTrackingSystem.Web.Controllers
                 if (_userService.IsUserExists(model.Email, model.Password))
                 {
                     var userToken = new FormsAuthenticationTicket(1, model.Email, DateTime.Now,
-                        DateTime.Now.AddMinutes(1), false, user.Role.ToString());
+                        DateTime.Now.AddMinutes(100), false, user.Role.ToString());
 
                     headerToken = FormsAuthentication.Encrypt(userToken);
                 }
@@ -59,7 +59,7 @@ namespace BugTrackingSystem.Web.Controllers
                 {
                     Response.Cookies.Add(new HttpCookie("auth", headerToken));
 
-                    return string.IsNullOrEmpty(returnUrl) ? Redirect("/Home/Index") : Redirect(returnUrl);
+                    return string.IsNullOrEmpty(returnUrl) ? Redirect("/Home/Dashboard") : Redirect(returnUrl);
                 }
                 else
                 {

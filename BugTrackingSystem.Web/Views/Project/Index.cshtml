@@ -55,10 +55,10 @@
             <div class="modal-body col-lg-12">
                 <form>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="name" placeholder="Title" style="margin: 0; display: inline-block">
+                        <input class="form-control" id="name" placeholder="Title" style="margin: 0; display: inline-block">
                     </div>
                     <div class="form-group col-xs-4 padding0">
-                        <input type="email" class="form-control" id="prefix" placeholder="Prefix" style="margin: 0; display: inline-block">
+                        <input maxlength="3" class="form-control inline-block" id="prefix" placeholder="Prefix" style="margin: 0;">
                     </div>
                     <div class="col-xs-6" style="color: lightgrey; padding-top: 7px;">
                         Three letters for deescription of project
@@ -76,6 +76,13 @@
 
 <div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared")"></div>
 
+<script>
+    $(function() {
+        $('#prefix').keyup(function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
+    });
+</script>
 
 <script>
     function searchProject() {

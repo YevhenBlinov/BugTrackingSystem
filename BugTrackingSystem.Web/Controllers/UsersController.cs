@@ -50,9 +50,10 @@ namespace BugTrackingSystem.Web.Controllers
             return PartialView(users);
         }
 
-        public ActionResult DeleteUserModal(int userId)
+        public ActionResult DeleteUserModal(int userId, int taskCount)
         {
             ViewBag.UserId = userId;
+            ViewBag.TaskCount = taskCount;
             return PartialView();
         }
 

@@ -1,0 +1,105 @@
+﻿
+<div id="TaskModalWindow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createNewTaskLabel">
+    <div class="modal-dialog" role="document" id="TaskModalDialog">
+        <img class="loading-image" src="../../Content/Images/3.gif">
+        <div class="loader"></div>
+        <div class="modal-content" style="display: block">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new task</h3>
+            </div>
+            @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body col-lg-12">
+                    <div class="form-group">
+                        <input class="form-control" id="Title" name="Title" placeholder="Title" style="margin: 0; display: inline-block">
+                    </div>
+                    <div id="projectDropDown">
+                        <div class="modalSingleDropdown ui selection dropdown pull-left cn disabled">
+                            <input type="hidden" name="Project" value="">
+                            <i class="dropdown icon"></i>
+                            <div class="default text inner">Project</div>
+                        </div>
+                    </div>
+                    <div id="userDropDown">
+                        @Html.Action("UsersDropDown", "Shared")
+                    </div>
+                    <div class="ui selection dropdown modalSingleDropdown pull-left cn">
+                        <input type="hidden" name="Priority">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Priority</div>
+                        <div class="menu">
+                            <div class="item" data-value="Minor">
+                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle" />
+                                Minor
+                            </div>
+                            <div class="item" data-value="Major">
+                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle" />
+                                Major
+                            </div>
+                            <div class="item" data-value="Critical">
+                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle" />
+                                Critical
+                            </div>
+                            <div class="item" data-value="Blocker">
+                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle" />
+                                Blocker
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui selection dropdown modalSingleDropdown pull-right cn">
+                        <input type="hidden" name="Status">
+                        <i class="dropdown icon"></i>
+                        <div class="default text inner">Status</div>
+                        <div class="menu">
+                            <div class="item" data-value="ToDo">To do</div>
+                            <div class="item" data-value="InProgress">In progress</div>
+                            <div class="item" data-value="InTesting">In testing</div>
+                            <div class="item" data-value="Done">Done</div>
+                            <div class="item" data-value="Closed">Closed</div>
+                        </div>
+                    </div>
+                    <textarea class="form-control" name="Description" placeholder="Description" rows="5"></textarea>
+                    <div>
+                        <b>Attachments</b>
+                        <i class="fa fa-plus round" id="fileIcon" aria-hidden="true" style="font-size: 15px; margin-top: 10px;"></i>
+                        <ul id="fileNames" style="color: #4D868D; margin-top: 10px; padding-left: 20px;"></ul>
+                        <input type="file" name="image" multiple class="hidden" id="inputFile" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn modalCreateButton" style="margin-top: 10px;" id="submit-btn">Create</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var userValue = $('#projectInput');
+    if (userValue == undefined) {
+        $('#taskUserDropDown').addClass('disabled');
+        $('.ui.dropdown').dropdown('refresh');
+    }
+</script>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+<script>
+    $('#fileIcon').click(function () {
+        $('#inputFile').click();
+    })
+</script>
+<script>
+    document.getElementById('inputFile').onchange = function () {
+        $('#fileNames').empty();
+        for (var i = 0; i < this.files.length; i++) {
+            $('#fileNames').append('<li>' + this.files[i].name + '</li>');
+        }
+    };
+</script>
