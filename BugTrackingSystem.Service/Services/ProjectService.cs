@@ -135,7 +135,7 @@ namespace BugTrackingSystem.Service.Services
             if (project == null)
                 throw new Exception("Sorry, but the project doesn't exist.");
 
-            var projectUsers = project.Users.ToList();
+            var projectUsers = project.Users.Where(u => u.DeletedOn == null).ToList();
             var projectUsersViewModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(projectUsers).ToList();
 
             if (projectUsersViewModels.Count == 0) 
