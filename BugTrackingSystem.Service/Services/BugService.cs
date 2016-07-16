@@ -169,7 +169,7 @@ namespace BugTrackingSystem.Service.Services
             bugToEdit.ModificationDate = DateTime.Now;
             bugToEdit.Subject = bugEditFormViewModel.Title;
             bugToEdit.ProjectID = bugEditFormViewModel.Project;
-            bugToEdit.AssignedUserID = bugEditFormViewModel.Assignee;
+            bugToEdit.AssignedUserID = bugEditFormViewModel.Assignee != 0 ? bugEditFormViewModel.Assignee : (int?) null;
             bugToEdit.PriorityID =
                 (byte) ((BugPriority) Enum.Parse(typeof (BugPriority), bugEditFormViewModel.Priority));
             bugToEdit.StatusID = (byte) ((BugStatus) Enum.Parse(typeof (BugStatus), bugEditFormViewModel.Status));
