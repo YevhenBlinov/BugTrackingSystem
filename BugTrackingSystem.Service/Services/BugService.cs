@@ -141,7 +141,7 @@ namespace BugTrackingSystem.Service.Services
             _bugRepository.Add(bug);
             _bugRepository.Save();
 
-            if (bug.BugAttachments.Count == 0)
+            if (bugFormViewModel.Attachments.Count == 0)
                 return;
 
             var addedBugId =
