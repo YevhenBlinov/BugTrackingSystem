@@ -10,6 +10,8 @@ namespace BugTrackingSystem.Service.Services
 
         FullBugViewModel GetFullBugById(int bugId);
 
+        Dictionary<string, string> GetBugAttachmentsByBugId(int bugId);
+        
         IEnumerable<CommentViewModel> GetBugCommentsByBugId(int bugId);
         
         IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1,
@@ -17,11 +19,17 @@ namespace BugTrackingSystem.Service.Services
 
         void AddNewBug(BugFormViewModel bugFormViewModel);
 
+        void EditBug(BugEditFormViewModel bugEditFormViewModel);
+
+        void AddBugAttachmentsByBugId(int bugId, Dictionary<string, byte[]> bugAttachmentsDictionary);
+
         IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle);
 
         void UpdateBugStatus(int bugId, string status);
 
         void AddCommentToBug(int bugId, string userName, string comment);
+
+        void DeleteBugAttachment(int bugId, string attachmentName);
     }
 }

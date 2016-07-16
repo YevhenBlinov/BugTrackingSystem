@@ -86,15 +86,23 @@ namespace BugTrackingSystem.Service.Services
                 fullbugModel.AssignedUser.Photo = _blobService.GetBlobSasUri(fullbugModel.AssignedUser.Photo);
             }
 
-            if (bug.BugAttachments.Count == 0) 
-                return fullbugModel;
+            return fullbugModel;
+        }
+
+        public Dictionary<string, string> GetBugAttachmentsByBugId(int bugId)
+        {
+            var bug = _bugRepository.GetById(bugId);
+
+            if (bug == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+
+            if (bug.BugAttachments.Count == 0)
+                return new Dictionary<string, string>();
 
             var attachmentBlobService = new BlobService("attachments" + bugId);
             var bugAttachmentsList = bug.BugAttachments.ToDictionary(bugAttachment => bugAttachment.Attachment,
                 bugAttachment => attachmentBlobService.GetBlobSasUri(bugAttachment.Attachment));
-            fullbugModel.Attachments = bugAttachmentsList;
-
-            return fullbugModel;
+            return bugAttachmentsList;
         }
 
         public IEnumerable<CommentViewModel> GetBugCommentsByBugId(int bugId)
@@ -150,24 +158,46 @@ namespace BugTrackingSystem.Service.Services
                         b.ProjectID == bug.ProjectID && b.AssignedUserID == bug.AssignedUserID &&
                         b.CreationDate == bug.CreationDate && b.ModificationDate == bug.ModificationDate &&
                         b.PriorityID == bug.PriorityID && b.StatusID == bug.StatusID && b.Description == bug.Description).BugID;
-            AddBugAttachments(addedBugId, bugFormViewModel.Attachments);
-
-            foreach (var bugAttachment in bugFormViewModel.Attachments)
-            {
-                _bugAttachmentRepository.Add(new BugAttachment() { Attachment = bugAttachment.Key, BugID = addedBugId });
-            }
-
-            _bugAttachmentRepository.Save();
+            AddBugAttachmentsByBugId(addedBugId, bugFormViewModel.Attachments);
         }
 
-        private void AddBugAttachments(int bugId, Dictionary<string, byte[]> bugAttachmentsDictionary)
+        public void EditBug(BugEditFormViewModel bugEditFormViewModel)
         {
+            var bugToEdit = _bugRepository.GetById(bugEditFormViewModel.BugId);
+            bugToEdit.Subject = bugEditFormViewModel.Title;
+            bugToEdit.ProjectID = bugEditFormViewModel.Project;
+            bugToEdit.AssignedUserID = bugEditFormViewModel.Assignee;
+            bugToEdit.PriorityID =
+                (byte) ((BugPriority) Enum.Parse(typeof (BugPriority), bugEditFormViewModel.Priority));
+            bugToEdit.StatusID = (byte) ((BugStatus) Enum.Parse(typeof (BugStatus), bugEditFormViewModel.Status));
+            bugToEdit.Description = bugEditFormViewModel.Description;
+            _bugRepository.Update(bugToEdit);
+            _bugRepository.Save();
+
+            if (bugEditFormViewModel.Attachments.Count == 0) 
+                return;
+
+            AddBugAttachmentsByBugId(bugEditFormViewModel.BugId, bugEditFormViewModel.Attachments);
+        }
+
+        public void AddBugAttachmentsByBugId(int bugId, Dictionary<string, byte[]> bugAttachmentsDictionary)
+        {
+            if(bugAttachmentsDictionary.Count == 0)
+                return;
+
             var blobService = new BlobService("attachments" + bugId);
 
             foreach (var bugAttachment in bugAttachmentsDictionary)
             {
                 blobService.UploadBlobIntoContainerFromByteArray(bugAttachment.Key, bugAttachment.Value);
             }
+
+            foreach (var bugAttachment in bugAttachmentsDictionary)
+            {
+                _bugAttachmentRepository.Add(new BugAttachment() { Attachment = bugAttachment.Key, BugID = bugId });
+            }
+
+            _bugAttachmentRepository.Save();
         }
 
         public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
@@ -225,6 +255,14 @@ namespace BugTrackingSystem.Service.Services
             bug.Comments = bugId.ToString();
             _bugRepository.Update(bug);
             _bugRepository.Save();
+        }
+
+        public void DeleteBugAttachment(int bugId, string attachmentName)
+        {
+            var blobService = new BlobService("attachments" + bugId);
+            blobService.DeleteBlobFromContainer(attachmentName);
+            _bugAttachmentRepository.Delete(ba => ba.BugID == bugId && ba.Attachment == attachmentName);
+            _bugAttachmentRepository.Save();
         }
     }
 }

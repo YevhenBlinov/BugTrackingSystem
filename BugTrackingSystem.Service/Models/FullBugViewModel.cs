@@ -6,8 +6,6 @@ namespace BugTrackingSystem.Service.Models
     {
         public string Description { get; set; }
 
-        public Dictionary<string, string> Attachments { get; set; }
-
         public List<CommentViewModel> Comments { get; set; }
     }
 }
