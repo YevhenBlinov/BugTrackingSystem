@@ -22,12 +22,13 @@
             </div>
             @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email" })
             @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Password" })
+            @Html.CheckBoxFor(x => x.RememberMe, new { @class = "form-control" })
             @*<input type="text" name="email" placeholder="Email"/>
-                <br/>
-                <input type="password" name="password" placeholder="Password"/>*@
-            <input type="checkbox" name="RemebmerMe" />
-                <span id="RememberMe">Remember me</span>
-                <a id="ForgotPass" href="#">Forgot password</a>
+                    <br/>
+                    <input type="password" name="password" placeholder="Password"/>
+                <input type="checkbox" name="RemebmerMe" />*@
+            <span id="RememberMe">Remember me</span>
+            <a id="ForgotPass" href="#">Forgot password</a>
                 <input type="submit" value="Login" />
         }
     </div>

@@ -12,11 +12,13 @@ namespace BugTrackingSystem.Web.Controllers
     {
         IFilterService _filterService;
         IProjectService _projectService;
+        IUserService _userService;
 
-        public FiltersController(IFilterService filterService, IProjectService projectService)
+        public FiltersController(IFilterService filterService, IProjectService projectService,IUserService userService)
         {
             _filterService = filterService;
             _projectService = projectService;
+            _userService = userService;
         }
 
         //
@@ -27,8 +29,9 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult FiltersInfo(int userId = 1, string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle)
+        public ActionResult FiltersInfo( string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
+            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
             IEnumerable<FilterViewModel> filters;
 
             var filtersCount = 0;

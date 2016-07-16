@@ -39,17 +39,26 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult ProjectsInfo( string sortBy = Constants.SortProjectsByTitle, int userId = 1, string search = null, int page = 1)
+        public ActionResult ProjectsInfo( string sortBy = Constants.SortProjectsByTitle, string search = null, int page = 1)
         {
             var projectsCount = 0;
+            var user = _userService.GetUserByEmail(User.Identity.Name);
             IEnumerable<ProjectViewModel> projects;
             if (string.IsNullOrEmpty(search))
             {
-                projects = _projectService.GetProjects(out projectsCount, page, sortBy);
+                if (User.IsInRole("Administrator"))
+                    projects = _projectService.GetProjects(out projectsCount, page, sortBy);
+                else
+                {
+                    projects = _userService.GetUsersProjects(user.UserId);
+                    // _projectService.GetProjects(out projectsCount, page, sortBy);
+
+                    projectsCount = projects.Count();
+                }
             }
             else
             {
-                projects = _projectService.SearchProjectsByName(search, UserRole.Administrator, out projectsCount, page, sortBy);
+                projects = _projectService.SearchProjectsByName(search, user.Role , out projectsCount, page, sortBy);
             }
 
             double pagesCount = Convert.ToDouble(projectsCount) / Convert.ToDouble(Constants.StickerPageSize);

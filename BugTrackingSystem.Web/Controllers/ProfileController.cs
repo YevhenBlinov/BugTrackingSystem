@@ -19,21 +19,23 @@ namespace BugTrackingSystem.Web.Controllers
             _userService = userService;
         }
         // GET: Profile
-        public ActionResult Index(int userId = 1)
+        public ActionResult Index()
         {
+            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
             ViewBag.UserId = userId;
             return View();
         }
-        public ActionResult UserProjects(int userId = 1)
+        public ActionResult UserProjects()
         {
+            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
             var projects = _userService.GetUsersProjects(userId);
             ViewBag.UserId = userId;
             return PartialView(projects);
         }
 
-        public ActionResult UserInfo(int userId = 1)
+        public ActionResult UserInfo()
         {
-            var user = _userService.GetUserById(userId);
+            var user = _userService.GetUserByEmail(User.Identity.Name);
             return PartialView(user);
         }
     }

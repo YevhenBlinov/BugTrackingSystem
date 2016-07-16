@@ -6,6 +6,9 @@ using System.Web.Mvc.Filters;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Security.Claims;
+using System.Web;
+using BugTrackingSystem.Data.Model;
+using BugTrackingSystem.Service.Services;
 
 namespace BugTrackingSystem.Web.Filters
 {
@@ -22,13 +25,44 @@ namespace BugTrackingSystem.Web.Filters
 
             var cookieValue = filterContext.HttpContext.Request.Cookies.Get("auth");
 
+            if (filterContext.HttpContext.Session["Email"] != null && filterContext.HttpContext.Session["Roles"] != null)
+            {
+                var user = filterContext.HttpContext.Session["Email"];
+                var roles = (string[])filterContext.HttpContext.Session["Roles"];
+                filterContext.Principal = new GenericPrincipal(new GenericIdentity(user.ToString()), roles);
+            }
+
+            else 
             if (cookieValue != null && !string.IsNullOrEmpty(cookieValue.Value))
             {
+
                 var user = FormsAuthentication.Decrypt(cookieValue.Value);
+                var userService = (UserService)DependencyResolver.Current.GetService(typeof(IUserService));
+                var userFromDB = userService.GetUserByEmail(user.Name);
+
+                filterContext.HttpContext.Session["Email"] = user.Name;
+                filterContext.HttpContext.Session["FirstName"] = userFromDB.FirstName;
+                filterContext.HttpContext.Session["LastName"] = userFromDB.LastName;
+                filterContext.HttpContext.Session["Photo"] = userFromDB.Photo;
+                filterContext.HttpContext.Session["Role"] = user.UserData;
+                filterContext.HttpContext.Session["Roles"] = new string[] { userFromDB.Role.ToString() };
+
                 if (user != null && !user.Expired)
                 {
                     filterContext.Principal = new GenericPrincipal(new GenericIdentity(user.Name), user.UserData.Split(','));
                 }
+            }
+            else
+            {
+                filterContext.Result =
+                new RedirectToRouteResult(
+                    new RouteValueDictionary(
+                        new
+                        {
+                            controller = "Login",
+                            action = "Login",
+                            returnUrl = filterContext.HttpContext.Request.Url.LocalPath
+                        }));
             }
         }
 

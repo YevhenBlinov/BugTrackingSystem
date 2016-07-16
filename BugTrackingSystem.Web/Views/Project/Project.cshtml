@@ -8,18 +8,22 @@
     <div id="header" class="row">
         <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
             @Model.Name
+
             <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add task">
                 <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#projectTaskModalWindow"></i>
             </div>
-            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit project">
-                <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
-            </div>
-            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Pause project">
-                <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
-            </div>
-            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Delete project">
-                <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
-            </div>
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit project">
+                    <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
+                </div>
+                <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Pause project">
+                    <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
+                </div>
+                <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Delete project">
+                    <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
+                </div>
+            }
         </div>
 
         <div class="pull-right col-sm-6 col-xs-12" id="Local-search" style="padding: 0; width: 240px">
@@ -47,9 +51,12 @@
                 <div id="projectUsers">
                     @Html.Action("ProjectUsers", "Project")
                 </div>
-                <div class="inline-block">
-                    <i class="fa fa-plus" aria-hidden="true" style="color: #BBBBBB; border: none; font-size: 17px;" onclick="addUserToProjectModalShow()"></i>
-                </div>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div class="inline-block">
+                        <i class="fa fa-plus" aria-hidden="true" style="color: #BBBBBB; border: none; font-size: 17px;" onclick="addUserToProjectModalShow()"></i>
+                    </div>
+                }
             </div>
 
 
@@ -146,7 +153,7 @@
                         </div>
                     </div>
                     <div id="userDropDown">
-                        @Html.Action("UsersDropDown", "Shared", new {projectId = @Model.ProjectId})
+                        @Html.Action("UsersDropDown", "Shared", new { projectId = @Model.ProjectId })
                     </div>
                     <div class="ui selection dropdown modalSingleDropdown pull-left cn">
                         <input type="hidden" name="Priority">
@@ -237,7 +244,7 @@
                 search: search,
                 sortBy: sortBy,
                 projectId: @Model.ProjectId
-            },
+                },
             url: '/Project/ProjectBugs',
             success: function(html) {
                 $('#projectsBugContainer').html(html);
@@ -259,7 +266,7 @@
                 search: search,
                 sortBy: sortBy,
                 projectId: @Model.ProjectId
-            },
+                },
             url: '/Project/ProjectBugs',
             success: function(html) {
                 $('#projectsBugContainer').html(html);

@@ -25,7 +25,8 @@ namespace BugTrackingSystem.Web.Controllers
         }
         public ActionResult MyProjects()
         {
-            var userProjects = _userService.GetUsersProjects(1);
+            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
+            var userProjects = _userService.GetUsersProjects(userId);
             return PartialView(userProjects);
         }
 

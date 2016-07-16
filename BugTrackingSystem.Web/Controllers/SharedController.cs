@@ -22,8 +22,9 @@ namespace BugTrackingSystem.Web.Controllers
             _projectService = projectService;
         }
         // GET: Shared
-        public ActionResult UserBugs(int userId = 1, int page = 1)
+        public ActionResult UserBugs(int page = 1)
         {
+            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
             var bugsCount = 0;
             var userBugs = _userService.GetUsersBugs(userId, out bugsCount, page);
             double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.StickerPageSize);
@@ -48,11 +49,14 @@ namespace BugTrackingSystem.Web.Controllers
             return PartialView();
         }
 
+
+        [CustomAuthorize(Roles = "Administrator")]
         public void DeleteProject(int projectId)
         {
             _projectService.DeleteProject(projectId);
         }
 
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult DeleteProjectModal(int projectId)
         {
             ViewBag.ProjectId = projectId;
@@ -74,8 +78,9 @@ namespace BugTrackingSystem.Web.Controllers
             return PartialView(users);
         }
 
-        public ActionResult ProjectsDropDown(int userId = 0)
+        public ActionResult ProjectsDropDown()
         {
+            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
             IEnumerable<ProjectViewModel> projects;
             if (userId == 0)
             {

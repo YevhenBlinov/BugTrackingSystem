@@ -9,10 +9,13 @@
     <div id="header" class="row">
         <div id="headerTitle" class="col-sm-6 col-xs-12">
             Projects
-            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add project">
-                <i class="fa fa-plus round" style="margin: 0" data-toggle="modal" aria-hidden="true" data-target="#addProjectModal">
-                </i>
-            </div>
+            @if (!User.IsInRole("User"))
+            {
+                <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add project">
+                    <i class="fa fa-plus round" style="margin: 0" data-toggle="modal" aria-hidden="true" data-target="#addProjectModal">
+                    </i>
+                </div>
+            }
         </div>
 
         <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
@@ -77,7 +80,7 @@
 <div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared")"></div>
 
 <script>
-    $(function() {
+    $(function () {
         $('#prefix').keyup(function () {
             this.value = this.value.toLocaleUpperCase();
         });
@@ -95,10 +98,10 @@
                 sortBy: sortBy
             },
             url: '/Project/ProjectsInfo',
-            success: function(html) {
+            success: function (html) {
                 $('#projectsContainer').html(html);
             },
-            error: function() {
+            error: function () {
                 alert('En error occured. Please try again.');
             }
         });
@@ -123,7 +126,7 @@
                 alert('En error occured. Please try again.');
             }
         });
-    })   
+    })
 </script>
 
 <script>
@@ -170,7 +173,7 @@
                 $.ajax({
                     type: 'GET',
                     url: '/Project/ProjectsInfo',
-                    success: function(data) {
+                    success: function (data) {
                         $('#projectsContainer').html(data);
                     }
                 });

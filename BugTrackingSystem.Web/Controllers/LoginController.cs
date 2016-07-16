@@ -14,43 +14,70 @@ namespace BugTrackingSystem.Web.Controllers
     public class LoginController : Controller
     {
         private readonly IUserService _userService;
-        //AppCache appCache;
         public LoginController(IUserService userService)
         {
             _userService = userService;
-            //appCache = new AppCache();
         }
         // GET: Login
         [AllowAnonymous]
         public ActionResult Login()
         {
+            if (Session["Email"]!=null)
+                return RedirectToAction("Index", "Home");
             return View();
         }
         [CustomAuthorize]
         public ActionResult Logout()
         {
-            Response.Cookies.Add(new HttpCookie("auth", null));
+            if (Request.Cookies["auth"] != null && Request.Cookies["ASP.NET_SessionId"]!=null)
+            {
+                var auth = new HttpCookie("auth")
+                {
+                    Expires = DateTime.Now.AddDays(-1),
+                    Value = null
+                };
+                var aspnet = new HttpCookie("ASP.NET_SessionId")
+                {
+                    Expires = DateTime.Now.AddDays(-1),
+                    Value = null
+                };
+                Response.Cookies.Add(auth);
+                Response.Cookies.Add(aspnet);
+            }
             Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [OutputCache(Duration = 120, Location = OutputCacheLocation.Server)]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             string headerToken = "";
             if (ModelState.IsValid)
             {
                 var user = _userService.GetUserByEmail(model.Email);
-                Session["FirstName"] = user.FirstName;
-                Session["LastName"] = user.LastName;
-                Session["Photo"] = user.Photo;
                 //TODO Check in DB for existing and valid user
                 if (_userService.IsUserExists(model.Email, model.Password))
                 {
+                    int expiresDays = 1;
+                    if (model.RememberMe)
+                        expiresDays = 365;
+                    Session["FirstName"] = user.FirstName;
+                    Session["LastName"] = user.LastName;
+                    Session["Photo"] = user.Photo;
+                    Session["Email"] = user.Email;
+                    Session["Role"] = user.Role.ToString();
+                    Session["Roles"] = new string[] { user.Role.ToString() };
+                    //HttpCookie myCookie = new HttpCookie("auth");
+                    //myCookie["FirstName"] = user.FirstName;
+                    //myCookie["LastName"] = user.LastName;
+                    //myCookie["Photo"] = user.Photo;
+                    //myCookie["Email"] = user.Email;
+                    //myCookie.Expires = DateTime.Now.AddDays(expiresDays);
+                    //Response.Cookies.Add(myCookie);
+
                     var userToken = new FormsAuthenticationTicket(1, model.Email, DateTime.Now,
-                        DateTime.Now.AddMinutes(100), false, user.Role.ToString());
+                        DateTime.Now.AddDays(expiresDays), false, user.Role.ToString()/*, FormsAuthentication.FormsCookiePath*/);
 
                     headerToken = FormsAuthentication.Encrypt(userToken);
                 }
@@ -65,33 +92,10 @@ namespace BugTrackingSystem.Web.Controllers
                 {
                     ModelState.AddModelError("", "Sorry, your email or password are incorrect. Please try again.");
                 }
-
-                
-
-                //var noms = System.Runtime.Caching.MemoryCache.Default["user"];
-                //if (noms == null)
-                //{
-                //    noms = user;
-                //    System.Runtime.Caching.MemoryCache.Default["user"] = noms;
-                //}
-
-
-                //Session["FirstName"] = user.FirstName.ToString();
-
-                //var cTime = DateTime.Now.AddMinutes(11);
-                //var cExp = System.Web.Caching.Cache.NoSlidingExpiration;
-                //var cPri = System.Web.Caching.CacheItemPriority.Normal;
-                //HttpContext.Cache.Add(cacheKey, user, null, cTime, cExp, cPri, null);
             }
 
             return View(model);
         }
-
-        //public ActionResult GetUserFromCache()
-        //{
-        //    var user = this.Session["User"] as User;
-        //    return View();
-        //}
 
         public ActionResult ForgotPassword()
         {

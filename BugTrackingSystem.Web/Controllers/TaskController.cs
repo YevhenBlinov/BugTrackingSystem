@@ -54,7 +54,7 @@ namespace BugTrackingSystem.Web.Controllers
                 }
             }
             int bugId = _bugService.AddNewBug(bug);
-            return RedirectToActionPermanent("Task", "Task", new {bugId = bugId});
+            return RedirectToActionPermanent("Task", "Task", new { bugId = bugId });
         }
 
         public ActionResult EditTask(BugEditFormViewModel bug, HttpPostedFileBase[] attachmentsModal)
@@ -81,7 +81,7 @@ namespace BugTrackingSystem.Web.Controllers
                 }
             }
             _bugService.EditBug(bug);
-            return RedirectToActionPermanent("Task", "Task", new {bugId = bug.BugId});
+            return RedirectToActionPermanent("Task", "Task", new { bugId = bug.BugId });
         }
 
         public void ChangeStatus(int bugId, string status)
@@ -96,9 +96,10 @@ namespace BugTrackingSystem.Web.Controllers
             return PartialView(comments);
         }
 
-        public void AddComment(int bugId, string comment, string userId = "George Orwell")
+        public void AddComment(int bugId, string comment, string userName)
         {
-            _bugService.AddCommentToBug(bugId, userId, comment);
+            userName = Session["FirstName"] + " " + Session["LastName"];
+            _bugService.AddCommentToBug(bugId, userName, comment);
         }
 
         public ActionResult EditTaskUsers(int projectId)
@@ -110,7 +111,7 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult DeleteAttachment(int bugId, string name)
         {
             _bugService.DeleteBugAttachment(bugId, name);
-            return RedirectToActionPermanent("BugAttachments", "Task", new { bugId = bugId} );
+            return RedirectToActionPermanent("BugAttachments", "Task", new { bugId = bugId });
         }
 
         public ActionResult BugAttachments(int bugId)
@@ -120,7 +121,7 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         public ActionResult AddAttachment(HttpPostedFileBase[] attachments, int bugId)
-        {         
+        {
             if (attachments[0] != null)
             {
                 Dictionary<string, byte[]> attachmentsArray = new Dictionary<string, byte[]>();
@@ -143,7 +144,7 @@ namespace BugTrackingSystem.Web.Controllers
                 }
                 _bugService.AddBugAttachmentsByBugId(bugId, attachmentsArray);
             }
-            return RedirectToActionPermanent("Task", "Task", new {bugId = bugId});
+            return RedirectToActionPermanent("Task", "Task", new { bugId = bugId });
         }
     }
 }
