@@ -1,7 +1,9 @@
 ﻿using System.Web.Mvc;
+using BugTrackingSystem.Web.Filters;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class SearchController : Controller
     {
         //

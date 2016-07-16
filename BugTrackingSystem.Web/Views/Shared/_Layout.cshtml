@@ -86,7 +86,10 @@
             <div class="collapse navbar-collapse" id="NavbarCollapsed">
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.Action("Index", "Project")">Projects</a></li>
-                    <li><a href="@Url.Action("Index", "Users")">Users</a></li>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li><a href="@Url.Action("Index", "Users")">Users</a></li>
+                    }
                     <li><a href="@Url.Action("Index", "Filters")">Filters</a></li>
                     <li><a class="visible-xs" onclick="CreateTaskModalShow()">Create task</a></li>
                 </ul>
@@ -97,14 +100,17 @@
                 <ul class="nav navbar-nav navbar-right" id="userDrop" style="margin-top: 0; margin-left: 25px; margin-right: 15px;">
                     <li class="dropdown userProfile">
                         <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhoto">
-                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
-                            <span id="navUserName">George Orwell</span>
+                            <img src="@Session["Photo"]" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
+                            <span id="navUserName"> @Session["FirstName"] @Session["LastName"]</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-toggle" id="navDropdown">
-                            <li style="height: 16px; background-color: transparent"><i id="dropdownCaret" class="fa fa-caret-up" aria-hidden="true"></i></li>
-                            <li><a href="@Url.Action("Index", "Profile")">Profile</a></li>
-                            <li><a href="@Url.Action("Login", "Login")">Sign Out</a></li>
-                        </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="dropdown-menu dropdown-toggle" id="navDropdown">
+                                <li style="height: 16px; background-color: transparent"><i id="dropdownCaret" class="fa fa-caret-up" aria-hidden="true"></i></li>
+                                <li><a href="@Url.Action("Index", "Profile")">Profile</a></li>
+                                <li><a href="@Url.Action("Logout", "Login")">Sign Out</a></li>
+                            </ul>
+                        }
                     </li>
                 </ul>
                 <div class="nav navbar-nav navbar-right" id="search">

@@ -1,8 +1,10 @@
 ﻿using System.Web.Mvc;
 using BugTrackingSystem.Service.Services;
+using BugTrackingSystem.Web.Filters;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;

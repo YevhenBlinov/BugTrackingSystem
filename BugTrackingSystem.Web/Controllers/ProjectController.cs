@@ -7,10 +7,12 @@ using BugTrackingSystem.Service;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
 using BugTrackingSystem.Service.Services;
+using BugTrackingSystem.Web.Filters;
 using PagedList;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class ProjectController : Controller
     {
         private IProjectService _projectService;

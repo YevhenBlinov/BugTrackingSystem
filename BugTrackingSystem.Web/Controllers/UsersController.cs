@@ -8,10 +8,13 @@ using BugTrackingSystem.Service;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
+using BugTrackingSystem.Web.Filters;
 using Microsoft.Ajax.Utilities;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
+    [CustomAuthorize(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;

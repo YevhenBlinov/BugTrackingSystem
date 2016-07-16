@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Service;
+using BugTrackingSystem.Web.Filters;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class SharedController : Controller
     {
         private readonly IUserService _userService;

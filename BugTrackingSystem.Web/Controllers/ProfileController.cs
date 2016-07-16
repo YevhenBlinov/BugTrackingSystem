@@ -4,9 +4,11 @@ using System.Web;
 using System.Web.Mvc;
 using BugTrackingSystem.Service.Models.FormModels;
 using BugTrackingSystem.Service.Services;
+using BugTrackingSystem.Web.Filters;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class ProfileController : Controller
     {
 

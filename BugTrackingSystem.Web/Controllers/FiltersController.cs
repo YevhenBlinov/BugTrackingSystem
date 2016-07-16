@@ -3,9 +3,11 @@ using System.Web.Mvc;
 using BugTrackingSystem.Service;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Services;
+using BugTrackingSystem.Web.Filters;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class FiltersController : Controller
     {
         IFilterService _filterService;
