@@ -17,7 +17,7 @@ namespace BugTrackingSystem.Service.Services
         IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle);
 
-        void AddNewBug(BugFormViewModel bugFormViewModel);
+        int AddNewBug(BugFormViewModel bugFormViewModel);
 
         void EditBug(BugEditFormViewModel bugEditFormViewModel);
 

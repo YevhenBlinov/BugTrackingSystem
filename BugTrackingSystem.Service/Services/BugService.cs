@@ -140,7 +140,7 @@ namespace BugTrackingSystem.Service.Services
             return projectbugmodels;
         }
 
-        public void AddNewBug(BugFormViewModel bugFormViewModel)
+        public int AddNewBug(BugFormViewModel bugFormViewModel)
         {
             var bug = _mapper.Map<BugFormViewModel, Bug>(bugFormViewModel);
             var dateTimeNow = DateTime.Now;
@@ -149,21 +149,24 @@ namespace BugTrackingSystem.Service.Services
             _bugRepository.Add(bug);
             _bugRepository.Save();
 
-            if (bugFormViewModel.Attachments.Count == 0)
-                return;
-
             var addedBugId =
                 _bugRepository.Get(
                     b =>
                         b.ProjectID == bug.ProjectID && b.AssignedUserID == bug.AssignedUserID &&
                         b.CreationDate == bug.CreationDate && b.ModificationDate == bug.ModificationDate &&
                         b.PriorityID == bug.PriorityID && b.StatusID == bug.StatusID && b.Description == bug.Description).BugID;
+
+            if (bugFormViewModel.Attachments.Count == 0)
+                return addedBugId;
+
             AddBugAttachmentsByBugId(addedBugId, bugFormViewModel.Attachments);
+            return addedBugId;
         }
 
         public void EditBug(BugEditFormViewModel bugEditFormViewModel)
         {
             var bugToEdit = _bugRepository.GetById(bugEditFormViewModel.BugId);
+            bugToEdit.ModificationDate = DateTime.Now;
             bugToEdit.Subject = bugEditFormViewModel.Title;
             bugToEdit.ProjectID = bugEditFormViewModel.Project;
             bugToEdit.AssignedUserID = bugEditFormViewModel.Assignee;
