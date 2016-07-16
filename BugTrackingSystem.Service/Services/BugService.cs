@@ -201,6 +201,11 @@ namespace BugTrackingSystem.Service.Services
             }
 
             _bugAttachmentRepository.Save();
+
+            var bug = _bugRepository.GetById(bugId);
+            bug.ModificationDate = DateTime.Now;
+            _bugRepository.Update(bug);
+            _bugRepository.Save();
         }
 
         public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, UserRole userRole, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null)
@@ -260,6 +265,7 @@ namespace BugTrackingSystem.Service.Services
             
             var updateStatusValue = (BugStatus) Enum.Parse(typeof(BugStatus), status, true);
             bugToUpdate.StatusID = (byte)updateStatusValue;
+            bugToUpdate.ModificationDate = DateTime.Now;
             _bugRepository.Update(bugToUpdate);
             _bugRepository.Save();
         }
@@ -288,6 +294,11 @@ namespace BugTrackingSystem.Service.Services
             blobService.DeleteBlobFromContainer(attachmentName);
             _bugAttachmentRepository.Delete(ba => ba.BugID == bugId && ba.Attachment == attachmentName);
             _bugAttachmentRepository.Save();
+
+            var bug = _bugRepository.GetById(bugId);
+            bug.ModificationDate = DateTime.Now;
+            _bugRepository.Update(bug);
+            _bugRepository.Save();
         }
     }
 }
