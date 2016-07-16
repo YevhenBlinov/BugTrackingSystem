@@ -24,7 +24,8 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<UserViewModel> GetAllProjectUsers(int projectId);
 
-        IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, out int findedProjectsCount,
+        IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, UserRole userRole,
+            out int findedProjectsCount,
             int currentPage = 1, string sortBy = Constants.SortProjectsByTitle);
 
         void AddUsersToProject(int projectId, string usersIds);

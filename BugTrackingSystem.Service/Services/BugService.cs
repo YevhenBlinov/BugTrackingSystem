@@ -203,7 +203,7 @@ namespace BugTrackingSystem.Service.Services
             _bugAttachmentRepository.Save();
         }
 
-        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
+        public IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, UserRole userRole, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null)
         {
             if (string.IsNullOrEmpty(searchRequest))
             {
@@ -211,8 +211,30 @@ namespace BugTrackingSystem.Service.Services
                 return new List<BugViewModel>();
             }
 
-            var findedBugs =
-                _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest));
+            var findedBugs = new List<Bug>() as IEnumerable<Bug>;
+
+            switch (userRole)
+            {
+                    case UserRole.User:
+                    findedBugs = projectId == null
+                        ? _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest))
+                            .Where(b => b.Project.IsPaused == false)
+                        : _bugRepository.GetMany(
+                            b =>
+                                b.ProjectID == projectId && b.Project.DeletedOn == null &&
+                                b.Subject.Contains(searchRequest))
+                            .Where(b => b.Project.IsPaused == false);
+                    break;
+                    case UserRole.Administrator:
+                    findedBugs = projectId == null
+                        ? _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.Subject.Contains(searchRequest))
+                        : _bugRepository.GetMany(
+                            b =>
+                                b.ProjectID == projectId && b.Project.DeletedOn == null &&
+                                b.Subject.Contains(searchRequest));
+                    break;
+            }
+
             findedBugsCount = findedBugs.Count();
             findedBugs = SortHelper.SortBugs(findedBugs, sortBy);
             findedBugs = findedBugs.Skip((currentPage - 1)*Constants.ListPageSize).Take(Constants.ListPageSize);

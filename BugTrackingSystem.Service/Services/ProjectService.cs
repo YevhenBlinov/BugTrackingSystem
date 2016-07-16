@@ -151,7 +151,7 @@ namespace BugTrackingSystem.Service.Services
             return projectUsersViewModels;
         }
 
-        public IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, out int findedProjectsCount, int currentPage = 1, string sortBy = Constants.SortProjectsByTitle)
+        public IEnumerable<ProjectViewModel> SearchProjectsByName(string searchRequest, UserRole userRole, out int findedProjectsCount, int currentPage = 1, string sortBy = Constants.SortProjectsByTitle)
         {
             if (string.IsNullOrEmpty(searchRequest))
             {
@@ -159,7 +159,10 @@ namespace BugTrackingSystem.Service.Services
                 return new List<ProjectViewModel>();
             }
 
-            var findedProjects =_projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest));
+            var findedProjects = userRole == UserRole.Administrator
+                ? _projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest))
+                : _projectRepository.GetMany(p => p.DeletedOn == null && p.Name.Contains(searchRequest))
+                    .Where(p => p.IsPaused == false);
             findedProjectsCount = findedProjects.Count();
             findedProjects = SortHelper.SortProjects(findedProjects, sortBy);
             findedProjects = findedProjects.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
