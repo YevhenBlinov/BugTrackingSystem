@@ -20,7 +20,10 @@
                             @user.Email
                         </div>
                     </div>
-                    <i class="fa fa-times" id="@user.UserId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetUserId(this.id)" aria-hidden="true" style="font-size: 26px; margin-top: 17px; color: #E3F0F2; display: none"></i>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <i class="fa fa-times" id="@user.UserId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetUserId(this.id)" aria-hidden="true" style="font-size: 26px; margin-top: 17px; color: #E3F0F2; display: none"></i>
+                    }
                 </li>
 
             }
