@@ -1,5 +1,4 @@
 ﻿
-
 <div class="modal fade" id="FilterModalWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" id="TaskModalDialog" style="padding: 0;">
         <div class="modal-content">
@@ -11,62 +10,81 @@
             <div class="modal-body col-lg-12">
                 <form>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
+                        <input class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
+                        <input class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
                     </div>
                 </form>
-                <div class="ui selection dropdown modalSingleDropdown pull-left cn">
-                    <input type="hidden" name="gender">
-                    <i class="dropdown icon"></i>
-                    <div class="default text inner">Priority</div>
-                    <div class="menu">
-                        <div class="item" data-value="1">
-                            <img src="../../Content/Images/Minor.png" class="img-responsive img-circle"/>
-                            Minor
-                        </div>
-                        <div class="item" data-value="2">
-                            <img src="../../Content/Images/Major.png" class="img-responsive img-circle"/>
-                            Major
-                        </div>
-                        <div class="item" data-value="3">
-                            <img src="../../Content/Images/Critical.png" class="img-responsive img-circle"/>
-                            Critical
-                        </div>
-                        <div class="item" data-value="4">
-                            <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle"/>
-                            Blocker
-                        </div>
-                    </div>
+                <div class="createFilterSelectLeft inline-block">
+                    <select multiple="multiple" id="filterProiritySelect">
+                        <option value="Minor">Minor</option>
+                        <option value="Major">Major</option>
+                        <option value="Critical">Critical</option>
+                        <option value="Blocker">Blocker</option>
+                    </select>
                 </div>
-                <div class="ui selection dropdown modalSingleDropdown pull-right cn">
-                    <input type="hidden" name="gender">
-                    <i class="dropdown icon"></i>
-                    <div class="default text inner">Status</div>
-                    <div class="menu">
-                        <div class="item" data-value="1">To do</div>
-                        <div class="item" data-value="2">In progress</div>
-                        <div class="item" data-value="3">In testing</div>
-                        <div class="item" data-value="4">Done</div>
-                        <div class="item" data-value="5">Closed</div>
-                    </div>
+                <div class="createFilterSelectRight inline-block">
+                    <select multiple="multiple" id="filterStatusSelect">
+                        <option value="ToDo">To Do</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="InTesting">In Testing</option>
+                        <option value="Done">Done</option>
+                        <option value="Closed">Closed</option>
+                    </select>
                 </div>
-                
+                <div class="createFilterSelectLeft inline-block">
                     @Html.Action("ProjectMultipleSelect", "Filters")
-                
-                <div id="userDropDown">
-                    @Html.Action("UsersDropDown", "Shared")
+                </div>
+                <div class="createFilterSelectRight inline-block">
+                    @Html.Action("UserMultipleSelect", "Filters")
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn modalCreateButton">Create</button>
+                <button type="button" class="btn modalCreateButton" id="createFilterButton">Create</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-        $('.ui.dropdown')
-            .dropdown();
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+
+<script>
+
+    $("#createFilterButton").click(function () {
+        var title = $('#titleInput').val();
+        var search = $('#searchInput').val();
+        var priority = $("#filterProiritySelect").multipleSelect("getSelects");
+        var status = $("#filterStatusSelect").multipleSelect("getSelects");
+        var projects = $("#filterProjectsSelect").multipleSelect("getSelects");
+        var users = $("#filterUsersSelect").multipleSelect("getSelects");
+        $.ajax({
+            type: 'POST',
+            url: '/Filters/AddFilter',
+            data: {
+                title: title,
+                search: search,
+                priority: priority,
+                status: status,
+                projects: projects,
+                users: users
+            },
+            success: function(data) {
+                $('#filtersContainer').html(data);
+                $('#FilterModalWindow').modal('toggle');
+            }
+        });
+    });
+</script>
+
+<script>
+    $("#filterProiritySelect").multipleSelect({
+        placeholder: "Priority"
+    });
+    $("#filterStatusSelect").multipleSelect({
+        placeholder: "Status"
+    });
 </script>

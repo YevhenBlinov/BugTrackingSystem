@@ -11,9 +11,9 @@ namespace BugTrackingSystem.Web.Controllers
     [CustomAuthenticate]
     public class FiltersController : Controller
     {
-        IFilterService _filterService;
-        IProjectService _projectService;
-        IUserService _userService;
+        private readonly IFilterService _filterService;
+        private readonly IProjectService _projectService;
+        private readonly IUserService _userService;
 
         public FiltersController(IFilterService filterService, IProjectService projectService,IUserService userService)
         {
@@ -65,6 +65,21 @@ namespace BugTrackingSystem.Web.Controllers
             int projectsCount = 0;
             var projects = _projectService.GetProjects(out projectsCount);
             return PartialView(projects);
+        }
+
+        public ActionResult UserMultipleSelect()
+        {
+            int usersCount = 0;
+            var users = _userService.GetUsers(out usersCount);
+            return PartialView(users);
+        }
+
+        public ActionResult AddFilter(string title, string search, string[] priority, string[] status, int[] projects,
+            int[] users)
+        {
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
+            _filterService.AddFilter(userId, title, search, priority, status, projects, users);
+            return RedirectToActionPermanent("FiltersInfo", "Filters");
         }
     }
 }

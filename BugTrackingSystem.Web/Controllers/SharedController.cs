@@ -15,11 +15,13 @@ namespace BugTrackingSystem.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IProjectService _projectService;
+        private readonly IFilterService _filterService;
 
-        public SharedController(IUserService userService, IProjectService projectService)
+        public SharedController(IUserService userService, IProjectService projectService, IFilterService filterService)
         {
             _userService = userService;
             _projectService = projectService;
+            _filterService = filterService;
         }
         // GET: Shared
         public ActionResult UserBugs(int page = 1)

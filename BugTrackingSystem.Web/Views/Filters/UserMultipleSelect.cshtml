@@ -1,0 +1,19 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
+
+<select multiple="multiple" id="filterUsersSelect">
+    @foreach (var user in Model)
+    {
+        <option value="@user.UserId">@user.FirstName @user.LastName</option>
+    }
+</select>
+
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+
+<script>
+    $("#filterUsersSelect").multipleSelect({
+        placeholder: "Users"
+    });
+</script>

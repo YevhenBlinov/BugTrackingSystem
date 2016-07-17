@@ -1,0 +1,14 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.ProjectViewModel>
+
+<select multiple="multiple" id="modalFilterProjectsSelect">
+    @foreach (var project in Model)
+    {
+        <option value="@project.ProjectId">@project.Name</option>
+    }
+</select>
+
+<script>
+    $("#modalFilterProjectsSelect").multipleSelect({
+        placeholder: "Projects"
+    });
+</script>

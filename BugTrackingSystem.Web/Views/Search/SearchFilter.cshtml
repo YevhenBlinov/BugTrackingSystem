@@ -1,0 +1,261 @@
+﻿@model BugTrackingSystem.Service.Models.AdvancedFilterViewModel
+
+<div id="header" class="row">
+    <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
+        Search
+    </div>
+
+    <div class="pull-right col-sm-6 col-xs-12" id="Local-search" style="padding: 0; width: 240px">
+        <div id="imaginary_container">
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" id="searchGeneral">
+                <span class="input-group-addon" style="background-color: #F8FEFE">
+                    <a onclick="searchProjectBug()">
+                        <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-xs-12" style="margin-bottom: 10px">
+    <a class="pull-right" style="padding: 10px 0; color: #4D868D; cursor: pointer" id="advancedSearchShowButton">Advanced Search</a>
+</div>
+<div class="col-xs-12" id="extendedSearch" style="display: none; margin-bottom: 30px">
+    <div class="col-xs-12 AdvancedSearch">
+        <div class="form-group col-xs-12" style="margin: 0; display: inline-flex">
+            <input class="form-control" placeholder="Search" id="extendedSearchSearch" style="margin: 0; display: inline-block; width: 30%; margin-right: 15px">
+            <div style="width: 15%; margin-right: 15px">
+                <select multiple="multiple" id="filterProiritySelect" style="padding: 0 10px;">
+                    <option value="Minor">Minor</option>
+                    <option value="Major">Major</option>
+                    <option value="Critical">Critical</option>
+                    <option value="Blocker">Blocker</option>
+                </select>
+            </div>
+            <div style="width: 15%; margin-right: 15px">
+                <select multiple="multiple" id="filterStatusSelect">
+                    <option value="ToDo">To Do</option>
+                    <option value="InProgress">In Progress</option>
+                    <option value="InTesting">In Testing</option>
+                    <option value="Done">Done</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+            <div style="width: 20%; margin-right: 15px">
+                @Html.Action("ProjectMultipleSelect", "Filters")
+            </div>
+            <div style="width: 20%;">
+                @Html.Action("UserMultipleSelect", "Filters")
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12" style="margin-top: 5px;">
+        <img src="../../Content/Images/iconundo.png" style="cursor: pointer; margin-right: 10px;" id="resetSearch"/>
+        <img src="../../Content/Images/iconfilter.png" style="cursor: pointer; margin-right: 10px;" id="showFiltersIcon" />
+        <img src="../../Content/Images/saveicon.png" style="cursor: pointer" id="saveFilter" data-toggle="modal" data-target="#searchFilterModalWindow"/>
+    </div>
+</div>
+
+<div class="modal fade" id="searchFilterModalWindow" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="TaskModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-filter" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new filter</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
+                    </div>
+                </form>
+                <div class="createFilterSelectLeft inline-block">
+                    <select multiple="multiple" id="modalFilterProiritySelect">
+                        <option value="Minor">Minor</option>
+                        <option value="Major">Major</option>
+                        <option value="Critical">Critical</option>
+                        <option value="Blocker">Blocker</option>
+                    </select>
+                </div>
+                <div class="createFilterSelectRight inline-block">
+                    <select multiple="multiple" id="modalFilterStatusSelect">
+                        <option value="ToDo">To Do</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="InTesting">In Testing</option>
+                        <option value="Done">Done</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+                <div class="createFilterSelectLeft inline-block">
+                    @Html.Action("ProjectMultipleSelect", "Search")
+                </div>
+                <div class="createFilterSelectRight inline-block">
+                    @Html.Action("UserMultipleSelect", "Search")
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn modalCreateButton" id="createFilterButton">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="selectFilterModal"></div>
+
+
+
+<script>
+    $('#saveFilter').on('click', function() {
+        $('#searchInput').val($('#extendedSearchSearch').val());
+        var modalPriority = $("#filterProiritySelect").multipleSelect("getSelects");
+        var modalStatus = $("#filterStatusSelect").multipleSelect("getSelects");
+        var modalProjects = $("#filterProjectsSelect").multipleSelect("getSelects");
+        var modalUsers = $("#filterUsersSelect").multipleSelect("getSelects");
+        var priority = $("#modalFilterProiritySelect").multipleSelect();
+        priority.multipleSelect('setSelects', modalPriority);
+        var bugStatus = $("#modalFilterStatusSelect").multipleSelect();
+        bugStatus.multipleSelect('setSelects', modalStatus);
+        var projects = $("#modalFilterProjectsSelect").multipleSelect();
+        projects.multipleSelect('setSelects', modalProjects);
+        var users = $("#modalFilterUsersSelect").multipleSelect();
+        users.multipleSelect('setSelects', modalUsers);
+    });
+</script>
+
+<script>
+    $('#resetSearch').on('click', function () {
+        $('#searchInput').val('');
+        $('#extendedSearchSearch').val('');
+        $("#filterProiritySelect").multipleSelect('uncheckAll');
+        $("#filterStatusSelect").multipleSelect('uncheckAll');
+        $("#filterProjectsSelect").multipleSelect('uncheckAll');
+        $("#filterUsersSelect").multipleSelect('uncheckAll');
+    })
+</script>
+
+<script>
+    $("#createFilterButton").click(function () {
+        var title = $('#titleInput').val();
+        var search = $('#searchInput').val();
+        var priority = $("#modalFilterProiritySelect").multipleSelect("getSelects");
+        var status = $("#modalFilterStatusSelect").multipleSelect("getSelects");
+        var projects = $("#modalFilterProjectsSelect").multipleSelect("getSelects");
+        var users = $("#modalFilterUsersSelect").multipleSelect("getSelects");
+        $.ajax({
+            type: 'POST',
+            url: '/Filters/AddFilter',
+            data: {
+                title: title,
+                search: search,
+                priority: priority,
+                status: status,
+                projects: projects,
+                users: users
+            },
+            success: function () {
+                $('#searchFilterModalWindow').modal('toggle');
+                alert('Saved');
+            }
+        });
+    });
+</script>
+
+<script>
+    $("#filterProiritySelect").multipleSelect({
+        placeholder: "Priority"
+    });
+    $("#filterStatusSelect").multipleSelect({
+        placeholder: "Status"
+    });
+    $("#modalFilterProiritySelect").multipleSelect({
+        placeholder: "Priority"
+    });
+    $("#modalFilterStatusSelect").multipleSelect({
+        placeholder: "Status"
+    });
+</script>
+
+
+@if (Model != null)
+{
+    <script>
+        $(document).load();
+        $('#Local-search').toggle();
+        $('#extendedSearch').toggle();
+        $('#searchGeneral').val('@Model.Search');
+        $('#extendedSearchSearch').val('@Model.Search');
+        var priorityArray = [];
+        @foreach (var pr in Model.BugPriority)
+        {
+            @:priorityArray.push('@pr');
+                                    }
+
+        var priority = $("#filterProiritySelect").multipleSelect();
+        priority.multipleSelect('setSelects', priorityArray);
+        var statusArray = [];
+        @foreach (var st in Model.BugStatus)
+        {
+            @:statusArray.push('@st');
+                                }
+        var bugStatus = $("#filterStatusSelect").multipleSelect();
+        bugStatus.multipleSelect('setSelects', statusArray);
+        var projectsArray = [];
+        @foreach (var proj in Model.Project)
+        {
+            @:projectsArray.push(@proj);
+                            }
+        var projects = $("#filterProjectsSelect").multipleSelect();
+        projects.multipleSelect('setSelects', projectsArray);
+        var usersArray = [];
+        @foreach (var us in Model.AssignedUser)
+        {
+            @:usersArray.push(@us);
+                }
+        var users = $("#filterUsersSelect").multipleSelect();
+        users.multipleSelect('setSelects', usersArray);
+    </script>
+}
+@if (Model == null)
+{
+    <script>
+        $('#searchGeneral').val('@ViewBag.Search');
+        $('#extendedSearchSearch').val('@ViewBag.Search');
+    </script>
+}
+
+
+<script>
+    $('#searchGeneral').on('change', function() {
+        $('#extendedSearchSearch').val($(this).val());
+    });
+    $('#extendedSearchSearch').on('change', function() {
+        $('#searchGeneral').val($(this).val());
+    });
+</script>
+
+<script>
+    $('#advancedSearchShowButton').on('click', function() {
+        $('#extendedSearch').slideToggle(200);
+        $('#Local-search').slideToggle(200);
+    })
+</script>
+
+<script>
+    $('#showFiltersIcon').on('click', function() {
+        $.ajax({
+            type: 'GET',
+            url: '/Search/SearchFilters',
+            success: function(data) {
+                $('#selectFilterModal').html(data);
+                $('#searchFiltersModal').modal('show');
+            }
+        });
+    });
+</script>

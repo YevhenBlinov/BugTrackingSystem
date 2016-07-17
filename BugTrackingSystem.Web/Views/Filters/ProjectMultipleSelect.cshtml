@@ -1,19 +1,14 @@
 ﻿@model IEnumerable<BugTrackingSystem.Service.Models.ProjectViewModel>
 
-<div class="modalSingleDropdown ui selection dropdown pull-left cn" id="taskProjectDropDown">
-    <input type="hidden" name="Project" id="projectInput">
-    <i class="dropdown icon"></i>
-    <div class="default text inner">Project</div>
-    <div class="menu">
-        @foreach (var project in Model)
-        {
-            <div class="item" data-value="@project.ProjectId">@project.Name</div>
-        }
-    </div>
-</div>
+<select multiple="multiple" id="filterProjectsSelect">
+    @foreach (var project in Model)
+    {
+        <option value="@project.ProjectId">@project.Name</option>
+    }
+</select>
 
 <script>
-    $('.ui.dropdown')
-        .dropdown();
+    $("#filterProjectsSelect").multipleSelect({
+        placeholder: "Projects"
+    });
 </script>
-

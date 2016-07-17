@@ -4,74 +4,40 @@
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-sm-12 general-container">
-    <div id="header" class="row">
-        <div id="headerTitle" class="col-sm-6 col-xs-12">
-            Search
-            <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#addFilterModal"></i>
-        </div>
+<div class="col-sm-12 general-container" style="padding: 0 55px 0 65px">
+    @Html.Action("SearchFilter", "Search", new {filterId = @ViewBag.FilterId, search = @ViewBag.Search})
 
-        <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
-            <div id="imaginary_container">
-                <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon" style="background-color: #F8FEFE">
-                        <a href="#">
-                            <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
-                        </a>
-                    </span>
-                </div>
+    <div class="content col-xs-12" style="margin: 0 0 20px 15px;">
+        Sort by:
+        <div class="ui inline dropdown">
+            <div class="text" style="font-weight: normal" id="projectBugSortBy">Title</div>
+            <i class="dropdown icon"></i>
+            <div class="menu" id="projectBugSortByOptions">
+                <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
+                <div class="item inlineDropdown" data-text="Status">Status</div>
+                <div class="item inlineDropdown" data-text="Priority">Priority</div>
             </div>
-        </div>
-
-    </div>
-
-    <div class="col-xs-12" style="margin-bottom: 10px">
-        <a class="pull-right" data-toggle="collapse" data-target="#extendedSearch" style="padding: 10px 0;">Advanced Search</a>
-
-        <div class="collapse col-xs-12 AdvancedSearch" id="extendedSearch">
-            <form>
-                <div class="form-group" style="padding: 10px 0; margin: 0;">
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title" style="margin: 0; display: inline-block">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row Sort_Title_Pagination">
-        <div class="dropdown" style="display: inline-block">
-            <span class="sticker-properties" style="padding-right: 10px; ">Sort by:</span>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Title <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Project</a></li>
-                <li><a href="#">Assignee</a></li>
-                <li><a href="#">Status</a></li>
-                <li><a href="#">Priority</a></li>
-            </ul>
-        </div>
-        <div class=" pull-right" style="display: inline-block">
-            <nav class="local-pagination">
-                <ul class="pagination pagination-sm">
-                    <li><a href="#">1</a></li>
-                </ul>
-            </nav>
         </div>
     </div>
     <div class="col-xs-12 padding0">
-        @Html.Action("ProjectBugs", "Project", new { projectId = 1})
-    </div>
-    <div class="col-xs-12" style="margin: 15px 20px;">
-        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: Count</i>
-        <div class=" pull-right" style="display: inline-block">
-            <nav class="local-pagination">
-                <ul class="pagination pagination-sm">
-                    <li><a href="#">1</a></li>
-                </ul>
-            </nav>
-        </div>
+        @Html.Action("ProjectBugs", "Project", new { projectId = 15})
     </div>
 </div>
+
 <script>
-    $(document).ready(function () {
-        $('.selectpicker').selectpicker();
+    $('.ui.inline.dropdown')
+        .dropdown();;
+</script>
+
+
+
+<script>
+    $("#filterProiritySelect").multipleSelect({
+        placeholder: "Priority"
+    });
+    $("#filterStatusSelect").multipleSelect({
+        placeholder: "Status"
     });
 </script>
+

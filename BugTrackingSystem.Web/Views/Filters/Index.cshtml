@@ -5,7 +5,7 @@
 
 <div class="col-lg-12 general-container">
     <div id="header" class="row">
-        <div id="headerTitle" class="col-lg-2">
+        <div id="headerTitle" class="inline-block" style="padding: 0 15px">
             Filters
             <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add filter">
                 <i class="fa fa-plus round" style="margin: 0;" aria-hidden="true" onclick="CreateFilterModalShow()"></i>
@@ -146,3 +146,7 @@
     }
 </script>
 
+<script>
+    $('.ui.inline.dropdown')
+        .dropdown();
+</script>

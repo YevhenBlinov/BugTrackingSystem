@@ -56,6 +56,16 @@ textarea {
     padding: 5px 0px 5px 10px; 
 }
 
+.modalFiltersDiv {
+    height: 50px;
+    padding: 15px 15px;
+    cursor: pointer;
+}
+
+.modalFiltersDiv:hover {
+    background-color: #F2FBFA;
+}
+
 .checkBoxHover:hover {
     background-color: #F2FBFA;
 }
@@ -137,20 +147,25 @@ ul::-webkit-scrollbar-thumb {
     width: 50px;
 }
 
-
+.createFilterSelectLeft {
+    width: 49%;
+    margin-right: 7px;
+}
+.createFilterSelectRight {
+        width: 49%;
+}
 
 .AdvancedSearch {
     background-color: white;
     box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
+    margin-bottom: 10px;
+    padding: 15px 15px 0 15px;
 }
 
 .padding-top7 {
     padding-top: 7px;
 }
 
- option {
-   
-}
 
 .redirectAncore, .redirectAncore:hover {
     color: black;
@@ -369,6 +384,14 @@ option:hover {
 }
 
 @media only screen and (max-width : 768px) {
+
+    .createFilterSelectLeft {
+    width: 100%;
+    margin-right: 0;
+}
+.createFilterSelectRight {
+        width: 100%;
+}
 
     .assignedToMeTable {
     padding: 0;

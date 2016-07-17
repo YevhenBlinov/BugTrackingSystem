@@ -17,9 +17,18 @@
                 <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit project">
                     <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
                 </div>
-                <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Pause project">
-                    <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
-                </div>
+                if (Model.IsPaused)
+                {
+                    <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Unpause project">
+                        <i class="fa fa-play round" aria-hidden="true" data-toggle="modal" data-target="#unPauseProjectModal"></i>
+                    </div>
+                }
+                if (!Model.IsPaused)
+                {
+                    <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Pause project">
+                        <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
+                    </div>
+                }
                 <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Delete project">
                     <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
                 </div>
@@ -119,6 +128,25 @@
             </div>
             <div class="modal-body">
                 <h4>Pause this project?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton" onclick="PauseProject(@Model.ProjectId)">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="unPauseProjectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pause" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Unpause project</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Unpause this project?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>

@@ -172,6 +172,8 @@
     <Content Include="Content\Images\Done.png" />
     <Content Include="Content\Images\icon edit copy 2.png" />
     <Content Include="Content\Images\icon password.png" />
+    <Content Include="Content\Images\iconfilter.png" />
+    <Content Include="Content\Images\iconundo.png" />
     <Content Include="Content\Images\InProgress.png" />
     <Content Include="Content\Images\InTesting.png" />
     <Content Include="Content\Images\logo-vertical.png" />
@@ -180,6 +182,7 @@
     <Content Include="Content\Images\Minor.png" />
     <Content Include="Content\Images\orwell.jpeg" />
     <Content Include="Content\Images\Paused.png" />
+    <Content Include="Content\Images\saveicon.png" />
     <Content Include="Content\Images\ToDo.png" />
     <Content Include="Content\login_style.css" />
     <Content Include="Content\multiple-select.css" />
@@ -266,6 +269,12 @@
     <Content Include="Views\Task\EditTaskUsers.cshtml" />
     <Content Include="Views\Task\BugAttachments.cshtml" />
     <Content Include="Views\Project\ProjectAddTask.cshtml" />
+    <Content Include="Views\Filters\UserMultipleSelect.cshtml" />
+    <Content Include="Views\Search\SearchFilter.cshtml" />
+    <Content Include="Views\Search\SearchResult.cshtml" />
+    <Content Include="Views\Search\ProjectMultipleSelect.cshtml" />
+    <Content Include="Views\Search\UserMultipleSelect.cshtml" />
+    <Content Include="Views\Search\SearchFilters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
