@@ -44,8 +44,9 @@ namespace BugTrackingSystem.Web.Filters
                 filterContext.HttpContext.Session["FirstName"] = userFromDB.FirstName;
                 filterContext.HttpContext.Session["LastName"] = userFromDB.LastName;
                 filterContext.HttpContext.Session["Photo"] = userFromDB.Photo;
-                filterContext.HttpContext.Session["Role"] = user.UserData;
+                filterContext.HttpContext.Session["Role"] = userFromDB.Role;
                 filterContext.HttpContext.Session["Roles"] = new string[] { userFromDB.Role.ToString() };
+                filterContext.HttpContext.Session["UserId"] = userFromDB.UserId;
 
                 if (user != null && !user.Expired)
                 {

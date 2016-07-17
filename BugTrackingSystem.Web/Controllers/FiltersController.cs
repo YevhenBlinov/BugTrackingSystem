@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using BugTrackingSystem.Service;
 using BugTrackingSystem.Service.Models;
@@ -31,7 +32,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult FiltersInfo( string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
-            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
             IEnumerable<FilterViewModel> filters;
 
             var filtersCount = 0;

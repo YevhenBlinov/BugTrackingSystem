@@ -23,7 +23,7 @@ namespace BugTrackingSystem.Web.Controllers
         public ActionResult Login()
         {
             if (Session["Email"]!=null)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Home");
             return View();
         }
         [CustomAuthorize]
@@ -66,8 +66,9 @@ namespace BugTrackingSystem.Web.Controllers
                     Session["LastName"] = user.LastName;
                     Session["Photo"] = user.Photo;
                     Session["Email"] = user.Email;
-                    Session["Role"] = user.Role.ToString();
+                    Session["Role"] = user.Role;
                     Session["Roles"] = new string[] { user.Role.ToString() };
+                    Session["UserId"] = user.UserId;
                     //HttpCookie myCookie = new HttpCookie("auth");
                     //myCookie["FirstName"] = user.FirstName;
                     //myCookie["LastName"] = user.LastName;

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Web.Filters;
 
@@ -25,7 +26,7 @@ namespace BugTrackingSystem.Web.Controllers
         }
         public ActionResult MyProjects()
         {
-            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
             var userProjects = _userService.GetUsersProjects(userId);
             return PartialView(userProjects);
         }

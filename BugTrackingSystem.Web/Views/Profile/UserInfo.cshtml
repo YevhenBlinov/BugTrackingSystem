@@ -82,28 +82,36 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden"/>
-                        <input name="UserId" value="@Model.UserId" class="hidden"/>
-                        <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden"/>
-                        <div class="ui selection dropdown modalSingleDropdown pull-right" id="userRoleSelect" style="width: 265px; margin: 10px 0 0 0;">
-                            <input type="hidden" name="Role">
-                            <i class="dropdown icon"></i>
-                            <div class="default text inner">Role</div>
-                            <div class="menu">
-                                <div class="item" data-value="User" >User</div>
-                                <div class="item" data-value="Administrator">Administrator</div>
+                        <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden" />
+                        <input name="UserId" value="@Model.UserId" class="hidden" />
+                        <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden" />
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <div class="ui selection dropdown modalSingleDropdown pull-right" id="userRoleSelect" style="width: 265px; margin: 10px 0 0 0;">
+                                <input type="hidden" name="Role">
+                                <i class="dropdown icon"></i>
+
+
+                                <div class="default text inner">Role</div>
+                                <div class="menu">
+                                    <div class="item" data-value="User">User</div>
+                                    <div class="item" data-value="Administrator">Administrator</div>
+                                </div>
+
                             </div>
-                        </div>
+                        }
                     </div>
+
                     <div style="margin-bottom: 15px">
                         <input class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" placeholder="First Name" style="margin: 0 12px 0 0; display: inline-block; width: 38%">
                         <input class="form-control" id="LastName" name="LastName" value="@Model.LastName" placeholder="Last Name" style="margin: 0; display: inline-block; width: 59%">
                     </div>
+
                     <input class="form-control" id="Email" name="Email" value="@Model.Email" placeholder="Email" style="margin: 0;">
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit"  class="btn modalCreateButton">Save</button>
+                    <button type="submit" class="btn modalCreateButton">Save</button>
                 </div>
             }
         </div>
@@ -119,7 +127,7 @@
     else if (userRole == 'User') {
         $('.ui.selection.dropdown').dropdown('set selected', 'User');
     }
-    
+
     $('.ui.dropdown').dropdown('refresh');
 </script>
 
@@ -131,7 +139,7 @@
             type: 'POST',
             data: { userId: id, password: password },
             url: '/Users/ChangeUserPassword',
-            error: function() {
+            error: function () {
                 alert('An error occured. Please try again.');
             }
         });
@@ -140,18 +148,18 @@
 
 
 <script>
-    $('#EditPhoto').click(function() {
+    $('#EditPhoto').click(function () {
         $('#UserPhoto').click();
     })
 </script>
 
 <script>
     function PreviewPhoto() {
-        
+
         var oFReader = new FileReader();
         oFReader.readAsDataURL(document.getElementById("UserPhoto").files[0]);
 
-        oFReader.onload = function(oFREvent) {
+        oFReader.onload = function (oFREvent) {
             document.getElementById("UserPhotoModalPreview").src = oFREvent.target.result;
             $('#IsPhotoEdited').val('true');
         };

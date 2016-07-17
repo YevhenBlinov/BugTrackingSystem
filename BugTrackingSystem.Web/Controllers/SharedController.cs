@@ -24,7 +24,7 @@ namespace BugTrackingSystem.Web.Controllers
         // GET: Shared
         public ActionResult UserBugs(int page = 1)
         {
-            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
             var bugsCount = 0;
             var userBugs = _userService.GetUsersBugs(userId, out bugsCount, page);
             double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.StickerPageSize);
@@ -80,7 +80,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult ProjectsDropDown()
         {
-            var userId = _userService.GetUserByEmail(User.Identity.Name).UserId;
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
             IEnumerable<ProjectViewModel> projects;
             if (userId == 0)
             {

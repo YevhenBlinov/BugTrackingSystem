@@ -30,8 +30,14 @@ namespace BugTrackingSystem.Web.Controllers
         [HttpGet]
         public ActionResult Project(int projectId)
         {
-            var project = _projectService.GetProjectById(projectId);
-            return View(project);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            //If user is assigned to this project OR it's Admin 
+            if (_projectService.GetAllProjectUsers(projectId).Any(x => x.UserId == userId) || Session["Role"].ToString()=="Administrator")
+            {
+                var project = _projectService.GetProjectById(projectId);
+                return View(project);
+            }
+            else return RedirectToAction("Dashboard", "Home");
         }
 
         public ActionResult Index()
@@ -39,10 +45,10 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult ProjectsInfo( string sortBy = Constants.SortProjectsByTitle, string search = null, int page = 1)
+        public ActionResult ProjectsInfo(string sortBy = Constants.SortProjectsByTitle, string search = null, int page = 1)
         {
             var projectsCount = 0;
-            var user = _userService.GetUserByEmail(User.Identity.Name);
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
             IEnumerable<ProjectViewModel> projects;
             if (string.IsNullOrEmpty(search))
             {
@@ -50,7 +56,7 @@ namespace BugTrackingSystem.Web.Controllers
                     projects = _projectService.GetProjects(out projectsCount, page, sortBy);
                 else
                 {
-                    projects = _userService.GetUsersProjects(user.UserId);
+                    projects = _userService.GetUsersProjects(userId);
                     // _projectService.GetProjects(out projectsCount, page, sortBy);
 
                     projectsCount = projects.Count();
@@ -58,7 +64,8 @@ namespace BugTrackingSystem.Web.Controllers
             }
             else
             {
-                projects = _projectService.SearchProjectsByName(search, user.Role , out projectsCount, page, sortBy);
+                UserRole userRole = (UserRole)Session["Role"];
+                projects = _projectService.SearchProjectsByName(search, userRole, out projectsCount, page, sortBy);
             }
 
             double pagesCount = Convert.ToDouble(projectsCount) / Convert.ToDouble(Constants.StickerPageSize);
@@ -81,7 +88,7 @@ namespace BugTrackingSystem.Web.Controllers
         {
             IEnumerable<BugViewModel> bugs;
             var bugsCount = 0;
-            if(string.IsNullOrEmpty(search))
+            if (string.IsNullOrEmpty(search))
             {
                 bugs = _bugService.GetProjectsBugs(projectId, out bugsCount, page, sortBy);
             }

@@ -14,7 +14,7 @@ using Microsoft.Ajax.Utilities;
 namespace BugTrackingSystem.Web.Controllers
 {
     [CustomAuthenticate]
-    [CustomAuthorize(Roles = "Administrator")]
+   
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -25,19 +25,20 @@ namespace BugTrackingSystem.Web.Controllers
         }
         //
         // GET: /Users/
-
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             return View();
         }
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult Users(string sortBy = Constants.SortUsersByName, string search = null, int page = 1)
         {
             IEnumerable<UserViewModel> users;
             var usersCount = 0;
-            
+
             if (string.IsNullOrEmpty(search))
             {
-                users = _userService.GetUsers(out usersCount, page, sortBy);  
+                users = _userService.GetUsers(out usersCount, page, sortBy);
             }
             else
             {
@@ -49,20 +50,21 @@ namespace BugTrackingSystem.Web.Controllers
             ViewBag.CurrentPage = page;
             return PartialView(users);
         }
-
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult DeleteUserModal(int userId, int taskCount)
         {
             ViewBag.UserId = userId;
             ViewBag.TaskCount = taskCount;
             return PartialView();
         }
-
+        [CustomAuthorize(Roles = "Administrator")]
         public void DeleteUser(int userId)
         {
             _userService.DeleteUser(userId);
         }
 
         [WebMethod()]
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult AddUser(UserFormViewModel userModel)
         {
             _userService.AddUser(userModel);
@@ -93,8 +95,16 @@ namespace BugTrackingSystem.Web.Controllers
             }
 
             _userService.EditUserInformation(user);
-            return RedirectToActionPermanent("Index", "Profile", new {userId = user.UserId});
+
+            var editedUser = _userService.GetUserByEmail(user.Email);
+            if (user.UserId.ToString() == Session["UserId"].ToString())
+            {
+                Session["FirstName"] = editedUser.FirstName;
+                Session["LastName"] = editedUser.LastName;
+                Session["Photo"] = editedUser.Photo;
+            }
+            return RedirectToActionPermanent("Index", "Profile", new { userId = user.UserId });
         }
-        
+
     }
 }
