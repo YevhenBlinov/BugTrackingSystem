@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Models\AdvancedFilterViewModel.cs" />
     <Compile Include="Models\FormModels\BugEditFormViewModel.cs" />
     <Compile Include="Models\FormModels\BugFormViewModel.cs" />
     <Compile Include="Models\BugViewModel.cs" />
