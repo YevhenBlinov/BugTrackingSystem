@@ -62,15 +62,21 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult ProjectMultipleSelect()
         {
-            int projectsCount = 0;
-            var projects = _projectService.GetProjects(out projectsCount);
+            IEnumerable<ProjectViewModel> projects;
+            if (Session["Role"].ToString() == "User")
+            {
+                projects = _projectService.GetAllRunningProjects();
+            }
+            else
+            {
+                projects = _projectService.GetProjects();
+            }            
             return PartialView(projects);
         }
 
         public ActionResult UserMultipleSelect()
         {
-            int usersCount = 0;
-            var users = _userService.GetUsers(out usersCount);
+            var users = _userService.GetUsers();
             return PartialView(users);
         }
 

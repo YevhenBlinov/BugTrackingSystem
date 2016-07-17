@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Services;
 using BugTrackingSystem.Web.Filters;
 
@@ -11,16 +13,18 @@ namespace BugTrackingSystem.Web.Controllers
         private readonly IFilterService _filterService;
         private readonly IProjectService _projectService;
         private readonly IUserService _userService;
+        private readonly IBugService _bugService;
 
-        public SearchController(IFilterService filterService, IProjectService projectService, IUserService userService)
+        public SearchController(IFilterService filterService, IProjectService projectService, IUserService userService, IBugService bugService)
         {
             _filterService = filterService;
             _projectService = projectService;
             _userService = userService;
+            _bugService = bugService;
         }
         //
         // GET: /Search/
-        public ActionResult Search(int filterId = 11, string search = null)
+        public ActionResult Search(int filterId = 0, string search = null)
         {
             ViewBag.FilterId = filterId;
             ViewBag.Search = search;
@@ -38,8 +42,16 @@ namespace BugTrackingSystem.Web.Controllers
             return PartialView(null);
         }
 
-        public ActionResult SearchResult(int filterId = 0, string search = null)
+        public ActionResult SearchResult(int filterId = 0, string search = null, int currentPage = 1, string sortBy = "Title")
         {
+            var userRole = (UserRole)Enum.Parse(typeof(UserRole), Session["Role"].ToString());
+            var bugsCount = 0;
+            IEnumerable<BugViewModel> bugs;
+            if (filterId != 0)
+            {
+               bugs = _bugService.SearchBugsByFilter(filterId, userRole, out bugsCount, currentPage, sortBy);
+                return PartialView(bugs);
+            }
             return PartialView();
         }
 

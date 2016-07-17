@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="col-xs-12 padding0">
-        @Html.Action("ProjectBugs", "Project", new { projectId = 15})
+        @Html.Action("SearchResult", "Search", new { filterId = @ViewBag.FilterId, search = @ViewBag.Search })
     </div>
 </div>
 
