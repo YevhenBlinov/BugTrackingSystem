@@ -77,6 +77,20 @@ namespace BugTrackingSystem.Service.Services
             _blobService = new BlobService(Constants.UsersPhotosContainerName);
         }
 
+        public IEnumerable<UserViewModel> GetUsers()
+        {
+            var users =
+                _userRepository.GetMany(u => u.DeletedOn == null).ToList();
+            var userModels = _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users).ToList();
+
+            for (var i = 0; i < userModels.Count; i++)
+            {
+                userModels[i].Photo = _blobService.GetBlobSasUri(users[i].Photo);
+            }
+
+            return userModels;
+        }
+
         public IEnumerable<UserViewModel> GetUsers(out int allUsersCount, int currentPage = 1, string sortBy = Constants.SortUsersByName)
         {
             var users =

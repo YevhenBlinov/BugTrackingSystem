@@ -26,7 +26,7 @@ namespace BugTrackingSystem.Service.Services
             {
                 cfg.CreateMap<Project, ProjectViewModel>()
                 .ForMember(pvm => pvm.BugsCount, opt => opt.MapFrom(p => p.Bugs.Count))
-                .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Count));
+                .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Where(u => u.DeletedOn == null).ToList().Count));
                 cfg.CreateMap<ProjectFormViewModel, Project>();
                 cfg.CreateMap<User, UserViewModel>()
                 .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
@@ -35,6 +35,13 @@ namespace BugTrackingSystem.Service.Services
             });
 
             _mapper = config.CreateMapper();
+        }
+
+        public IEnumerable<ProjectViewModel> GetProjects()
+        {
+            var projects = _projectRepository.GetMany(p => p.DeletedOn == null);
+            var allProjectsModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(projects);
+            return allProjectsModels;
         }
 
         public IEnumerable<ProjectViewModel> GetProjects(out int projectsCount, int currentPage = 1, string sortBy = Constants.SortProjectsByTitle)

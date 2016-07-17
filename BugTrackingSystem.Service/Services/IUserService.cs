@@ -6,6 +6,8 @@ namespace BugTrackingSystem.Service.Services
 {
     public interface IUserService
     {
+        IEnumerable<UserViewModel> GetUsers();
+
         IEnumerable<UserViewModel> GetUsers(out int allUsersCount, int currentPage = 1,
             string sortBy = Constants.SortUsersByName);
 

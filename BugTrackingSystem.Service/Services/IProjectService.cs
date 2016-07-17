@@ -5,6 +5,8 @@ namespace BugTrackingSystem.Service.Services
 {
     public interface IProjectService
     {
+        IEnumerable<ProjectViewModel> GetProjects();
+
         IEnumerable<ProjectViewModel> GetProjects(out int projectsCount, int currentPage = 1,
             string sortBy = Constants.SortProjectsByTitle);
 
