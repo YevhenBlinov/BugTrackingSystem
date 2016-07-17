@@ -14,5 +14,7 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<FilterViewModel> SearchFiltersByTitle(int userId, string searchRequest, out int findedFiltersCount,
             int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle);
+
+        AdvancedFilterViewModel GetAdvancedFilterById(int filterId);
     }
 }
