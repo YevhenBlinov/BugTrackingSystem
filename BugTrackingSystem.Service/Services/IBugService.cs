@@ -26,6 +26,9 @@ namespace BugTrackingSystem.Service.Services
         IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, UserRole userRole, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null);
 
+        IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, UserRole userRole, out int findedBugsCount, int currentPage = 1,
+            string sortBy = Constants.SortBugsOrFiltersByTitle);
+
         void UpdateBugStatus(int bugId, string status);
 
         void AddCommentToBug(int bugId, string userName, string comment);

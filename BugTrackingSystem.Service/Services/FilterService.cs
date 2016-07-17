@@ -28,10 +28,10 @@ namespace BugTrackingSystem.Service.Services
                     .ForMember(fvm => fvm.FilterId, opt => opt.MapFrom(f => f.FilterID))
                     .ForMember(fvm => fvm.Search, opt => opt.MapFrom(f => f.Search))
                     .ForMember(fvm => fvm.Title, opt => opt.MapFrom(f => f.Title))
-                    .ForMember(fvm => fvm.Project, opt => opt.MapFrom(f => ConvertStringToIntArray(f.Project)))
-                    .ForMember(fvm => fvm.AssignedUser, opt => opt.MapFrom(f => ConvertStringToIntArray(f.AssignedUser)))
-                    .ForMember(fvm => fvm.BugPriority, opt => opt.MapFrom(f => ConvertStringToStringArray(f.BugPriority)))
-                    .ForMember(fvm => fvm.BugStatus, opt => opt.MapFrom(f => ConvertStringToStringArray(f.BugStatus)));
+                    .ForMember(fvm => fvm.Project, opt => opt.MapFrom(f => ConvertHelper.ConvertStringToIntArray(f.Project)))
+                    .ForMember(fvm => fvm.AssignedUser, opt => opt.MapFrom(f => ConvertHelper.ConvertStringToIntArray(f.AssignedUser)))
+                    .ForMember(fvm => fvm.BugPriority, opt => opt.MapFrom(f => ConvertHelper.ConvertStringToStringArray(f.BugPriority)))
+                    .ForMember(fvm => fvm.BugStatus, opt => opt.MapFrom(f => ConvertHelper.ConvertStringToStringArray(f.BugStatus)));
                 cfg.CreateMap<Filter, FilterViewModel>()
                     .ForMember(fvm => fvm.BugPriority, opt => opt.MapFrom(f => AddSpacesToSentence(f.BugPriority)))
                     .ForMember(fvm => fvm.BugStatus, opt => opt.MapFrom(f => AddSpacesToSentence(f.BugStatus)))
@@ -78,7 +78,7 @@ namespace BugTrackingSystem.Service.Services
                 return null;
 
             var newText = new StringBuilder();
-            var projectsIntArray = ConvertStringToIntArray(projects);
+            var projectsIntArray = ConvertHelper.ConvertStringToIntArray(projects);
             var projectsIntArrayLength = projectsIntArray.Length;
 
             for (var i = 0; i < projectsIntArrayLength; i++)
@@ -96,7 +96,7 @@ namespace BugTrackingSystem.Service.Services
                 return null;
 
             var newText = new StringBuilder();
-            var usersIntArray = ConvertStringToIntArray(users);
+            var usersIntArray = ConvertHelper.ConvertStringToIntArray(users);
             var usersIntArrayLength = usersIntArray.Length;
 
             for (var i = 0; i < usersIntArrayLength; i++)
@@ -116,46 +116,15 @@ namespace BugTrackingSystem.Service.Services
             {
                 Title = (!string.IsNullOrEmpty(title)) ? title : null,
                 Search = (!string.IsNullOrEmpty(search)) ? search : null,
-                BugPriority = (priority != null) ? ConvertStringArrayToString(priority) : null,
-                BugStatus = (status != null) ? ConvertStringArrayToString(status) : null,
-                Project = (projects != null) ? ConvertIntArrayToString(projects) : null,
-                AssignedUser = (users != null) ? ConvertIntArrayToString(users) : null,
+                BugPriority = (priority != null) ? ConvertHelper.ConvertStringArrayToString(priority) : null,
+                BugStatus = (status != null) ? ConvertHelper.ConvertStringArrayToString(status) : null,
+                Project = (projects != null) ? ConvertHelper.ConvertIntArrayToString(projects) : null,
+                AssignedUser = (users != null) ? ConvertHelper.ConvertIntArrayToString(users) : null,
                 UserID = userId
             };
 
             _filterRepository.Add(filter);
             _filterRepository.Save();
-        }
-
-        private string ConvertStringArrayToString(string[] arrayToConvert)
-        {
-            var result = string.Join(",", arrayToConvert);
-            return result;
-        }
-
-        private string ConvertIntArrayToString(int[] arrayToConvert)
-        {
-            var result = string.Join(",", arrayToConvert);
-            return result;
-        }
-
-        private string[] ConvertStringToStringArray(string stringToConvert)
-        {
-            if (string.IsNullOrEmpty(stringToConvert))
-                return null;
-
-            var result = stringToConvert.Split(',');
-            return result;
-        }
-
-        private int[] ConvertStringToIntArray(string stringToConvert)
-        {
-            if (string.IsNullOrEmpty(stringToConvert))
-                return null;
-
-            var stringArray = stringToConvert.Split(',');
-            var result = stringArray.Select(n => Convert.ToInt32(n)).ToArray();
-            return result;
         }
 
         public void DeleteFilter(int filterId)
