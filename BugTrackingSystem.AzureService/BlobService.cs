@@ -69,7 +69,7 @@ namespace BugTrackingSystem.AzureService
             var blob = _container.GetBlockBlobReference(blobName);
             var sasConstraints = new SharedAccessBlobPolicy
             {
-                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromDays(365),
                 Permissions = SharedAccessBlobPermissions.Read
             };
 

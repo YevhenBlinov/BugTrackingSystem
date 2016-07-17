@@ -19,7 +19,14 @@ namespace BugTrackingSystem.Service.Services
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Filter, FilterViewModel>();
+                cfg.CreateMap<Filter, FilterViewModel>()
+                    .ForMember(fvm => fvm.FilterId, opt => opt.MapFrom(f => f.FilterID))
+                    .ForMember(fvm => fvm.Search, opt => opt.MapFrom(f => f.Search))
+                    .ForMember(fvm => fvm.Title, opt => opt.MapFrom(f => f.Title))
+                    .ForMember(fvm => fvm.Project, opt => opt.MapFrom(f => (f.Project != null) ? ConvertStringToIntArray(f.Project) : null))
+                    .ForMember(fvm => fvm.AssignedUser, opt => opt.MapFrom(f => (f.AssignedUser != null) ? ConvertStringToIntArray(f.AssignedUser) : null))
+                    .ForMember(fvm => fvm.BugPriority, opt => opt.MapFrom(f => (f.BugPriority != null) ? ConvertStringToStringArray(f.BugPriority) : null))
+                    .ForMember(fvm => fvm.BugStatus, opt => opt.MapFrom(f => (f.BugStatus != null) ? ConvertStringToStringArray(f.BugStatus) : null));
             });
 
             _mapper = config.CreateMapper();
@@ -33,6 +40,48 @@ namespace BugTrackingSystem.Service.Services
             filters = filters.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
             return filterModels;
+        }
+
+        public void AddFilter(int userId, string title, string search, string[] priority, string[] status, int[] projects, int[] users)
+        {
+            var filter = new Filter
+            {
+                Title = (!string.IsNullOrEmpty(title)) ? title : null,
+                Search = (!string.IsNullOrEmpty(search)) ? search : null,
+                BugPriority = (priority != null) ? ConvertStringArrayToString(priority) : null,
+                BugStatus = (status != null) ? ConvertStringArrayToString(status) : null,
+                Project = (projects != null) ? ConvertIntArrayToString(projects) : null,
+                AssignedUser = (users != null) ? ConvertIntArrayToString(users) : null,
+                UserID = userId
+            };
+
+            _filterRepository.Add(filter);
+            _filterRepository.Save();
+        }
+
+        private string ConvertStringArrayToString(string[] arrayToConvert)
+        {
+            var result = string.Join(",", arrayToConvert);
+            return result;
+        }
+
+        private string ConvertIntArrayToString(int[] arrayToConvert)
+        {
+            var result = string.Join(",", arrayToConvert);
+            return result;
+        }
+
+        private string[] ConvertStringToStringArray(string stringToConvert)
+        {
+            var result = stringToConvert.Split(',');
+            return result;
+        }
+
+        private int[] ConvertStringToIntArray(string stringToConvert)
+        {
+            var stringArray = stringToConvert.Split(',');
+            var result = stringArray.Select(n => Convert.ToInt32(n)).ToArray();
+            return result;
         }
 
         public void DeleteFilter(int filterId)
