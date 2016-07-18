@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BugTrackingSystem.Data.Model;
+using BugTrackingSystem.Service.Models;
 
 namespace BugTrackingSystem.Service
 {
@@ -79,7 +80,7 @@ namespace BugTrackingSystem.Service
             }
         }
 
-        public static IEnumerable<Filter> SortFilters(IEnumerable<Filter> filtersToSort, string sortBy)
+        public static IEnumerable<FilterViewModel> SortFilters(IEnumerable<FilterViewModel> filtersToSort, string sortBy)
         {
             switch (sortBy)
             {

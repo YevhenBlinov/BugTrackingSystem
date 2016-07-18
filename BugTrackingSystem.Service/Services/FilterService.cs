@@ -46,12 +46,19 @@ namespace BugTrackingSystem.Service.Services
         {
             var filters = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null);
             filtersCount = filters.Count();
-            filters = SortHelper.SortFilters(filters, sortBy);
-            filters = filters.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
+            var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
+            filterModels = SortHelper.SortFilters(filterModels, sortBy);
+            filterModels = filterModels.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
+            return filterModels;
+        }
+
+        public IEnumerable<FilterViewModel> GetAllUserFilters(int userId)
+        {
+            var filters = _filterRepository.GetMany(f => f.UserID == userId && f.DeletedOn == null);
             var filterModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(filters);
             return filterModels;
         }
-        
+
         private string AddSpacesToSentence(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -151,9 +158,9 @@ namespace BugTrackingSystem.Service.Services
                 _filterRepository.GetMany(
                     f => f.UserID == userId && f.DeletedOn == null && f.Title.Contains(searchRequest));
             findedFiltersCount = findedFilters.Count();
-            findedFilters = SortHelper.SortFilters(findedFilters, sortBy);
-            findedFilters = findedFilters.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var findedFiltersViewModels = _mapper.Map<IEnumerable<Filter>, IEnumerable<FilterViewModel>>(findedFilters);
+            findedFiltersViewModels = SortHelper.SortFilters(findedFiltersViewModels, sortBy);
+            findedFiltersViewModels = findedFiltersViewModels.Skip((currentPage - 1) * Constants.StickerPageSize).Take(Constants.StickerPageSize);
             return findedFiltersViewModels;
         }
 
