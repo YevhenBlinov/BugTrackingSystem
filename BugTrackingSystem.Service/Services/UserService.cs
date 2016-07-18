@@ -53,20 +53,6 @@ namespace BugTrackingSystem.Service.Services
                     .ForMember(u => u.FirstName, opt => opt.MapFrom(ufvm => ufvm.FirstName))
                     .ForMember(u => u.LastName, opt => opt.MapFrom(ufvm => ufvm.LastName))
                     .ForMember(u => u.Password, opt => opt.MapFrom(ufvm => ufvm.Password));
-                //cfg.CreateMap<EditUserFormViewModel, User>()
-                //    .ForMember(u => u.Projects, opt => opt.Ignore())
-                //    .ForMember(u => u.Bugs, opt => opt.Ignore())
-                //    .ForMember(u => u.DeletedOn, opt => opt.Ignore())
-                //    .ForMember(u => u.Filters, opt => opt.Ignore())
-                //    .ForMember(u => u.Photo, opt => opt.Ignore())
-                //    .ForMember(u => u.Password, opt => opt.Ignore())
-                //    .ForMember(u => u.UserID, opt => opt.MapFrom(eufvm => eufvm.UserId))
-                //    .ForMember(u => u.Login, opt => opt.MapFrom(eufvm => eufvm.Email))
-                //    .ForMember(u => u.Email, opt => opt.MapFrom(eufvm => eufvm.Email))
-                //    .ForMember(u => u.UserRoleID,
-                //        opt => opt.MapFrom(eufvm => (byte)((UserRole)Enum.Parse(typeof(UserRole), eufvm.Role))))
-                //    .ForMember(u => u.FirstName, opt => opt.MapFrom(eufvm => eufvm.FirstName))
-                //    .ForMember(u => u.LastName, opt => opt.MapFrom(eufvm => eufvm.LastName));
             });
 
             _mapper = config.CreateMapper();
@@ -123,7 +109,23 @@ namespace BugTrackingSystem.Service.Services
             if (user == null)
                 throw new Exception("Sorry, but the user doesn't exist.");
 
-            var projects = user.Projects.Where(p => p.DeletedOn == null).Where(p => p.IsPaused == false);
+            var projects = user.Projects.Where(p => p.IsPaused == false && p.DeletedOn == null);
+            var projectModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(projects);
+            return projectModels;
+        }
+
+        public IEnumerable<ProjectViewModel> GetUsersProjectsByPage(int userId, out int projectsCount, int currentPage = 1,
+            string sortBy = Constants.SortUsersByName)
+        {
+            var user = _userRepository.GetById(userId);
+
+            if (user == null)
+                throw new Exception("Sorry, but the user doesn't exist.");
+
+            var projects = user.Projects.Where(p => p.IsPaused == false && p.DeletedOn == null);
+            projectsCount = projects.Count();
+            projects = SortHelper.SortProjects(projects, sortBy);
+            projects = projects.Skip((currentPage - 1)*Constants.StickerPageSize).Take(Constants.StickerPageSize);
             var projectModels = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectViewModel>>(projects);
             return projectModels;
         }
@@ -135,7 +137,7 @@ namespace BugTrackingSystem.Service.Services
             if (user == null)
                 throw new Exception("Sorry, but the user doesn't exist.");
 
-            var bugs = user.Bugs.Where(b => b.Project.DeletedOn == null).Where(b => b.Project.IsPaused == false);
+            var bugs = user.Bugs.Where(b => b.Project.IsPaused == false && b.Project.DeletedOn == null);
             allBugsCount = bugs.Count();
             bugs = bugs.Skip((currentPage - 1)*Constants.ListPageSize).Take(Constants.ListPageSize);
             var bugModels = _mapper.Map<IEnumerable<Bug>, IEnumerable<BaseBugViewModel>>(bugs);
@@ -187,7 +189,6 @@ namespace BugTrackingSystem.Service.Services
 
         public void EditUserInformation(EditUserFormViewModel editUserFormViewModel)
         {
-            //var userToEdit = _mapper.Map<EditUserFormViewModel, User>(editUserFormViewModel);
             var userToEdit = _userRepository.GetById(editUserFormViewModel.UserId);
             userToEdit.FirstName = editUserFormViewModel.FirstName;
             userToEdit.LastName = editUserFormViewModel.LastName;

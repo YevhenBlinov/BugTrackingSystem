@@ -15,6 +15,9 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<ProjectViewModel> GetUsersProjects(int userId);
 
+        IEnumerable<ProjectViewModel> GetUsersProjectsByPage(int userId, out int projectsCount, int currentPage = 1,
+            string sortBy = Constants.SortUsersByName);
+        
         IEnumerable<BaseBugViewModel> GetUsersBugs(int userId, out int allBugsCount, int currentPage = 1);
 
         void AddUser(UserFormViewModel userFormViewModel);
