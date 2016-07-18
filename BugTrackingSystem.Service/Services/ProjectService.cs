@@ -30,9 +30,9 @@ namespace BugTrackingSystem.Service.Services
                         opt => opt.MapFrom(p => p.Bugs.Count(b => b.AssignedUserID == null || b.User.DeletedOn == null)));
                 cfg.CreateMap<ProjectFormViewModel, Project>();
                 cfg.CreateMap<User, UserViewModel>()
-                .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
-                .ForMember(uvm => uvm.ProjectsCount, opt => opt.MapFrom(u => u.Projects.Where(p => p.DeletedOn == null).Count(p => p.IsPaused == false)))
-                .ForMember(uvm => uvm.BugsCount, opt => opt.MapFrom(u => u.Bugs.Where(b => b.Project.DeletedOn == null).Count(b => b.Project.IsPaused == false)));
+                    .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
+                    .ForMember(uvm => uvm.ProjectsCount, opt => opt.MapFrom(u => u.Projects.Count(p => p.IsPaused == false && p.DeletedOn == null)))
+                    .ForMember(uvm => uvm.BugsCount, opt => opt.MapFrom(u => u.Bugs.Count(b => b.Project.IsPaused == false && b.Project.DeletedOn == null)));
             });
 
             _mapper = config.CreateMapper();

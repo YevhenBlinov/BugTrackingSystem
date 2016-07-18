@@ -23,7 +23,10 @@ namespace BugTrackingSystem.Service.Services
 
         void AddBugAttachmentsByBugId(int bugId, Dictionary<string, byte[]> bugAttachmentsDictionary);
 
-        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, UserRole userRole, out int findedBugsCount, int currentPage = 1,
+        IEnumerable<BugViewModel> SearchBugsBySubject(string searchRequest, int userId, out int findedBugsCount, int currentPage = 1,
+            string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null);
+
+        IEnumerable<BugViewModel> SearchAllBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null);
 
         IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, string userRole, out int findedBugsCount, int currentPage = 1,
