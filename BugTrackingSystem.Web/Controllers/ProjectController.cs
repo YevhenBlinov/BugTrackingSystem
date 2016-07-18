@@ -57,7 +57,6 @@ namespace BugTrackingSystem.Web.Controllers
                 else
                 {
                     projects = _userService.GetUsersProjects(userId);
-                    // _projectService.GetProjects(out projectsCount, page, sortBy);
                 }
             }
             else

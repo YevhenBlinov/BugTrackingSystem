@@ -10,7 +10,7 @@
             <div class="input-group stylish-input-group">
                 <input type="text" class="form-control" placeholder="Search" id="searchGeneral">
                 <span class="input-group-addon" style="background-color: #F8FEFE">
-                    <a onclick="searchProjectBug()">
+                    <a onclick="searchByKeyword()">
                         <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
                     </a>
                 </span>
@@ -26,7 +26,7 @@
 <div class="col-xs-12" id="extendedSearch" style="display: none; margin-bottom: 30px">
     <div class="col-xs-12 AdvancedSearch">
         <div class="form-group col-xs-12" style="margin: 0; display: inline-flex">
-            <input class="form-control" placeholder="Search" id="extendedSearchSearch" style="margin: 0; display: inline-block; width: 30%; margin-right: 15px">
+            <input maxlength="200" class="form-control" placeholder="Search" id="extendedSearchSearch" style="margin: 0; display: inline-block; width: 30%; margin-right: 15px">
             <div style="width: 15%; margin-right: 15px">
                 <select multiple="multiple" id="filterProiritySelect" style="padding: 0 10px;">
                     <option value="Minor">Minor</option>
@@ -56,6 +56,7 @@
         <img src="../../Content/Images/iconundo.png" style="cursor: pointer; margin-right: 10px;" id="resetSearch"/>
         <img src="../../Content/Images/iconfilter.png" style="cursor: pointer; margin-right: 10px;" id="showFiltersIcon" />
         <img src="../../Content/Images/saveicon.png" style="cursor: pointer" id="saveFilter" data-toggle="modal" data-target="#searchFilterModalWindow"/>
+        <button type="button" class="btn modalCreateButton pull-right" id="advancedSearchButton" onclick="searchByCustomAttr();">Search</button>
     </div>
 </div>
 
@@ -68,12 +69,13 @@
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new filter</h3>
             </div>
             <div class="modal-body col-lg-12">
+                <div class="validationError" id="createFilterFromSearchError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form. Title and search fields are required.</div>
                 <form>
                     <div class="form-group">
-                        <input class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
+                        <input maxlength="100" class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
+                        <input maxlength="200" class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
                     </div>
                 </form>
                 <div class="createFilterSelectLeft inline-block">
@@ -110,6 +112,51 @@
 <div id="selectFilterModal"></div>
 
 
+<script>
+    $('#searchGeneral').keypress(function(e) {
+        if (e.keyCode == 13) {
+            searchByKeyword();
+        }
+    });
+</script>
+
+<script>
+    function searchByKeyword() {
+        var search = $('#searchGeneral').val();
+        if (search !== "") {
+            var domain = 'http://localhost:2241/Search/Search';
+            var url = domain + '?search=' + search;
+            window.location.replace(url);
+        }       
+    }
+
+</script>
+
+
+
+<script>
+    function searchByCustomAttr() {
+        var search = $('#extendedSearchSearch').val();
+        var customPriority = $("#filterProiritySelect").multipleSelect("getSelects");
+        var customStatus = $("#filterStatusSelect").multipleSelect("getSelects");
+        var customProjects = $("#filterProjectsSelect").multipleSelect("getSelects");
+        var customUsers = $("#filterUsersSelect").multipleSelect("getSelects");
+        $.ajax({
+            type: 'POST',
+            url: '/Search/SearchResultByParams',
+            data: {
+                search: search,
+                priority: customPriority,
+                status: customStatus,
+                projects: customProjects,
+                users: customUsers
+            },
+            success: function(data) {
+                $('#searchResultContainer').html(data);
+            }
+        });
+    };
+</script>
 
 <script>
     $('#saveFilter').on('click', function() {
@@ -148,22 +195,31 @@
         var status = $("#modalFilterStatusSelect").multipleSelect("getSelects");
         var projects = $("#modalFilterProjectsSelect").multipleSelect("getSelects");
         var users = $("#modalFilterUsersSelect").multipleSelect("getSelects");
-        $.ajax({
-            type: 'POST',
-            url: '/Filters/AddFilter',
-            data: {
-                title: title,
-                search: search,
-                priority: priority,
-                status: status,
-                projects: projects,
-                users: users
-            },
-            success: function () {
-                $('#searchFilterModalWindow').modal('toggle');
-                alert('Saved');
-            }
-        });
+        if (title !== "" && search !== "") {
+            $('#createFilterFromSearchError').hide();
+            $.ajax({
+                type: 'POST',
+                url: '/Filters/AddFilter',
+                data: {
+                    title: title,
+                    search: search,
+                    priority: priority,
+                    status: status,
+                    projects: projects,
+                    users: users
+                },
+                success: function() {
+                    $('#searchFilterModalWindow').modal('toggle');
+                    alert('Saved');
+                },
+                error: function() {
+                    alert("An error occured. Please try again.");
+                }
+            });
+        } else {
+            $('#createFilterFromSearchError').slideDown(300);
+        }
+        
     });
 </script>
 

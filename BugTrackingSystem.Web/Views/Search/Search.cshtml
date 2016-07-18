@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,9 +8,9 @@
     <div class="content col-xs-12" style="margin: 0 0 20px 15px;">
         Sort by:
         <div class="ui inline dropdown">
-            <div class="text" style="font-weight: normal" id="projectBugSortBy">Title</div>
+            <div class="text" style="font-weight: normal" id="searchBugSortBy">Title</div>
             <i class="dropdown icon"></i>
-            <div class="menu" id="projectBugSortByOptions">
+            <div class="menu" id="searchBugSortByOptions">
                 <div class="item selected inlineDropdown" data-text="Title">Title</div>
                 <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
                 <div class="item inlineDropdown" data-text="Status">Status</div>
@@ -20,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 padding0">
+    <div class="col-xs-12 padding0" id="searchResultContainer">
         @Html.Action("SearchResult", "Search", new { filterId = @ViewBag.FilterId, search = @ViewBag.Search })
     </div>
 </div>
@@ -41,3 +39,54 @@
     });
 </script>
 
+<script>
+    function searchProject() {
+        var search = $('#searchGeneral').val();
+        var sortBy = $('#searchBugSortBy').html();
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                filterId: @ViewBag.FilterId
+            },
+            url: '/Search/SearchResult',
+            success: function (html) {
+                $('#searchResultContainer').html(html);
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    }
+</script>
+
+<script>
+    $('#searchBugSortByOptions').children().on('click', function () {
+        var search = $('#searchGeneral').val();
+        var sortBy = $(this).attr('data-text');
+        $.ajax({
+            type: 'GET',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                filterId: @ViewBag.FilterId
+            },
+            url: '/Search/SearchResult',
+            success: function (html) {
+                $('#searchResultContainer').html(html);
+            },
+            error: function () {
+                alert('En error occured. Please try again.');
+            }
+        });
+    })
+</script>
+
+<script>
+    $('#searchGeneral').keypress(function (e) {
+        if (e.which == 13) {
+            searchProject();
+        }
+    });
+</script>

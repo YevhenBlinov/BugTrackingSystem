@@ -45,12 +45,15 @@
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Change password</h3>
             </div>
             <div class="modal-body">
-                <input class="form-control" id="ChancePassword" placeholder="Password">
+                <div class="validationError" id="editUserPasswordError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form
+                </div>
+                <div class="validationError" id="editUserRepeatPasswordError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Password doesn't match confirm password</div>
+                <input class="form-control" id="ChangePassword" placeholder="Password">
                 <input class="form-control" id="RepeatPassword" placeholder="Repeat Password">
             </div>
 
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn modalCreateButton" onclick="ChangeUserPassword(@Model.UserId)">Save</button>
+                <button type="button" class="btn modalCreateButton" onclick="ChangeUserPassword(@Model.UserId)">Save</button>
             </div>
         </div>
     </div>
@@ -65,13 +68,14 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit user data</h3>
             </div>
-            @using (Html.BeginForm("EditUser", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditUser", "Users", FormMethod.Post, new { enctype = "multipart/form-data", id="editUserForm" }))
             {
                 <div class="modal-body">
+                    <div class="validationError" id="editUserError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form</div>
                     <div style="margin-bottom: 15px;">
                         <div style="display: inline-flex">
                             <div class="inline-block">
-                                <img src="@Model.Photo" id="UserPhotoModalPreview" class="img-circle" width="40" height="40" />
+                                <img src="@Model.Photo" id="UserPhotoModalPreview" class="img-circle" width="40" height="40"/>
                             </div>
                             <div class="inline-block" style="margin-left: 10px; padding-top: 7px;">
                                 <div>
@@ -82,9 +86,9 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden" />
-                        <input name="UserId" value="@Model.UserId" class="hidden" />
-                        <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden" />
+                        <input type="file" name="image" onchange="PreviewPhoto()" id="UserPhoto" class="hidden"/>
+                        <input name="UserId" value="@Model.UserId" class="hidden"/>
+                        <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden"/>
                         @if (User.IsInRole("Administrator"))
                         {
                             <div class="ui selection dropdown modalSingleDropdown pull-right" id="userRoleSelect">
@@ -102,9 +106,9 @@
                         }
                     </div>
 
-                    <div id="FullName" >
-                        <input class="form-control" id="EditFirstName" name="FirstName" value="@Model.FirstName" placeholder="First Name" >
-                        <input class="form-control" id="EditLastName" name="LastName" value="@Model.LastName" placeholder="Last Name" >
+                    <div id="FullName">
+                        <input class="form-control" id="EditFirstName" name="FirstName" value="@Model.FirstName" placeholder="First Name">
+                        <input class="form-control" id="EditLastName" name="LastName" value="@Model.LastName" placeholder="Last Name">
                     </div>
 
                     <input class="form-control" id="EditEmail" name="Email" value="@Model.Email" placeholder="Email" style="">
@@ -118,6 +122,22 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('#editUserForm').on('submit', (function () {
+            var firstName = $('#EditFirstName').val();
+            var lastName = $('#EditLastName').val();
+            var email = $('#EditEmail').val();
+            if (firstName === "" || lastName === "" || email === "") {
+                $('#editUserError').slideDown(300);
+                return false;
+            } else {
+                $('#editUserError').hide();
+                return true;
+            }
+        }));
+    })
+</script>
 
 <script>
     var userRole = '@Model.Role';
@@ -134,15 +154,29 @@
 
 <script>
     function ChangeUserPassword(id) {
-        var password = $('#Password').val();
-        $.ajax({
-            type: 'POST',
-            data: { userId: id, password: password },
-            url: '/Users/ChangeUserPassword',
-            error: function () {
-                alert('An error occured. Please try again.');
-            }
-        });
+        var password = $('#ChangePassword').val();
+        var repeatPassword = $('#RepeatPassword').val();
+        if (password !== "" && repeatPassword !== "") {
+            if (password !== repeatPassword) {
+                $('#editUserPasswordError').hide();
+                $('#editUserRepeatPasswordError').slideDown(300);
+            } else {
+                $('#editUserPasswordError').hide();
+                $('#editUserRepeatPasswordError').hide();
+                $.ajax({
+                    type: 'POST',
+                    data: { userId: id, password: password },
+                    url: '/Users/ChangeUserPassword',
+                    error: function () {
+                        alert('An error occured. Please try again.');
+                    }
+                });
+            }       
+        } else {
+            $('#editUserPasswordError').slideDown(300);
+            $('#editUserRepeatPasswordError').hide();
+        }
+        
     }
 </script>
 

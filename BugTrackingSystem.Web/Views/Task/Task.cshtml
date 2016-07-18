@@ -109,9 +109,10 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit task</h3>
             </div>
-            @using (Html.BeginForm("EditTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data", id="editTaskForm" }))
             {
                 <div class="modal-body col-lg-12">
+                    <div class="validationError" id="editTaskError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form</div>
                     <div class="form-group">
                         <input class="form-control" id="Title" name="Title" placeholder="Title" value="@Model.Subject" style="margin: 0; display: inline-block">
                     </div>
@@ -123,41 +124,41 @@
                         </div>
                     </div>
                     <div id="userDropDown">
-                        @Html.Action("EditTaskUsers", "Task", new { projectId = Model.ProjectID })
+                        @Html.Action("EditTaskUsers", "Task", new {projectId = Model.ProjectID})
                         @if (Model.AssignedUser != null)
                         {
                             <script>
                                 $('#editTaskUserDropDown').dropdown('set selected', '@Model.AssignedUser.UserId');
                             </script>
-                        }                      
+                        }
                     </div>
                     <div class="ui selection dropdown modalSingleDropdown pull-left cn" id="editTaskPriorityDropDown">
-                        <input type="hidden" name="Priority">
+                        <input type="hidden" name="Priority" id="editTaskPriority">
                         <i class="dropdown icon"></i>
                         <div class="default text inner">Priority</div>
                         <div class="menu">
                             <div class="item" data-value="Minor">
-                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle" />
+                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle"/>
                                 Minor
                             </div>
                             <div class="item" data-value="Major">
-                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle" />
+                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle"/>
                                 Major
                             </div>
                             <div class="item" data-value="Critical">
-                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle" />
+                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle"/>
                                 Critical
                             </div>
                             <div class="item" data-value="Blocker">
-                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle" />
+                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle"/>
                                 Blocker
                             </div>
                         </div>
                     </div>
                     <div class="ui selection dropdown modalSingleDropdown pull-right cn" id="editTaskStatusDropDown">
-                        <input type="hidden" name="Status">
+                        <input type="hidden" name="Status" id="editTaskStatus">
                         <i class="dropdown icon"></i>
-                        <div  class="default text inner">Status</div>
+                        <div class="default text inner">Status</div>
                         <div class="menu">
                             <div class="item" data-value="ToDo">To do</div>
                             <div class="item" data-value="InProgress">In progress</div>
@@ -166,7 +167,7 @@
                             <div class="item" data-value="Closed">Closed</div>
                         </div>
                     </div>
-                    <textarea class="form-control" name="Description" placeholder="Description" rows="5">@Model.Description</textarea>
+                    <textarea class="form-control" name="Description" placeholder="Description" id="editTaskDescription" rows="5">@Model.Description</textarea>
                     <input class="hidden" name="BugId" value="@Model.BugId"/>
                     <div style="margin-top: 10px;">
                         <b>Attachments</b>
@@ -208,6 +209,23 @@
 </div>
 
 
+<script>
+    $(document).ready(function() {
+        $('#editTaskForm').on('submit', (function () {
+            var editTaskTitle = $('#Title').val();
+            var editTaskStatus = $('#status').val();
+            var editTaskPriority = $('#editTaskStatus').val();
+            var editTaskDescription = $('#editTaskDescription').val();
+            if (editTaskTitle === "" || editTaskStatus === "" || editTaskPriority === "" || editTaskDescription === "") {
+                $('#editTaskError').slideDown(300);
+                return false;
+            } else {
+                $('#editTaskError').hide();
+                return true;
+            }
+        }));
+    })
+</script>
 
 <script>
     $('#addAttachmentsModalIcon').click(function () {

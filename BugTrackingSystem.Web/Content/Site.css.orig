@@ -50,17 +50,6 @@ textarea {
 
 /*-----------------General--------------------*/
 
-.fa-exclamation-circle {
-    margin: 0 5px;
-}
-
-.validationError {
-    padding-bottom: 10px;
-    text-align: center;
-    color: red;
-    display: none;
-}
-
 .ui.inline.dropdown {
     color: #4D868D;
 }
@@ -466,10 +455,6 @@ option:hover {
         background-color: #92C1BA;
     }
 
-.active {
-    background-color: #92C1BA;
-}
-
 .navbar-brand {
     padding: 10px 0 10px 50px;
 }
@@ -487,17 +472,30 @@ option:hover {
     }
 
 #navSearch {
+<<<<<<< Updated upstream
     background-color: #4D868D;
     border-radius: 0;
     height: 35px;
-    margin: 7px 0;       
 }
 
 #navSearchGlyph {
     font-size: 23px;
     color: white;
+    margin-left: -45px;
+    margin-top: 10px;
+=======
+    background-color: #4D868D; 
+    border-radius: 0; 
+    height: 35px;
+    margin: 7px 0;       
+    }
+
+#navSearchGlyph {
+    font-size: 23px; 
+    color: white; 
     margin-left: 160px; 
     margin-top: 12px;
+>>>>>>> Stashed changes
 }
 
 #navDropdown {

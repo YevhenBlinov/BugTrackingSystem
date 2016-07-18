@@ -30,18 +30,43 @@
         </div>
     }
 </div>
-<div class="col-xs-12" style="margin-top: 30px; padding: 0 0 0 30px;">
-    <i class="fa fa-filter col-lg-2" aria-hidden="true" style="font-size: 18px; margin: 0; padding: 0;"> Filters: @Model.Count()</i>
-    <div class=" pull-right">
-        <nav class="local-pagination pull-right">
-            <ul class="pagination pagination-sm">
-                <li><a href="#">1</a></li>
-
+<div class="row col-xs-12" style="margin: 10px 25px 0 15px;">
+    <i class="fa fa-filter col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Filters: @ViewBag.FiltersCount</i>
+    <div class=" pull-right" style="display: inline-block">
+        <nav class="local-pagination">
+            <ul class="pagination pagination-sm" id="filtersPagination">
+                @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                {
+                    <li id="@i" style="cursor:pointer"><a id="@i">@i</a></li>
+                }
             </ul>
         </nav>
     </div>
 </div>
 
+<script>
+    var a = '#' + '@ViewBag.CurrentPage';
+    $('#filtersPagination').children(a).addClass('active');
+</script>
 
+<script>
+    $('#filtersPagination').children('li').on('click', function () {
+        var page = $(this).children('a').html();
+        var search = $('#filterSearch').val();
+        var sortBy = $('#filtersSortBy').html();
+        $.ajax({
+            type: 'GET',
+            url: '/Filters/FiltersInfo',
+            data: {
+                search: search,
+                sortBy: sortBy,
+                page: page
+            },
+            success: function (data) {
+                $('#filtersContainer').html(data);
+            }
+        });
+    })
+</script>
 
 

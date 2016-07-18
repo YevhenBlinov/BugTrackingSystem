@@ -53,21 +53,23 @@
                 <i class="fa fa-users" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new user</h3>
             </div>
-            @using (Html.BeginForm("AddUser", "Users", FormMethod.Post))
+            @using (Html.BeginForm("AddUser", "Users", FormMethod.Post, new {id="addUserForm"}))
             {
                 <div class="modal-body col-lg-12">
-
+                    <div class="validationError" id="addUserError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form
+                    </div>
+                    <div class="validationError" id="addUserPasswordError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Password doesn't match confirm password</div>
                     <div class="form-group">
                         <div id="FullName">
-                            <input class="form-control" name="FirstName" id="UserFirstName" placeholder="Name">
-                            <input class="form-control" name="LastName" id="UserLastName" placeholder="Surname" style="">
+                            <input maxlength="35" class="form-control" name="FirstName" id="UserFirstName" placeholder="Name">
+                            <input maxlength="35" class="form-control" name="LastName" id="UserLastName" placeholder="Surname" style="">
                         </div>
-                        <input class="form-control" type="email" name="Email" id="UserEmail" placeholder="E-mail" style="">
+                        <input maxlength="255" class="form-control" type="email" name="Email" id="UserEmail" placeholder="E-mail" style="">
                         <div>
-                            <input class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password">
-                            <input type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password">
+                            <input maxlength="100" class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password">
+                            <input maxlength="100" type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password">
                             <div id="UserRole" class="ui selection dropdown modalSingleDropdown pull-right cn">
-                                <input type="hidden" name="Role">
+                                <input type="hidden" name="Role" id="createUserRole">
                                 <i class="dropdown icon"></i>
                                 <div class="default text inner">Role</div>
                                 <div class="menu">
@@ -91,7 +93,31 @@
 
 
 
-
+<script>
+    $(document).ready(function () {
+        $('#addUserForm').on('submit', (function () {
+            var userFirstName = $('#UserFirstName').val();
+            var userLastName = $('#UserLastName').val();
+            var userEmail = $('#UserEmail').val();
+            var userPassword = $('#UserPassword').val();
+            var confirmPassword = $('#ConfirmUserPassword').val();
+            var userRole = $('#createUserRole').val();
+            if (userFirstName === "" || userLastName === "" || userEmail === "" || userPassword === "" || confirmPassword === "" || userRole === "") {
+                $('#addUserError').slideDown(300);
+                return false;
+            } else {
+                if (userPassword !== confirmPassword) {
+                    $('#addUserError').hide();
+                    $('#addUserPasswordError').slideDown(300);
+                    return false;
+                }
+                $('#addUserPasswordError').hide();
+                $('#addUserError').hide();
+                return true;
+            }
+        }));
+    })
+</script>
 
 <script>
     function SearchUser() {

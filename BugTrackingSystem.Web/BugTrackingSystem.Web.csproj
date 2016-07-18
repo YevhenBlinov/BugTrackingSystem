@@ -203,9 +203,11 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Asignar - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Asignar - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Asignar - Web Deploy %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\checkbox.min.js" />

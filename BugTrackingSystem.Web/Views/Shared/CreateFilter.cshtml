@@ -8,12 +8,13 @@
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new filter</h3>
             </div>
             <div class="modal-body col-lg-12">
+                <div class="validationError" id="addFilterTaskError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form</div>
                 <form>
                     <div class="form-group">
-                        <input class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
+                        <input maxlength="100" class="form-control" id="titleInput" placeholder="Title" style="margin: 0; display: inline-block">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
+                        <input maxlength="200" class="form-control" id="searchInput" placeholder="Search" style="margin: 0; display: inline-block">
                     </div>
                 </form>
                 <div class="createFilterSelectLeft inline-block">
@@ -47,6 +48,8 @@
     </div>
 </div>
 
+
+
 <script>
     $('.ui.dropdown')
         .dropdown();
@@ -61,24 +64,31 @@
         var status = $("#filterStatusSelect").multipleSelect("getSelects");
         var projects = $("#filterProjectsSelect").multipleSelect("getSelects");
         var users = $("#filterUsersSelect").multipleSelect("getSelects");
-        $.ajax({
-            type: 'POST',
-            url: '/Filters/AddFilter',
-            data: {
-                title: title,
-                search: search,
-                priority: priority,
-                status: status,
-                projects: projects,
-                users: users
-            },
-            success: function(data) {
-                $('#filtersContainer').html(data);
-                $('#FilterModalWindow').modal('toggle');
-            }
-        });
+        if (title !== "" && search !== "") {
+            $('#addFilterTaskError').hide();
+            $.ajax({
+                type: 'POST',
+                url: '/Filters/AddFilter',
+                data: {
+                    title: title,
+                    search: search,
+                    priority: priority,
+                    status: status,
+                    projects: projects,
+                    users: users
+                },
+                success: function(data) {
+                    $('#filtersContainer').html(data);
+                    $('#FilterModalWindow').modal('toggle');
+                }
+            });
+        } else {
+            $('#addFilterTaskError').slideDown(300);
+        }
+     
     });
 </script>
+
 
 <script>
     $("#filterProiritySelect").multipleSelect({

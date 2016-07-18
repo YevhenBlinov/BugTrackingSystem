@@ -30,7 +30,7 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult FiltersInfo( string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle)
+        public ActionResult FiltersInfo( string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle, int page = 1)
         {
             var userId = Convert.ToInt32(Session["UserId"].ToString());
             IEnumerable<FilterViewModel> filters;
@@ -40,12 +40,16 @@ namespace BugTrackingSystem.Web.Controllers
             if (string.IsNullOrEmpty(search))
             {
                 
-                filters = _filterService.GetUserFilters(userId, out filtersCount, sortBy:sortBy);
+                filters = _filterService.GetUserFilters(userId, out filtersCount, page, sortBy);
             }
             else
             {
-                filters = _filterService.SearchFiltersByTitle(userId, search, out filtersCount, 1, sortBy);
+                filters = _filterService.SearchFiltersByTitle(userId, search, out filtersCount, page, sortBy);
             }
+            double pagesCount = Convert.ToDouble(filtersCount) / Convert.ToDouble(Constants.StickerPageSize);
+            ViewBag.PagesCount = Math.Ceiling(pagesCount);
+            ViewBag.FiltersCount = filtersCount;
+            ViewBag.CurrentPage = page;
             return PartialView(filters);
         }
 

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
+using BugTrackingSystem.Service;
 using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Models.FormModels;
 using BugTrackingSystem.Service.Services;
+using BugTrackingSystem.Web.Filters;
 using PagedList;
 
 namespace BugTrackingSystem.Web.Controllers
 {
+    [CustomAuthenticate]
     public class ProjectController : Controller
     {
         private IProjectService _projectService;
@@ -27,8 +30,14 @@ namespace BugTrackingSystem.Web.Controllers
         [HttpGet]
         public ActionResult Project(int projectId)
         {
-            var project = _projectService.GetProjectById(projectId);
-            return View(project);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            //If user is assigned to this project OR it's Admin 
+            if (_projectService.GetAllProjectUsers(projectId).Any(x => x.UserId == userId) || Session["Role"].ToString()=="Administrator")
+            {
+                var project = _projectService.GetProjectById(projectId);
+                return View(project);
+            }
+            else return RedirectToAction("Dashboard", "Home");
         }
 
         public ActionResult Index()
@@ -36,23 +45,32 @@ namespace BugTrackingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult ProjectsInfo(int userId = 1, string search = null)
+        public ActionResult ProjectsInfo(string sortBy = Constants.SortProjectsByTitle, string search = null, int page = 1)
         {
-<<<<<<< Updated upstream
             var projectsCount = 0;
-            var projects = _projectService.GetProjects(out projectsCount);
-=======
+            var userId = Convert.ToInt32(Session["UserId"].ToString());
             IEnumerable<ProjectViewModel> projects;
-
             if (string.IsNullOrEmpty(search))
             {
-                projects = _projectService.GetProjects();
+                if (User.IsInRole("Administrator"))
+                    projects = _projectService.GetProjects(out projectsCount, page, sortBy);
+                else
+                {
+                    projects = _userService.GetUsersProjects(userId);
+                    // _projectService.GetProjects(out projectsCount, page, sortBy);
+                }
             }
             else
             {
-                projects = _projectService.SearchProjectsByName(search);
+                UserRole userRole = (UserRole)Session["Role"];
+                projects = _projectService.SearchProjectsByName(search, userRole, out projectsCount, page, sortBy);
             }
->>>>>>> Stashed changes
+
+            double pagesCount = Convert.ToDouble(projectsCount) / Convert.ToDouble(Constants.StickerPageSize);
+            ViewBag.PagesCount = Math.Ceiling(pagesCount);
+            ViewBag.ProjectsCount = projectsCount;
+            ViewBag.CurrentPage = page;
+
             return PartialView(projects);
         }
 
@@ -64,10 +82,28 @@ namespace BugTrackingSystem.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ProjectBugs(int projectId)
+        public ActionResult ProjectBugs(int projectId, string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle, int page = 1)
         {
+            IEnumerable<BugViewModel> bugs;
             var bugsCount = 0;
-            var bugs = _bugService.GetProjectsBugs(projectId, out bugsCount);
+            if (string.IsNullOrEmpty(search))
+            {
+                bugs = _bugService.GetProjectsBugs(projectId, out bugsCount, page, sortBy);
+            }
+            else
+            {
+<<<<<<< Updated upstream
+                var userId = (int) Session["UserId"];
+                bugs = _bugService.SearchBugsBySubject(search, userId, out bugsCount, page, sortBy, projectId);
+=======
+                bugs = _bugService.SearchBugsBySubject(search, Convert.ToInt32(Session["UserId"]), out bugsCount, page, sortBy, projectId);
+>>>>>>> Stashed changes
+            }
+            double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.ListPageSize);
+            ViewBag.PagesCount = Math.Ceiling(pagesCount);
+            ViewBag.TaskCount = bugsCount;
+            ViewBag.CurrentPage = page;
+            ViewBag.ProjectId = projectId;
             return PartialView(bugs);
         }
 
@@ -95,6 +131,18 @@ namespace BugTrackingSystem.Web.Controllers
         public void DeleteUserFromProject(int projectId, int userId)
         {
             _projectService.RemoveUserFromProject(projectId, userId);
+        }
+
+        public ActionResult AddUserToProject(int projectId)
+        {
+            var users = _userService.GetNotAssignedToProjectUsers(projectId);
+            ViewBag.ProjectId = projectId;
+            return PartialView(users);
+        }
+
+        public void AddUsers(string userIds, int projectId)
+        {
+            _projectService.AddUsersToProject(projectId, userIds);
         }
     }
 }

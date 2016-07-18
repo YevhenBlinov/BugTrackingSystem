@@ -57,8 +57,9 @@
             </div>
             <div class="modal-body col-lg-12">
                 <form>
+                    <div class="validationError" id="addProjectError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form</div>
                     <div class="form-group">
-                        <input class="form-control" id="name" placeholder="Title" style="margin: 0; display: inline-block">
+                        <input maxlength="50" class="form-control" id="name" placeholder="Title" style="margin: 0; display: inline-block">
                     </div>
                     <div class="form-group col-xs-4 padding0">
                         <input maxlength="3" class="form-control inline-block" id="prefix" placeholder="Prefix" style="margin: 0;">
@@ -71,13 +72,14 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton">Create</button>
+                <button type="button" id="addProject" class="btn modalCreateButton">Create</button>
             </div>
         </div>
     </div>
 </div>
 
 <div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared")"></div>
+
 
 <script>
     $(function () {
@@ -161,29 +163,37 @@
     }
 </script>
 <script>
-    $("#addProject").click(function (e) {
+    $("#addProject").click(function(e) {
         e.preventDefault();
         var name = $("#name").val();
         var prefix = $("#prefix").val();
+        if (name !== "" && prefix !== "")
+        {
+            $('#addProjectError').hide();
         $.ajax({
             type: 'POST',
             data: { name: name, prefix: prefix },
             url: '/Project/AddProject',
-            success: function () {
+            success: function() {
                 $.ajax({
                     type: 'GET',
                     url: '/Project/ProjectsInfo',
                     success: function (data) {
+                        $('#addProjectModal').modal('toggle');
                         $('#projectsContainer').html(data);
                     }
                 });
             },
-            error: function () {
+            error: function() {
                 alert('An error occured. Please try again.');
             }
         });
+        } else {
+            $('#addProjectError').slideDown(300);
+        }
     });
 </script>
+
 <script>
     $('.ui.inline.dropdown')
         .dropdown();

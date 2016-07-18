@@ -1,11 +1,13 @@
-﻿@{ ViewBag.Title = "Oops! Error Encountered"; }
-<body style="background-color: white">
-    <div class="marginFromMenu general-container col-xs-12">
-        <div class="col-xs-8 col-sm-offset-3">
-            <span style="font-size: 80px;">Ooops! Page not found :(</span>
-        </div>
-        <div class="col-xs-8 col-sm-offset-3 hidden-xs">
-            <img src="../../Content/Images/404.jpg" class="img-responsive" />
-        </div>
-    </div>
+﻿@{ 
+    ViewBag.Title = "Oops! Error Encountered";
+    Layout = null;
+    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome.min.css"/>
+ }
+<body style="background-color: #4D868D">
+<div style="margin-top: 150px; color: white">
+    <div style="font-size: 130px; text-align: center">Knock Knock</div>
+    <div style="font-size: 105px; text-align: center">...Who's there?</div>
+    <div style="font-size: 130px; text-align: center">404.</div>
+    <div style="text-align: center; margin-top: 20px; font-size: 18px;">Now <a style="color: #92C1BA" href="@Url.Action("Dashboard", "Home")">get out from here<i style="margin-left: 5px; font-size: 10px;" class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
+</div>
 </body>

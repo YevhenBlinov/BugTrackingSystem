@@ -58,7 +58,7 @@
         <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: @ViewBag.TaskCount</i>
         <div class="pull-right inline-block" style="margin-right: 9px">
             <nav class="local-pagination">
-                <ul class="pagination pagination-sm" id="projectTaskPagination">
+                <ul class="pagination pagination-sm" id="searchTaskPagination">
                     @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
                     {
                         <li id="@i" style="cursor:pointer"><a>@i</a></li>
@@ -75,27 +75,61 @@
 
 <script>
     var a = '#' + '@ViewBag.CurrentPage';
-    $('#projectTaskPagination').children(a).addClass('active');
+    $('#searchTaskPagination').children(a).addClass('active');
 </script>
 
-<script>
-    $('#projectTaskPagination').children('li').on('click', function () {
-        var page = $(this).children('a').html();
-        var sortBy = $('#projectBugSortBy').html();
-        var search = $('#projectBugSearch').val();
-        $.ajax({
-            type: 'GET',
-            url: '/Project/ProjectBugs',
-            data: {
-                projectId: @ViewBag.ProjectId,
-                search: search,
-                sortBy:sortBy,
-                page: page
-            },
-            success: function (data) {
-                $('#projectsBugContainer').html(data);
-            }
+@if (ViewBag.Search != null || ViewBag.FilterId != null)
+{
+    <script>
+        $('#searchTaskPagination').children('li').on('click', function () {
+            var page = $(this).children('a').html();
+            var sortBy = $('#searchBugSortBy').html();
+            var search = $('#searchGeneral').val();
+            $.ajax({
+                type: 'GET',
+                url: '/Search/SearchResult',
+                data: {
+                    search: search,
+                    filterId: @ViewBag.FilterId,
+                    sortBy: sortBy,
+                    currentPage: page
+                },
+                success: function(data) {
+                    $('#searchResultContainer').html(data);
+                }
+            });
         })
-    })
-</script>
+    </script>
+}
+@if (ViewBag.Search == null && ViewBag.FilterId == null)
+{
+    <script>
+        $('#searchTaskPagination').children('li').on('click', function () {
+            var page = $(this).children('a').html();
+            var sortBy = $('#searchBugSortBy').html();
+            var search = $('#extendedSearchSearch').val();
+            var customPriority = $("#filterProiritySelect").multipleSelect("getSelects");
+            var customStatus = $("#filterStatusSelect").multipleSelect("getSelects");
+            var customProjects = $("#filterProjectsSelect").multipleSelect("getSelects");
+            var customUsers = $("#filterUsersSelect").multipleSelect("getSelects");
+            $.ajax({
+                type: 'GET',
+                url: '/Search/SearchResultByParams',
+                data: {
+                    search: search,
+                    priority: customPriority,
+                    status: customStatus,
+                    projects: customProjects,
+                    users: customUsers,
+                    sortBy: sortBy,
+                    currentPage: page
+                },
+                success: function(data) {
+                    $('#searchResultContainer').html(data);
+                }
+            });
+        })
+    </script>
+}
+
 
