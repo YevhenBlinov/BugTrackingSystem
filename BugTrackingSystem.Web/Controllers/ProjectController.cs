@@ -92,7 +92,8 @@ namespace BugTrackingSystem.Web.Controllers
             }
             else
             {
-                bugs = _bugService.SearchBugsBySubject(search, UserRole.Administrator, out bugsCount, page, sortBy, projectId);
+                var userId = (int) Session["UserId"];
+                bugs = _bugService.SearchBugsBySubject(search, userId, out bugsCount, page, sortBy, projectId);
             }
             double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.ListPageSize);
             ViewBag.PagesCount = Math.Ceiling(pagesCount);

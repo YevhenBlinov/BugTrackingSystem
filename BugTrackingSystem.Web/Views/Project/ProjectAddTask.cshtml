@@ -25,7 +25,7 @@
                     <div id="userDropDown">
                         @Html.Action("UsersDropDown", "Shared")
                     </div>
-                    <div class="ui selection dropdown modalSingleDropdown pull-left cn">
+                    <div id="taskPriorityDropDown" class="ui selection dropdown modalSingleDropdown pull-left cn">
                         <input type="hidden" name="Priority">
                         <i class="dropdown icon"></i>
                         <div class="default text inner">Priority</div>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ui selection dropdown modalSingleDropdown pull-right cn">
+                    <div id="taskStatusDropDown" class="ui selection dropdown modalSingleDropdown pull-right cn">
                         <input type="hidden" name="Status">
                         <i class="dropdown icon"></i>
                         <div class="default text inner">Status</div>

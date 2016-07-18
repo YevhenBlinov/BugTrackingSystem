@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<BugTrackingSystem.Service.Models.CommentViewModel>
 
-<div class="col-xs-12 col-md-8 custom-sticker-howerless" style="background-color:white;">
+<div class="col-lg-7 col-md-7 col-xs-12 custom-sticker-howerless" style="background-color:white;">
     <div class="col-xs-12 padding0" style="margin-bottom:20px;">
         <h3>Comments:</h3>
         <textarea class="form-control" name="Comment" id="comment" placeholder="Write a comment" rows="5" style="background-color:white"></textarea>
@@ -10,7 +10,7 @@
     {
         <div class="col-xs-12 padding0">
             <div style="background-color:white; border: 1px solid gainsboro; padding: 10px 10px;">
-                <h4 style="margin-bottom: 10px">@comment.UserName</h4>
+                <h4 class="cut-text" style="margin-bottom: 10px">@comment.UserName</h4>
                 <h5>@comment.Comment</h5>
             </div>
         </div>

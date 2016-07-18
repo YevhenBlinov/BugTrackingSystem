@@ -2,8 +2,8 @@
 <body>
     <div class="general-container marginFromMenu">
         <div class="row">
-            <div class="col-lg-3 padding0">
-                <h1 style="margin-bottom: 40px; margin-top: 0;">My projects</h1>
+            <div class="col-lg-3 col-md-3 col-sm-3 padding0">
+                <h1 id="MyProjects" style="">My projects</h1>
                 @Html.Action("MyProjects", "Home")
 
                 <div class="container col-lg-12">
@@ -11,8 +11,8 @@
                 </div>
             </div>
 
-            <div class="col-lg-9" style="padding-left: 80px;">
-                <h1 style="margin-bottom: 5px; margin-top: 0;">Assigned to me</h1>
+            <div id="UserBugsInDashBoard" class="col-lg-9 col-md-9 col-sm-9">
+                <h1 id="AssignedToMe">Assigned to me</h1>
                 @Html.Action("UserBugs", "Shared")
             </div>
         </div>

@@ -9,7 +9,7 @@
         <li><a href="@Url.Action("Project", "Project", new { projectId = @Model.ProjectID })"> @Model.ProjectName </a></li>
         <li class="active">@Model.ProjectPrefix-@Model.BugId</li>
     </ol>
-    <h1>
+    <h1 class="cut-text">
         @Model.Subject
     </h1>
     <div class="col-xs-12 row padding0">
@@ -24,14 +24,14 @@
         </div>
     </div>
     <div class="col-xs-12 padding0 row" style="margin-top: 15px;">
-            <div class="col-md-8 col-xs-12 custom-sticker-howerless" style="min-height: 300px">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 custom-sticker-howerless" style="min-height: 300px">
                 <div class="inline-block">
                     <label style="margin-right: 10px;">Priority:</label>
                     @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
                     <img src="@priority" />
                     <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
                 </div>
-                <div class="pull-right inline-block">
+                <div id ="TaskStatusDropDown" class="pull-right inline-block">
                     <label style="margin-right: 10px">Status:</label>
                     <div class="ui selection dropdown" id="statusDropDown" style="padding-left: 10px;">
                         <input type="hidden" name="Status" id="statusChangeDropDown">
@@ -46,24 +46,24 @@
                         </div>
                     </div>
                 </div>
-                <hr style="margin: 15px 0 30px 0;">
+                <hr id="hrUnderStatus">
                 <div style="font-size: 14px;">
                     @Model.Description
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12 padding0" id="taskAssigneeSticker">
-                <div class="custom-sticker-howerless pull-right">
+            <div class=" padding0" id="taskAssigneeSticker">
+                <div class="col-md-5 col-sm-4 col-xs-12 custom-sticker-howerless pull-right">
                     @if (Model.AssignedUser != null)
                     {
-                        <div class="col-xs-12 padding0" style="margin-bottom: 10px;">
+                        <div class="col-xs-12 padding0 " style="margin-bottom: 10px;">
                             <label style="font-size: 14px;">Assignee:</label>
                             <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
                         </div>
                         <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
-                            <div class="col-xs-3 padding0">
+                            <div id="TaskUserPhoto" class="col-xs-3 col-lg-2 col-sm-3 padding0">
                                 <img src="@Model.AssignedUser.Photo" class="img-circle" />
                             </div>
-                            <div class="col-xs-9 padding0" style="margin-top: 5px;">
+                            <div class="col-xs-9 padding0 cut-text" style="margin-top: 5px;">
                                 <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
                                 <div>@Model.AssignedUser.Email</div>
                             </div>
@@ -157,7 +157,7 @@
                     <div class="ui selection dropdown modalSingleDropdown pull-right cn" id="editTaskStatusDropDown">
                         <input type="hidden" name="Status">
                         <i class="dropdown icon"></i>
-                        <div class="default text inner">Status</div>
+                        <div  class="default text inner">Status</div>
                         <div class="menu">
                             <div class="item" data-value="ToDo">To do</div>
                             <div class="item" data-value="InProgress">In progress</div>

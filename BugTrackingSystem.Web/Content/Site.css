@@ -3,6 +3,9 @@
     padding-bottom: 20px;
 }
 
+h1 {
+    font-size: 2.25em;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -52,9 +55,13 @@ textarea {
 }
 
 .checkBoxHover {
-        margin: 0;
-    padding: 5px 0px 5px 10px; 
+    margin: 0;
+    padding: 5px 0px 5px 10px;
 }
+
+    .checkBoxHover:hover {
+        background-color: #F2FBFA;
+    }
 
 .modalFiltersDiv {
     height: 50px;
@@ -62,13 +69,9 @@ textarea {
     cursor: pointer;
 }
 
-.modalFiltersDiv:hover {
-    background-color: #F2FBFA;
-}
-
-.checkBoxHover:hover {
-    background-color: #F2FBFA;
-}
+    .modalFiltersDiv:hover {
+        background-color: #F2FBFA;
+    }
 
 .loading-image {
     position: absolute;
@@ -78,23 +81,23 @@ textarea {
     z-index: 1000;
     display: none;
 }
-.loader
-{
+
+.loader {
     background: gray;
     display: none;
     position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0.5;
-    text-align:center;
-    z-index:10;
+    text-align: center;
+    z-index: 10;
 }
 
 .disabled {
     pointer-events: none;
     opacity: 0.4;
 }
- 
+
 body::-webkit-scrollbar {
     width: 10px;
 }
@@ -103,9 +106,9 @@ body::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
     background-color: #92C1BA;
 }
- 
+
 body::-webkit-scrollbar-thumb {
-  background-color: #4D868D;
+    background-color: #4D868D;
 }
 
 ul::-webkit-scrollbar {
@@ -116,21 +119,22 @@ ul::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
     background-color: #E3F0F2;
 }
- 
+
 ul::-webkit-scrollbar-thumb {
-  background-color: #92C1BA;
+    background-color: #92C1BA;
 }
 
 #addUserToProjectContainer::-webkit-scrollbar {
     width: 5px;
 }
+
 #addUserToProjectContainer::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
     background-color: #E3F0F2;
 }
- 
+
 #addUserToProjectContainer::-webkit-scrollbar-thumb {
-  background-color: #92C1BA;
+    background-color: #92C1BA;
 }
 
 .dropdown-toggle {
@@ -147,25 +151,40 @@ ul::-webkit-scrollbar-thumb {
     width: 50px;
 }
 
+.modalSingleDropdown {
+    width: 268px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    background-color: #F8FEFE !important;
+    border-color: #d0d2d2 !important;
+}
+/*@media only screen and (max-width : 494px) {
+    #Local-search {
+        /*width: 700px;
+    }
+}*/
+
+
 .createFilterSelectLeft {
     width: 49%;
     margin-right: 7px;
 }
+
 .createFilterSelectRight {
-        width: 49%;
+    width: 49%;
 }
 
 .AdvancedSearch {
     background-color: white;
     box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
-    margin-bottom: 10px;
-    padding: 15px 15px 0 15px;
 }
 
 .padding-top7 {
     padding-top: 7px;
 }
 
+option {
+}
 
 .redirectAncore, .redirectAncore:hover {
     color: black;
@@ -191,35 +210,36 @@ option:hover {
 }
 
 .dropdown-menu {
-    box-shadow: none; 
-    margin-top: -1px; 
-    padding: 0; 
-    border: 0; 
-    border-radius: 0; 
+    box-shadow: none;
+    margin-top: -1px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
     background-color: transparent;
 }
 
-.dropdown-menu > li {
-    height: 50px;
-    background-color: #92C1BA;
-    color: white;
-}
+    .dropdown-menu > li {
+        height: 50px;
+        background-color: #92C1BA;
+        color: white;
+    }
 
-.dropdown-menu > li > a {
-    height: 50px; 
-    padding-top: 15px; 
-    background-color: #92C1BA;
-    color: white;
-}
+        .dropdown-menu > li > a {
+            height: 50px;
+            padding-top: 15px;
+            background-color: #92C1BA;
+            color: white;
+        }
 
-.dropdown-menu > li > a:hover {
-    color: white;
-    background-color: #ABCFCA !important;
-}
+            .dropdown-menu > li > a:hover {
+                color: white;
+                background-color: #ABCFCA !important;
+            }
 
 .assignedToMeTable {
     padding-left: 80px;
 }
+
 
 #Local-search {
     width: 270px;
@@ -237,6 +257,8 @@ option:hover {
     box-shadow: 2px 2px rgb(239,244,244);
 }
 
+    #UniversalTable:last-child {
+    }
 
 
 .TableRowInfo {
@@ -249,21 +271,20 @@ option:hover {
 }
 
 .TableRow {
-    
 }
 
-    .TableRow:first-child > div {
+    .TableRow > .TableRow:first-child > div {
         padding: 25px 0 10px 10px;
     }
 
-    .TableRow:last-child > div {
+    .TableRow .TableRow:last-child > div {
         border: none;
         padding: 15px 0 20px 10px;
     }
 
-    .TableRowInfo:hover {
-        background-color: #F8FEFE;
-    }
+.TableRowInfo:hover {
+    background-color: #F8FEFE;
+}
 
 .BugStatus {
     padding: 1px 10px;
@@ -299,9 +320,123 @@ option:hover {
     margin-top: 45px;
 }
 
- #taskAssigneeSticker {
-        padding-left: 20px;
+#taskAssigneeSticker {
+    padding-left: 20px;
+}
+
+/*----E-d-i-t---U-s-e-r------*/
+#userRoleSelect {
+    width: 265px;
+    margin: 10px 0 0 0;
+}
+
+#EditFirstName {
+    margin: 0 12px 0 0;
+    display: inline-block;
+    width: 38%;
+}
+
+#EditLastName {
+    margin: 0;
+    display: inline-block;
+    width: 59%;
+}
+
+#EditEmail {
+    margin: 0;
+}
+
+#ChancePassword {
+    margin: 0 10px 0 0;
+    display: inline-block;
+    width: 275px;
+}
+
+#RepeatPassword {
+    margin: 0;
+    display: inline-block;
+    width: 275px;
+}
+
+
+/**/
+#UserFirstName {
+    margin: 0;
+    display: inline-block;
+    width: 33.2%;
+}
+
+#UserLastName {
+    margin: 0 0 0 10px;
+    display: inline-block;
+    width: 64%;
+}
+
+#UserEmail {
+    margin: 0;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+#UserPassword {
+    margin: 0 10px 0 0;
+    display: inline-block;
+    width: 165px;
+}
+
+#ConfirmUserPassword {
+    margin: 0 10px 0 0;
+    display: inline-block;
+    width: 165px;
+}
+
+#FullName {
+    margin-bottom: 15px;
+}
+
+
+/*Edit-Task*/
+
+
+
+
+
+/*CreateTask adaptive*/
+@media only screen and (max-width : 605px) {
+
+    #taskProjectDropDown, #taskUserDropDown, #taskPriorityDropDown, #taskStatusDropDown,
+    #editTaskUserDropDown,#editTaskPriorityDropDown,#editTaskStatusDropDown {
+        display: inline-block;
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 15px;
     }
+
+
+
+}
+
+
+
+@media only screen and (max-width : 568px) {
+
+    #UserFirstName, #UserLastName, #UserEmail, #UserPassword, #ConfirmUserPassword, #UserRole {
+        margin-left: 0;
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    #FullName {
+        margin: 0;
+    }
+}
+
+/*@media only screen and (max-width : 343px) {
+    #ProjectPrefix {
+        width: 50px;
+    }
+}*/
 
 
 
@@ -311,12 +446,14 @@ option:hover {
     border-radius: 0 !important;
     background-color: #4D868D;
 }
-.nav>li>a {
+
+.nav > li > a {
     color: white;
 }
-.nav>li>a:hover, .nav>li>a:focus {
-    background-color: #92C1BA;
-}
+
+    .nav > li > a:hover, .nav > li > a:focus {
+        background-color: #92C1BA;
+    }
 
 .navbar-brand {
     padding: 10px 0 10px 50px;
@@ -335,24 +472,24 @@ option:hover {
     }
 
 #navSearch {
-    background-color: #4D868D; 
-    border-radius: 0; 
-    height: 35px;       
-    }
+    background-color: #4D868D;
+    border-radius: 0;
+    height: 35px;
+}
 
 #navSearchGlyph {
-    font-size: 23px; 
-    color: white; 
-    margin-left: -45px; 
+    font-size: 23px;
+    color: white;
+    margin-left: -45px;
     margin-top: 10px;
 }
 
 #navDropdown {
-     box-shadow: none; 
-     margin-top: -15px; 
-     padding: 0; 
-     border: 0; 
-     border-radius: 0;
+    box-shadow: none;
+    margin-top: -15px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
 }
 
 #dropdownCaret {
@@ -363,39 +500,40 @@ option:hover {
 }
 
 #navUserPhoto {
-     padding: 5px; 
-     background-color: #4D868D; 
-     color: white
+    padding: 5px;
+    background-color: #4D868D;
+    color: white;
 }
 
 
 
-@media only screen and (max-width : 1010px) {
+@media only screen and (max-width : 1120px) {  /* 1010px*/
     #search {
         display: none;
     }
+
     #navUserName {
         display: none;
     }
+
     #navUserPhoto {
         margin-right: 20px;
     }
-    
 }
 
-@media only screen and (max-width : 768px) {
-
+@media only screen and (max-width : 767px) { /*Or 768*/
     .createFilterSelectLeft {
-    width: 100%;
-    margin-right: 0;
-}
-.createFilterSelectRight {
         width: 100%;
-}
+        margin-right: 0;
+    }
+
+    .createFilterSelectRight {
+        width: 100%;
+    }
 
     .assignedToMeTable {
-    padding: 0;
-}
+        padding: 0;
+    }
 
     .spanColor {
         background-color: #92C1BA;
@@ -417,12 +555,12 @@ option:hover {
     }
 
     #navUserPhotoCollapsed {
-        padding: 5px; 
+        padding: 5px;
         background-color: #4D868D;
         color: white;
     }
 
-        #userDrop {
+    #userDrop {
         display: none;
     }
 }
@@ -439,17 +577,17 @@ option:hover {
     #userCol {
         display: none;
     }
-
-
 }
+
+/*@media only screen and (min-width : 768px) {
+    
+}*/
 
 @media only screen and (max-width : 992px) {
 
     #taskAssigneeSticker {
         padding-left: 0;
     }
-
-
 }
 /*Header end*/
 
@@ -477,9 +615,10 @@ body {
         background-color: transparent;
         color: #4D868D;
     }
-.pagination>.active>a, .pagination>.active>a:hover{
+
+.pagination > .active > a, .pagination > .active > a:hover {
     background-color: transparent;
-        color: #4D868D;
+    color: #4D868D;
 }
 
 .table tr, .table td {
@@ -502,7 +641,7 @@ body {
     }
 
 
-    .custom-sticker-howerless {
+.custom-sticker-howerless {
     background: white;
     border: 2px solid transparent;
     box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
@@ -522,12 +661,54 @@ body {
         padding-left: 10px;
     }
 
+#MyProjects {
+    margin-bottom: 40px;
+    margin-top: 0;
+}
+
+#AssignedToMe {
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+@media only screen and (max-width : 338px) {
+    #AssignedToMe, #MyProjects {
+        font-size: 2em;
+    }
+
+
+
+    #AllMyTasks {
+    }
+}
+
+
+@media only screen and (min-width : 768px) {
+    #UserBugsInDashBoard {
+        padding-left: 80px;
+        margin-bottom: 40px;
+        margin-top: 0;
+    }
+}
+
+
+
+
+
 /*---------------P-R-O-J-E-C-T-S-----------------*/
 
 .projectInfo {
     margin: 15px 15px 0 0;
     color: #B9B9B9;
 }
+
+@media only screen and (max-width : 836px) {
+    #ProjectName {
+        display: block;
+    }
+}
+
+
 
 
 
@@ -542,6 +723,7 @@ body {
     margin-left: 20px;
     font-size: 18px;
 }
+
 
 
 /*-----------------P-R-O-F-I-L-E---------------------*/
@@ -571,11 +753,12 @@ body {
     background-color: #92C1BA;
     color: white;
     border: 0;
-    border-radius: 0; 
+    border-radius: 0;
 }
-.popover.bottom > .arrow:after {
-     border-bottom-color: #92C1BA;
-}
+
+    .popover.bottom > .arrow:after {
+        border-bottom-color: #92C1BA;
+    }
 
 
 
@@ -646,7 +829,7 @@ body {
 
 .fa-filter, .fa-th-list, .fa-users, .fa-edit, .fa-pencil-square-o {
     /*font-size: 18px !important;*/
-    margin-left: 20px; 
+    margin-left: 20px;
     padding: 0;
     margin: 0;
     color: #BBBBBB;
@@ -659,6 +842,20 @@ body {
 /*----------------L-A-Y-O-U-T--------------------*/
 
 
+@media only screen and (max-width : 768px) {
+    #AsignarLogo {
+        padding-left: 0;
+        margin-left: 20px;
+    }
+
+    #navUserPhotoCollapsed {
+        margin-right: -65px !important;
+    }
+}
+
+#navUserPhotoCollapsed {
+    margin-right: 5px;
+}
 
 
 /*Copy Past from the Internet*/
@@ -675,7 +872,6 @@ body {
     border-right: 0;
     box-shadow: 0 0 0;
     border-color: #ccc;
-
 }
 
 .stylish-input-group button {
@@ -688,13 +884,12 @@ body {
 .modal-dialog {
     left: 0;
     margin-top: 200px;
-
 }
+
 .modal-content {
     border: 0;
     border-radius: 0;
     background-color: #F8FEFE;
-
 }
 
 .modal-header {
@@ -722,17 +917,10 @@ body {
     background-color: #F8FEFE;
     border-radius: 1px;
     box-shadow: none;
-        height: 38px;
+    height: 38px;
 }
 
-.modalSingleDropdown {
-    width: 268px;
-    margin-bottom: 16px;
-    font-size: 14px;
-    background-color: #F8FEFE !important;
-    border-color: #d0d2d2 !important;
 
-}
 
 
 .ui.dropdown .menu .selected.item, .ui.dropdown.selected {
@@ -741,13 +929,13 @@ body {
     font-weight: normal;
 }
 
-.ui.dropdown .menu>.item:hover {
+.ui.dropdown .menu > .item:hover {
     background: #4D868D;
     color: white;
 }
 
 div.item {
-    font-size: 14px !important;   
+    font-size: 14px !important;
 }
 
 .inlineDropdown {
@@ -762,23 +950,22 @@ div.item {
 }
 
 .cn {
-  display: flex !important;
+    display: flex !important;
     padding: 0 !important;
 }
 
 .inner {
-  align-self: center !important;
-  padding: 0 0 0 15px !important;
-      color: #A2A2A2 !important
+    align-self: center !important;
+    padding: 0 0 0 15px !important;
+    color: #A2A2A2 !important;
 }
 
-.ui.selection.dropdown>.dropdown.icon {
+.ui.selection.dropdown > .dropdown.icon {
     /*color: gray;
     font-size: 30px;
     padding: 0;
     margin-top: -3px;
     top: auto !important;*/
-
 }
 
 .default.text {
@@ -787,6 +974,61 @@ div.item {
 }
 
 
+/*Three points*/
+.cut-text {
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
+    text-overflow: ellipsis; /* Многоточие */
+}
+/*.cut-text:hover {
+    background: #f0f0f0;
+    white-space: normal;  
+}*/
 
+/*Edit User modal window*/
+@media only screen and (max-width : 600px) {
 
+    #userRoleSelect, #EditFirstName, #EditLastName, #EditEmail {
+        display: inline-block;
+        width: 100%;
+        margin: 0;
+        margin-top: 15px;
+    }
+
+    #FullName {
+        margin-bottom: 0;
+    }
+}
+
+/*Change Password*/
+@media only screen and (max-width: 613px) {
+    #ChancePassword, #RepeatPassword {
+        display: inline-block;
+        width: 100%;
+        margin: 0;
+        margin-top: 15px;
+    }
+}
+
+#hrUnderStatus {
+    margin: 15px 0 30px 0;
+}
+
+@media only screen and (max-width: 500px) {
+    #TaskStatusDropDown {
+        margin: 15px 0;
+        width: 100%;
+    }
+
+    #hrUnderStatus {
+        margin: 15px 0;
+    }
+}
+
+@media only screen and (min-width: 767px) and (max-width: 790px)  {
+   #editTaskPriorityDropDown {
+       
+   }
+}
 

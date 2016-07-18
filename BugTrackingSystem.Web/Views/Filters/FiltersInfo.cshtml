@@ -6,22 +6,22 @@
         <div class="col-sm-4 col-xs-12" onmouseover="showCloseIcon(this)">
             <i class="fa fa-times-circle" aria-hidden="true" style="display: none;" onclick="deleteFilterModalShow(@filter.FilterId)"></i>
             <a class="redirectAncore" href="@Url.Action("Search", "Search", new {filterId = filter.FilterId})">
-                <div class="custom-sticker">
-                    <h4><b>@filter.Title</b></h4>
+                <div class="custom-sticker ">
+                    <h4 class="cut-text"><b>@filter.Title</b></h4>
                     <div class="row">
-                        <span class="col-lg-12">
+                        <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cut-text">
                             <span class="sticker-properties">Search:</span>@filter.Search<br />
                         </span>
-                        <span class="col-lg-6">
+                        <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cut-text">
                             <span class="sticker-properties"> Status: </span>@filter.BugStatus
                         </span>
-                        <span class="col-lg-6">
+                        <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cut-text">
                             <span class="sticker-properties"> Project: </span>@filter.Project
                         </span>
-                        <span class="col-lg-6">
+                        <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cut-text">
                             <span class="sticker-properties"> Priority: </span>@filter.BugPriority
                         </span>
-                        <span class="col-lg-6">
+                        <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cut-text">
                             <span class="sticker-properties"> Assignee: </span>@filter.AssignedUser
                         </span>
                     </div>

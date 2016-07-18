@@ -68,12 +68,12 @@
                 <ul class="nav collapsed" style="display: inline-block; float: right; margin-right: 50px;">
                     <li class="dropdown userProfile" id="userCol">
                         <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhotoCollapsed">
-                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
+                            <img src="@Session["Photo"]" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
                         </a>
                         <ul class="dropdown-menu dropdown-toggle" style="margin-right: 40px; margin-top: -5px;">
                             <li style="height: 16px; background-color: transparent"><i id="dropdownCaretCollapsed" class="fa fa-caret-up" aria-hidden="true"></i></li>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Sign Out</a></li>
+                            <li><a href="@Url.Action("Index", "Profile")">Profile</a></li>
+                            <li><a href="@Url.Action("Logout", "Login")">Sign Out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -101,7 +101,7 @@
                     <li class="dropdown userProfile">
                         <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhoto">
                             <img src="@Session["Photo"]" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
-                            <span id="navUserName"> @Session["FirstName"] @Session["LastName"]</span>
+                            <span id="navUserName" class="cut-text"> @Session["FirstName"] @Session["LastName"]</span>
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {

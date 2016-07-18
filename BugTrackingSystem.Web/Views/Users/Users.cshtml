@@ -8,14 +8,14 @@
             <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="DeleteProjectModalShow(@user.UserId, @user.BugsCount)"></i>
             <a class="redirectAncore" href="@Url.Action("Index", "Profile", new {userId = user.UserId})">
                 <div class="custom-sticker">
-                    <div class="userInfo">
+                    <div class="userInfo cut-text">
                         <img src="@user.Photo" class="img-circle" height="45" width="45" alt="userPhoto" />
                         <div id="FirstLastName">@user.FirstName @user.LastName</div>
                         <div id="email">@user.Email</div>
                     </div>
                     <div class="row">
                         <div class="pull-left projectInfo">
-                            @if (false)
+                            @if (@user.Email == User.Identity.Name)
                             {
                                 <span id="" style="border: 1px solid orange; padding: 5px;">Me</span>
                             }

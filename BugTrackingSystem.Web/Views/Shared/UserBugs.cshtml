@@ -18,7 +18,7 @@
                                 @{ var status = String.Format("../../Content/Images/" + bug.Status + ".png"); }
                                 <img src="@status">
                             </div>
-                            <div class="ElementText">
+                            <div class="ElementText cut-text">
                                 @bug.Subject
                             </div>
                         </div>
@@ -28,7 +28,7 @@
         }
     </div>
     <div class="row Sort_Title_Pagination">
-        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @ViewBag.TaskCount</i>
+        <i id="AllMyTasks" class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> All my tasks: @ViewBag.TaskCount</i>
         <div class="pull-right" style="display: inline-block">
             <nav class="local-pagination">
                 <ul class="pagination pagination-sm" id="taskPagination">

@@ -2,14 +2,14 @@
 
 <div>
     <h1 style="margin: 0;">My Profile</h1>
-    <div class="container col-xs-12 divsWithBorder" style="padding: 15px;">
-        <div class="paddingRight10" style="margin-bottom: 30px;">
+    <div class="container col-xs-12 divsWithBorder cut-text" style="padding: 15px;">
+        <div class="paddingRight10 " style="margin-bottom: 30px;">
             <div class="pull-left padding0 inline-block">
                 <img src="@Model.Photo" class="img-circle marginRight10" alt="George Orwell" />
             </div>
-            <div class="inline-block">
-                <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.FirstName</h4>
-                <h4 class="text-left" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.LastName</h4>
+            <div class="inline-block ">
+                <h4 class="text-left " id="UserInfoFirstName" style="margin: 0 0 5px 0; padding-left: 10px;">@Model.FirstName</h4>
+                <h4 class="text-left " style="margin: 0 0 5px 0; padding-left: 10px;">@Model.LastName</h4>
             </div>
         </div>
         <div>
@@ -45,8 +45,8 @@
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Change password</h3>
             </div>
             <div class="modal-body">
-                <input class="form-control" id="Password" placeholder="Password" style="margin: 0 10px 0 0; display: inline-block; width: 275px">
-                <input class="form-control" id="RepeatPassword" placeholder="Repeat Password" style="margin: 0; display: inline-block; width: 275px">
+                <input class="form-control" id="ChancePassword" placeholder="Password">
+                <input class="form-control" id="RepeatPassword" placeholder="Repeat Password">
             </div>
 
             <div class="modal-footer">
@@ -87,7 +87,7 @@
                         <input name="IsPhotoEdited" value="false" id="IsPhotoEdited" class="hidden" />
                         @if (User.IsInRole("Administrator"))
                         {
-                            <div class="ui selection dropdown modalSingleDropdown pull-right" id="userRoleSelect" style="width: 265px; margin: 10px 0 0 0;">
+                            <div class="ui selection dropdown modalSingleDropdown pull-right" id="userRoleSelect">
                                 <input type="hidden" name="Role">
                                 <i class="dropdown icon"></i>
 
@@ -102,12 +102,12 @@
                         }
                     </div>
 
-                    <div style="margin-bottom: 15px">
-                        <input class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" placeholder="First Name" style="margin: 0 12px 0 0; display: inline-block; width: 38%">
-                        <input class="form-control" id="LastName" name="LastName" value="@Model.LastName" placeholder="Last Name" style="margin: 0; display: inline-block; width: 59%">
+                    <div id="FullName" >
+                        <input class="form-control" id="EditFirstName" name="FirstName" value="@Model.FirstName" placeholder="First Name" >
+                        <input class="form-control" id="EditLastName" name="LastName" value="@Model.LastName" placeholder="Last Name" >
                     </div>
 
-                    <input class="form-control" id="Email" name="Email" value="@Model.Email" placeholder="Email" style="margin: 0;">
+                    <input class="form-control" id="EditEmail" name="Email" value="@Model.Email" placeholder="Email" style="">
                 </div>
 
                 <div class="modal-footer">

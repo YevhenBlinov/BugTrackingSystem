@@ -7,7 +7,7 @@
 <div class="col-sm-12 general-container" style="padding: 0 55px 0 65px">
     <div id="header" class="row">
         <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
-            @Model.Name
+            <span id="ProjectName">@Model.Name</span>
 
             <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add task">
                 <i class="fa fa-plus round" aria-hidden="true" data-toggle="modal" data-target="#projectTaskModalWindow"></i>
@@ -136,6 +136,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="unPauseProjectModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="padding: 0;">

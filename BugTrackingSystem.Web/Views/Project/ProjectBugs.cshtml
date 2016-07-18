@@ -7,18 +7,18 @@
         {
             <a href="@Url.Action("Task", "Task", new {bugId = bug.BugId})" style="color: black">
                 <div class="TableRow">
-                    <div class="TableRowInfo row">
+                    <div class="TableRowInfo row threePoints">
                         <div class="IconElement inline-block pull-left padding-top7">
                             @{ var priority = String.Format("../../Content/Images/" + bug.Priority + ".png"); }
                             <img src="@priority" width="35" height="35" />
                         </div>
-                        <div class="col-sm-5 col-xs-10 padding-top7">
+                        <div class="col-sm-5 col-xs-8 padding-top7">
                             <div class="ProjectPrefix">
-                                @bug.ProjectPrefix-@bug.BugId
+                                <span id="ProjectPrefix"> @bug.ProjectPrefix-@bug.BugId</span>
                                 @{ var status = String.Format("../../Content/Images/" + bug.Status + ".png"); }
                                 <img src="@status">
                             </div>
-                            <div class="ElementText">
+                            <div class="cut-text ElementText ">
                                 @bug.Subject
                             </div>
                         </div>
