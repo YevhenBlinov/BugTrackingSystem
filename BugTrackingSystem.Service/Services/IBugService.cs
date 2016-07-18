@@ -29,11 +29,11 @@ namespace BugTrackingSystem.Service.Services
         IEnumerable<BugViewModel> SearchAllBugsBySubject(string searchRequest, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle, int? projectId = null);
 
-        IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, string userRole, out int findedBugsCount, int currentPage = 1,
+        IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle);
 
         IEnumerable<BugViewModel> SearchBugsByFiltersFields(string search, string[] priority, string[] status,
-            int[] projects, int[] users, string userRole, out int findedBugsCount, int currentPage = 1,
+            int[] projects, int[] users, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle);
 
         void UpdateBugStatus(int bugId, string status);

@@ -294,7 +294,7 @@ namespace BugTrackingSystem.Service.Services
             return findedBugsViewModels;
         }
 
-        public IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, string userRole, out int findedBugsCount, int currentPage = 1,
+        public IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
             var filter = _filterRepository.GetById(filterId);
@@ -303,14 +303,14 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the filter doesn't exist.");
 
             var advancedFilter = _mapper.Map<Filter, AdvancedFilterViewModel>(filter);
-            var findedBugs = AdvancedSearch(advancedFilter, userRole, out findedBugsCount, currentPage, sortBy);
+            var findedBugs = AdvancedSearch(advancedFilter, out findedBugsCount, currentPage, sortBy);
             return findedBugs;
         }
 
         public IEnumerable<BugViewModel> SearchBugsByFiltersFields(string search, string[] priority, string[] status, int[] projects, int[] users,
-            string userRole, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
+            out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
-            var advancedFilter = new AdvancedFilterViewModel()
+            var advancedFilter = new AdvancedFilterViewModel
             {
                 Project = projects,
                 AssignedUser = users,
@@ -319,14 +319,15 @@ namespace BugTrackingSystem.Service.Services
                 Search = search
             };
 
-            var findedBugs = AdvancedSearch(advancedFilter, userRole, out findedBugsCount, currentPage, sortBy);
+            var findedBugs = AdvancedSearch(advancedFilter, out findedBugsCount, currentPage, sortBy);
             return findedBugs;
         }
 
-        private IEnumerable<BugViewModel> AdvancedSearch(AdvancedFilterViewModel advancedFilter, string userRole,
+        private IEnumerable<BugViewModel> AdvancedSearch(AdvancedFilterViewModel advancedFilter,
             out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
             var allBugsBySearch = new List<Bug>();
+
             if (!string.IsNullOrEmpty(advancedFilter.Search))
             {
                 allBugsBySearch =
@@ -338,7 +339,7 @@ namespace BugTrackingSystem.Service.Services
             }
 
             var allBugsByProjects = new List<Bug>();
-            if (advancedFilter.Project.Length != 0)
+            if (advancedFilter.Project != null && advancedFilter.Project.Length != 0)
             {
                 foreach (var projectId in advancedFilter.Project)
                 {
@@ -349,7 +350,7 @@ namespace BugTrackingSystem.Service.Services
             }
 
             var allBugsByUsers = new List<Bug>();
-            if (advancedFilter.AssignedUser.Length != 0)
+            if (advancedFilter.AssignedUser != null && advancedFilter.AssignedUser.Length != 0)
             {
                 foreach (var userId in advancedFilter.AssignedUser)
                 {
@@ -359,7 +360,7 @@ namespace BugTrackingSystem.Service.Services
             }
 
             var allBugsByStatus = new List<Bug>();
-            if (advancedFilter.BugStatus.Length != 0)
+            if (advancedFilter.BugStatus != null && advancedFilter.BugStatus.Length != 0)
             {
                 foreach (var bugStatusName in advancedFilter.BugStatus)
                 {
@@ -372,7 +373,7 @@ namespace BugTrackingSystem.Service.Services
             }
 
             var allBugsByPriority = new List<Bug>();
-            if (advancedFilter.BugPriority.Length != 0)
+            if (advancedFilter.BugPriority != null && advancedFilter.BugPriority.Length != 0)
             {
                 foreach (var bugPriorityName in advancedFilter.BugPriority)
                 {
@@ -402,13 +403,6 @@ namespace BugTrackingSystem.Service.Services
             if (allBugsByPriority.Count != 0 && findedBugs.Count != 0)
             {
                 findedBugs = findedBugs.Intersect(allBugsByPriority).ToList();
-            }
-
-            var parsedUserRole = ((UserRole) Enum.Parse(typeof (UserRole), userRole));
-
-            if (parsedUserRole == UserRole.User && findedBugs.Count != 0)
-            {
-                findedBugs = findedBugs.Where(b => b.Project.IsPaused == false).ToList();
             }
 
             if (findedBugs.Count != 0)
