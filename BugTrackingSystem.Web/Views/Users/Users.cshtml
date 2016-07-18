@@ -10,7 +10,10 @@
                 <div class="custom-sticker">
                     <div class="userInfo cut-text">
                         <img src="@user.Photo" class="img-circle" height="45" width="45" alt="userPhoto" />
-                        <div id="FirstLastName">@user.FirstName @user.LastName</div>
+                        <div id="FirstLastName">
+                            <span id="UserInfoFirstName">@user.FirstName </span>
+                            @user.LastName
+                        </div>
                         <div id="email">@user.Email</div>
                     </div>
                     <div class="row">

@@ -19,8 +19,26 @@
                                 <div style="font-size: 14px">@user.FirstName @user.LastName</div>
                                 <div style="font-size: 11px">@user.Email</div>
                             </div>
-                            <div style="font-size: 12px; margin-top: 12px;">
-                                @user.Role
+                            <div style="font-size: 12px; margin-top: 12px; ">
+
+                                @if (user.Role.ToString() == "Administrator")
+                                {
+                                    <span style="color: red;" id="UserRoleLength">
+                                        @user.Role.ToString()
+                                        @*<script language="JavaScript">
+                                            <!--
+                                            if (screen.width <= '320') {
+                                                getElementById("UserRoleLength").innerHTML= '@user.Role.ToString()[0]';
+                                            }
+                                            else getElementById("UserRoleLength").innerHTML= '@user.Role.ToString()';
+                                                                                    </script>*@
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    @user.Role.ToString()
+                                }
                             </div>
                         </div>
                     }
@@ -82,7 +100,7 @@
             data: {
                 userIds: checked,
                 projectId: @ViewBag.ProjectId
-            },
+                },
             success: function() {
                 location.reload();
             }

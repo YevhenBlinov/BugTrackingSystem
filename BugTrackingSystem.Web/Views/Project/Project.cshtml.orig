@@ -150,8 +150,13 @@
                 <h4>Unpause this project?</h4>
             </div>
             <div class="modal-footer">
+<<<<<<< Updated upstream
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton" onclick="PauseProject(@Model.ProjectId)">Yes</button>
+=======
                 <button type="button" data-dismiss="modal" class="btn modalCreateButton" id="PauseProjectNO">No</button>
                 <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton PauseProjectYes" onclick="PauseProject(@Model.ProjectId)">Yes</button>
+>>>>>>> Stashed changes
             </div>
         </div>
     </div>

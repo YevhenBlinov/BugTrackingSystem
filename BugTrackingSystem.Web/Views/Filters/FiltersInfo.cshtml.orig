@@ -30,6 +30,7 @@
         </div>
     }
 </div>
+<<<<<<< Updated upstream
 <div class="row col-xs-12" style="margin: 10px 25px 0 15px;">
     <i class="fa fa-filter col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Filters: @ViewBag.FiltersCount</i>
     <div class=" pull-right" style="display: inline-block">
@@ -39,6 +40,15 @@
                 {
                     <li id="@i" style="cursor:pointer"><a id="@i">@i</a></li>
                 }
+=======
+<div class="col-xs-12" style="margin-top: 30px; padding: 0 0 0 30px;">
+    <i class="fa fa-filter col-lg-2" aria-hidden="true" style="font-size: 18px; margin: 0; padding: 0;"> Filters: @Model.Count()</i>
+    <div class="pull-right">
+        <nav class="local-pagination pull-right">
+            <ul class="pagination pagination-sm">
+                <li><a href="#">1</a></li>
+
+>>>>>>> Stashed changes
             </ul>
         </nav>
     </div>

@@ -12,7 +12,7 @@
                             @{ var priority = String.Format("../../Content/Images/" + bug.Priority + ".png"); }
                             <img src="@priority" width="35" height="35" />
                         </div>
-                        <div class="col-sm-5 col-xs-8 padding-top7">
+                        <div class="col-sm-5 col-xs-4 padding-top7">
                             <div class="ProjectPrefix">
                                 <span id="ProjectPrefix"> @bug.ProjectPrefix-@bug.BugId</span>
                                 @{ var status = String.Format("../../Content/Images/" + bug.Status + ".png"); }
@@ -22,33 +22,35 @@
                                 @bug.Subject
                             </div>
                         </div>
-                        <div class="col-sm-2 col-xs-12 padding-top7 xsPaddingNone">
+                        <div class="col-sm-2 col-xs-4 padding-top7 xsPaddingNone">
                             <div style="padding-top: 10px;">
                                 @bug.ProjectName
                             </div>
                         </div>
-                        <div class="col-sm-2 col-xs-12 padding-top7 xsPaddingNone">
-                            <div>
-                                <span style="color: gray; font-size: 12px">Created:</span>
-                                <span style="font-size: 12px">@bug.CreationDate</span>
+                        <div class="row">
+                            <div class="col-sm-2 col-xs-4 padding-top7 xsPaddingNone">
+                                <div>
+                                    <span style="color: gray; font-size: 12px">Created:</span>
+                                    <span style="font-size: 12px">@bug.CreationDate</span>
+                                </div>
+                                <div>
+                                    <span style="color: gray; font-size: 12px">Updated:</span>
+                                    <span style="font-size: 12px">@bug.ModificationDate</span>
+                                </div>
                             </div>
-                            <div>
-                                <span style="color: gray; font-size: 12px">Updated:</span>
-                                <span style="font-size: 12px">@bug.ModificationDate</span>
-                            </div>
+                            @if (bug.AssignedUser != null)
+                            {
+                                <div class="col-sm-2 col-xs-6 xsPaddingNone row" id="ProjectBugsUserPhoto">
+                                    <div class="pull-left" style="padding: 0; margin:5px; display: inline-block">
+                                        <img src="@bug.AssignedUser.Photo" class="img-circle" alt="userPhoto" height="40" width="40" />
+                                    </div>
+                                    <div id="AssignedUserFullName" class="pull-left" style="padding-top: 10px;">
+                                        <div style="font-size: 12px;">@bug.AssignedUser.FirstName</div>
+                                        <div style="font-size: 12px;">@bug.AssignedUser.LastName</div>
+                                    </div>
+                                </div>
+                            }
                         </div>
-                        @if (bug.AssignedUser != null)
-                        {
-                            <div class="col-sm-2 col-xs-12 xsPaddingNone">
-                                <div class="col-sm-4" style="padding: 0;">
-                                    <img src="@bug.AssignedUser.Photo" class="img-circle" alt="userPhoto" height="40" width="40" />
-                                </div>
-                                <div class="col-sm-8" style="padding-top: 10px;">
-                                    <div style="font-size: 12px;">@bug.AssignedUser.FirstName</div>
-                                    <div style="font-size: 12px;">@bug.AssignedUser.LastName</div>
-                                </div>
-                            </div>
-                        }
                     </div>
                 </div>
             </a>

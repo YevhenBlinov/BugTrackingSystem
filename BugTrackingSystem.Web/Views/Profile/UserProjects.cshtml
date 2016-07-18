@@ -7,10 +7,18 @@
         <ul style="margin: 0;" id="userProjects">
             @foreach (var project in Model)
             {
-                <li onmouseover="ShowDeleteIcon(this)" style="padding-right: 15px;">
+                if (User.IsInRole("Administrator"))
+                {
+                    <li onmouseover="ShowDeleteIcon(this)" style="padding-right: 15px;">
+                        <a href="@Url.Action("Project", "Project", new {projectId = project.ProjectId})">@project.Name</a>
+
+                        <i class="fa fa-times pull-right" id="@project.ProjectId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetProjectId(this.id)" aria-hidden="true" style="font-size: 16px; color: #E3F0F2; display: none"></i>
+                    </li>
+                }
+                else
+                {
                     <a href="@Url.Action("Project", "Project", new {projectId = project.ProjectId})">@project.Name</a>
-                    <i class="fa fa-times pull-right" id="@project.ProjectId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetProjectId(this.id)" aria-hidden="true" style="font-size: 16px; color: #E3F0F2; display: none"></i>
-                </li>
+                }
             }
         </ul>
     }

@@ -358,15 +358,15 @@ option:hover {
 }
 
 #ChancePassword {
-    margin: 0 10px 0 0;
+    margin: 0 1% 0 0;
     display: inline-block;
-    width: 275px;
+    width: 49%;
 }
 
 #RepeatPassword {
     margin: 0;
     display: inline-block;
-    width: 275px;
+    width: 49%;
 }
 
 
@@ -390,16 +390,18 @@ option:hover {
 }
 
 #UserPassword {
-    margin: 0 10px 0 0;
+    margin: 0 1.5% 0 0;
     display: inline-block;
-    width: 165px;
+    width: 29%;
 }
 
 #ConfirmUserPassword {
-    margin: 0 10px 0 0;
+    margin: 0 0.8% 0 0;
     display: inline-block;
-    width: 165px;
+    width: 29%;
 }
+
+
 
 #FullName {
     margin-bottom: 15px;
@@ -416,15 +418,12 @@ option:hover {
 @media only screen and (max-width : 605px) {
 
     #taskProjectDropDown, #taskUserDropDown, #taskPriorityDropDown, #taskStatusDropDown,
-    #editTaskUserDropDown,#editTaskPriorityDropDown,#editTaskStatusDropDown {
+    #editTaskUserDropDown, #editTaskPriorityDropDown, #editTaskStatusDropDown {
         display: inline-block;
         width: 100%;
         margin-left: 0;
         margin-bottom: 15px;
     }
-
-
-
 }
 
 
@@ -435,7 +434,7 @@ option:hover {
         margin-left: 0;
         display: inline-block;
         width: 100%;
-        margin-bottom: 15px;
+        margin-top: 15px;
     }
 
     #FullName {
@@ -523,7 +522,7 @@ option:hover {
 
 
 
-@media only screen and (max-width : 1120px) {  /* 1010px*/
+@media only screen and (max-width : 1120px) { /* 1010px*/
     #search {
         display: none;
     }
@@ -579,6 +578,12 @@ option:hover {
     #userDrop {
         display: none;
     }
+
+    #ProjectBugsUserPhoto {
+        margin-left: 35%;
+    }
+
+
 }
 
 @media only screen and (min-width : 768px) {
@@ -723,6 +728,9 @@ body {
         display: block;
     }
 }
+
+
+/*--------Pause project*---------*/
 
 
 
@@ -1002,10 +1010,18 @@ div.item {
     white-space: normal;  
 }*/
 
+
+
+#UserRole {
+    display: inline-block;
+    width: 38%;
+}
+
 /*Edit User modal window*/
 @media only screen and (max-width : 600px) {
 
-    #userRoleSelect, #EditFirstName, #EditLastName, #EditEmail {
+    #userRoleSelect, #EditFirstName, #EditLastName, #EditEmail,
+    #UserEmail, #UserPassword, #ConfirmUserPassword, #UserRole {
         display: inline-block;
         width: 100%;
         margin: 0;
@@ -1042,9 +1058,29 @@ div.item {
     }
 }
 
-@media only screen and (min-width: 767px) and (max-width: 790px)  {
-   #editTaskPriorityDropDown {
-       
-   }
+@media only screen and (min-width: 767px) and (max-width: 790px) {
+    #TaskStatusDropDown {
+        display: inline-block;
+        width: 100%;
+        margin: 0;
+        margin: 15px 0;
+    }
 }
 
+@media only screen and (min-width:768px) and (max-width: 1085px) {
+    #AssignedUserFullName {
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    #UserInfoFirstName {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 338px) {
+    #PauseProjectNO, .PauseProjectYes {
+        width: 48%;
+    }
+}

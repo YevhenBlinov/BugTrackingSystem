@@ -64,12 +64,21 @@
                             <input maxlength="35" class="form-control" name="FirstName" id="UserFirstName" placeholder="Name">
                             <input maxlength="35" class="form-control" name="LastName" id="UserLastName" placeholder="Surname" style="">
                         </div>
+<<<<<<< Updated upstream
                         <input maxlength="255" class="form-control" type="email" name="Email" id="UserEmail" placeholder="E-mail" style="">
-                        <div >
+                        <div>
                             <input maxlength="100" class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password">
                             <input maxlength="100" type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password">
-                            <div  class="ui selection dropdown modalSingleDropdown pull-right cn" id="UserRole" >
+                            <div id="UserRole" class="ui selection dropdown modalSingleDropdown pull-right cn">
                                 <input type="hidden" name="Role" id="createUserRole">
+=======
+                        <input class="form-control" type="email" name="Email" id="UserEmail" placeholder="E-mail" style="">
+                        <div >
+                            <input class="form-control" type="password" name="Password" id="UserPassword" placeholder="Password">
+                            <input type="password" class="form-control" id="ConfirmUserPassword" placeholder="Confirm password">
+                            <div  class="ui selection dropdown modalSingleDropdown pull-right cn" id="UserRole" >
+                                <input type="hidden" name="Role">
+>>>>>>> Stashed changes
                                 <i class="dropdown icon"></i>
                                 <div class="default text inner">Role</div>
                                 <div class="menu">
