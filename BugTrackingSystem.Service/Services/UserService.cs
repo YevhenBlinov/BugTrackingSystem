@@ -39,7 +39,10 @@ namespace BugTrackingSystem.Service.Services
                                 u =>
                                     u.Bugs.Where(b => b.Project.DeletedOn == null)
                                         .Count(b => b.Project.IsPaused == false)));
-                cfg.CreateMap<Project, ProjectViewModel>();
+                cfg.CreateMap<Project, ProjectViewModel>()
+                    .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Count(u => u.DeletedOn == null)))
+                    .ForMember(pvm => pvm.BugsCount,
+                        opt => opt.MapFrom(p => p.Bugs.Count(b => b.AssignedUserID == null || b.User.DeletedOn == null)));
                 cfg.CreateMap<Bug, BaseBugViewModel>()
                     .ForMember(bgv => bgv.Status, opt => opt.MapFrom(b => (BugStatus) b.StatusID))
                     .ForMember(bgv => bgv.Priority, opt => opt.MapFrom(b => (BugPriority) b.PriorityID));

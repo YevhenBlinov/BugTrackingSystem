@@ -44,7 +44,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         public ActionResult SearchResult(int filterId = 0, string search = null, int currentPage = 1, string sortBy = "Title")
         {
-            var userRole = (UserRole)Enum.Parse(typeof(UserRole), Session["Role"].ToString());
+            var userRole = Session["Role"].ToString();
             var bugsCount = 0;
             IEnumerable<BugViewModel> bugs;
             if (filterId != 0)

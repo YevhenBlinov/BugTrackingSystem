@@ -35,7 +35,10 @@ namespace BugTrackingSystem.Service.Services
                     .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
                     .ForMember(uvm => uvm.ProjectsCount, opt => opt.MapFrom(u => u.Projects.Count))
                     .ForMember(uvm => uvm.BugsCount, opt => opt.MapFrom(u => u.Bugs.Count));
-                cfg.CreateMap<Project, ProjectViewModel>();
+                cfg.CreateMap<Project, ProjectViewModel>()
+                    .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Count(u => u.DeletedOn == null)))
+                    .ForMember(pvm => pvm.BugsCount,
+                        opt => opt.MapFrom(p => p.Bugs.Count(b => b.AssignedUserID == null || b.User.DeletedOn == null)));
                 cfg.CreateMap<Bug, BaseBugViewModel>();
                 cfg.CreateMap<Bug, BugViewModel>()
                     .ForMember(bvm => bvm.AssignedUser, opt => opt.MapFrom(b => b.User))
@@ -135,7 +138,7 @@ namespace BugTrackingSystem.Service.Services
         public IEnumerable<BugViewModel> GetProjectsBugs(int projectId, out int projectsBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
             var projectsbugs =
-                _bugRepository.GetMany(b => b.ProjectID == projectId);
+                _bugRepository.GetMany(b => b.ProjectID == projectId && (b.AssignedUserID == null || b.User.DeletedOn == null));
             projectsBugsCount = projectsbugs.Count();
             projectsbugs = SortHelper.SortBugs(projectsbugs, sortBy);
             projectsbugs = projectsbugs.Skip((currentPage - 1)*Constants.ListPageSize).Take(Constants.ListPageSize);
@@ -267,7 +270,7 @@ namespace BugTrackingSystem.Service.Services
             return findedBugsViewModels;
         }
 
-        public IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, UserRole userRole, out int findedBugsCount, int currentPage = 1,
+        public IEnumerable<BugViewModel> SearchBugsByFilter(int filterId, string userRole, out int findedBugsCount, int currentPage = 1,
             string sortBy = Constants.SortBugsOrFiltersByTitle)
         {
             var filter = _filterRepository.GetById(filterId);
@@ -276,7 +279,29 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the filter doesn't exist.");
 
             var advancedFilter = _mapper.Map<Filter, AdvancedFilterViewModel>(filter);
+            var findedBugs = AdvancedSearch(advancedFilter, userRole, out findedBugsCount, currentPage, sortBy);
+            return findedBugs;
+        }
 
+        public IEnumerable<BugViewModel> SearchBugsByFiltersFields(string search, string[] priority, string[] status, int[] projects, int[] users,
+            string userRole, out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
+        {
+            var advancedFilter = new AdvancedFilterViewModel()
+            {
+                Project = projects,
+                AssignedUser = users,
+                BugPriority = priority,
+                BugStatus = status,
+                Search = search
+            };
+
+            var findedBugs = AdvancedSearch(advancedFilter, userRole, out findedBugsCount, currentPage, sortBy);
+            return findedBugs;
+        }
+
+        private IEnumerable<BugViewModel> AdvancedSearch(AdvancedFilterViewModel advancedFilter, string userRole,
+            out int findedBugsCount, int currentPage = 1, string sortBy = Constants.SortBugsOrFiltersByTitle)
+        {
             var allBugsBySearch = new List<Bug>();
             if (!string.IsNullOrEmpty(advancedFilter.Search))
             {
@@ -308,7 +333,7 @@ namespace BugTrackingSystem.Service.Services
             {
                 foreach (var bugStatusName in advancedFilter.BugStatus)
                 {
-                    var bugStatusId = (byte) ((BugStatus) Enum.Parse(typeof (BugStatus), bugStatusName));
+                    var bugStatusId = (byte)((BugStatus)Enum.Parse(typeof(BugStatus), bugStatusName));
                     allBugsByStatus.AddRange(
                         _bugRepository.GetMany(b => b.Project.DeletedOn == null && b.StatusID == bugStatusId));
                 }
@@ -319,7 +344,7 @@ namespace BugTrackingSystem.Service.Services
             {
                 foreach (var bugPriorityName in advancedFilter.BugPriority)
                 {
-                    var bugPriorityId = (byte) ((BugPriority) Enum.Parse(typeof (BugPriority), bugPriorityName));
+                    var bugPriorityId = (byte)((BugPriority)Enum.Parse(typeof(BugPriority), bugPriorityName));
                     allBugsByPriority.AddRange(_bugRepository.GetMany(b => b.Project.DeletedOn == null && b.PriorityID == bugPriorityId));
                 }
             }
@@ -345,7 +370,9 @@ namespace BugTrackingSystem.Service.Services
                 findedBugs = findedBugs.Intersect(allBugsByPriority).ToList();
             }
 
-            if (userRole == UserRole.User)
+            var parsedUserRole = ((UserRole) Enum.Parse(typeof (UserRole), userRole));
+
+            if (parsedUserRole == UserRole.User)
             {
                 findedBugs = findedBugs.Where(b => b.Project.IsPaused == false).ToList();
             }

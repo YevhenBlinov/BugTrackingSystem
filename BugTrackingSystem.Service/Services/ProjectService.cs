@@ -25,8 +25,9 @@ namespace BugTrackingSystem.Service.Services
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Project, ProjectViewModel>()
-                .ForMember(pvm => pvm.BugsCount, opt => opt.MapFrom(p => p.Bugs.Count))
-                .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Where(u => u.DeletedOn == null).ToList().Count));
+                    .ForMember(pvm => pvm.UsersCount, opt => opt.MapFrom(p => p.Users.Count(u => u.DeletedOn == null)))
+                    .ForMember(pvm => pvm.BugsCount,
+                        opt => opt.MapFrom(p => p.Bugs.Count(b => b.AssignedUserID == null || b.User.DeletedOn == null)));
                 cfg.CreateMap<ProjectFormViewModel, Project>();
                 cfg.CreateMap<User, UserViewModel>()
                 .ForMember(uvm => uvm.Role, opt => opt.MapFrom(u => (UserRole)u.UserRoleID))
