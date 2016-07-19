@@ -92,14 +92,14 @@ namespace BugTrackingSystem.Web.Filters
             }
             else
             {
-                filterContext.Result =
+                filterContext.Result = 
                     new RedirectToRouteResult(
                         new RouteValueDictionary(
                             new
                             {
                                 controller = "Login",
                                 action = "Login",
-                                returnUrl = filterContext.HttpContext.Request.Url.LocalPath
+                                returnUrl = ""
                             }));
                 
             }
@@ -119,7 +119,7 @@ namespace BugTrackingSystem.Web.Filters
                         {
                             controller = "Login",
                             action = "Login",
-                            returnUrl = filterContext.HttpContext.Request.Url.LocalPath
+                            returnUrl = ""
                         }));
         }
 

@@ -25,6 +25,7 @@ namespace BugTrackingSystem.Web.Controllers
         }
         //
         // GET: /Search/
+        [Route("Search/{filterId?}")]
         public ActionResult Search(int filterId = 0, string search = null)
         {
             ViewBag.FilterId = filterId;

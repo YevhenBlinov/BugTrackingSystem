@@ -9,6 +9,20 @@ namespace BugTrackingSystem.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute(
+                name: "Default2",
+                url: "Login",
+                defaults: new { controller = "Login", action = "Login" }
+            );
+
+            routes.MapRoute(
+                name: "DefaultError",
+                url: "Error/{id}",
+                defaults: new { controller = "Shared", action = "Error", id = UrlParameter.Optional }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -28,6 +28,7 @@ namespace BugTrackingSystem.Web.Controllers
         //
         // GET: /Project/
         [HttpGet]
+        [Route("Project/{projectId?}")]
         public ActionResult Project(int projectId)
         {
             var userId = Convert.ToInt32(Session["UserId"]);
@@ -39,7 +40,7 @@ namespace BugTrackingSystem.Web.Controllers
             }
             else return RedirectToAction("Error", "Shared");
         }
-
+        [Route("Projects")]
         public ActionResult Index()
         {
             return View();

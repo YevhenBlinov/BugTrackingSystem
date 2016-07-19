@@ -26,10 +26,12 @@ namespace BugTrackingSystem.Web.Controllers
         //
         // GET: /Users/
         [CustomAuthorize(Roles = "Administrator")]
+        [Route("Users")]
         public ActionResult Index()
         {
             return View();
         }
+
         [CustomAuthorize(Roles = "Administrator")]
         public ActionResult Users(string sortBy = Constants.SortUsersByName, string search = null, int page = 1)
         {

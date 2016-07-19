@@ -24,12 +24,13 @@ namespace BugTrackingSystem.Web.Controllers
 
         //
         // GET: /Filters/
+        [Route("MyFilters")]
         public ActionResult Index()
         {
             
             return View();
         }
-
+        
         public ActionResult FiltersInfo( string search = null, string sortBy = Constants.SortBugsOrFiltersByTitle, int page = 1)
         {
             var userId = Convert.ToInt32(Session["UserId"].ToString());

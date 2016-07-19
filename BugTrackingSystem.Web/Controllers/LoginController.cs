@@ -21,13 +21,16 @@ namespace BugTrackingSystem.Web.Controllers
         }
         // GET: Login
         [AllowAnonymous]
+        
         public ActionResult Login()
         {
             if (Session["Email"] != null)
                 return RedirectToAction("Dashboard", "Home");
             return View();
         }
+
         [CustomAuthorize]
+        [Route("Logout")]
         public ActionResult Logout()
         {
             if (Request.Cookies["auth"] != null && Request.Cookies["ASP.NET_SessionId"] != null)
@@ -46,7 +49,7 @@ namespace BugTrackingSystem.Web.Controllers
                 Response.Cookies.Add(aspnet);
             }
             Session.Abandon();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
@@ -95,7 +98,7 @@ namespace BugTrackingSystem.Web.Controllers
                 {
                     Response.Cookies.Add(new HttpCookie("auth", headerToken));
 
-                    return string.IsNullOrEmpty(returnUrl) ? Redirect("/Home/Dashboard") : Redirect(returnUrl);
+                    return string.IsNullOrEmpty(returnUrl) ? RedirectToAction("Dashboard","Home") : RedirectToAction(returnUrl);
                 }
                 else
                 {
@@ -106,11 +109,12 @@ namespace BugTrackingSystem.Web.Controllers
             return View(model);
         }
 
+        [Route("ForgotPassword")]
         public ActionResult ForgotPassword()
         {
             return View();
         }
-
+        [Route("ResetPassword")]
         public ActionResult ResetPassword()
         {
             return View();

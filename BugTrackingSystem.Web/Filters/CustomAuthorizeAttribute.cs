@@ -47,7 +47,7 @@ namespace BugTrackingSystem.Web.Filters
             else
             {
                 filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary(new { controller = "Home", action = "Index" })
+                        new RouteValueDictionary(new { controller = "Home", action = "Dashboard" })
                 );
             }
         }

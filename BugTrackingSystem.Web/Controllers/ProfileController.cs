@@ -20,6 +20,7 @@ namespace BugTrackingSystem.Web.Controllers
             _userService = userService;
         }
         // GET: Profile
+        [Route("Profile/{userId?}")]
         public ActionResult Index(int? userId)
         {
             if (userId == null)

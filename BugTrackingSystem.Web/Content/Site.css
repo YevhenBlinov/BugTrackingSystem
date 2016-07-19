@@ -49,8 +49,12 @@ textarea {
 }
 
 /*-----------------General--------------------*/
+/*ValidationSummary...*/
+.validation-summary-errors > li {
+    color: brown !important;
+}
 
-.searchFilter .ms-choice{
+.searchFilter .ms-choice {
     background-color: white;
 }
 
@@ -1149,18 +1153,64 @@ div.item {
 @media only screen and (max-width: 621px) {
     #Local-search {
         width: 100%;
-        
     }
+
     #imaginary_container {
         margin-top: 20px;
     }
+
     #headerTitle {
-        
         width: 100%;
     }
-
 }
 
-@media only screen and (max-width: 425px) {
-    
+
+/*Advanced Search*/
+#AdvancedSearch {
+    margin: 0;
+    display: inline-flex;
+}
+
+#extendedSearchSearch {
+    margin: 0;
+    display: inline-block;
+    width: 30%;
+    margin-right: 15px;
+    background-color: white;
+}
+
+#AdvancedSearchFilter, #AdvancedSearchStatus {
+    width: 15%;
+    margin-right: 15px;
+}
+
+#AdvancedSearchProjects {
+    width: 20%;
+    margin-right: 15px;
+}
+
+
+#AdvancedSearchUsers {
+    width: 20%;
+}
+
+@media only screen and (max-width: 450px) {
+    #advancedSearchButton {
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 1000px) {
+    #extendedSearchSearch, #AdvancedSearchFilter, #AdvancedSearchStatus, #AdvancedSearchProjects, #AdvancedSearchUsers {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 15px;
+    }
+
+    #AdvancedSearch {
+        display: block;
+    }
 }

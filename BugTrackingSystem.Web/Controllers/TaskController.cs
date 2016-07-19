@@ -25,6 +25,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         //
         // GET: /Task/
+        [Route("Task/{bugId?}")]
         public ActionResult Task(int bugId = 1)
         {
             var userId = (int) Session["UserId"];

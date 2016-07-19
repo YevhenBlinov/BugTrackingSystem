@@ -25,9 +25,11 @@
 </div>
 <div class="col-xs-12" id="extendedSearch" style="display: none; margin-bottom: 30px">
     <div class="col-xs-12 AdvancedSearch">
-        <div class="form-group col-xs-12" style="margin: 0; display: inline-flex">
-            <input maxlength="200" class="form-control" placeholder="Search" id="extendedSearchSearch" style="margin: 0; display: inline-block; width: 30%; margin-right: 15px; background-color:white;">
-            <div style="width: 15%; margin-right: 15px" class="searchFilter">
+        <div id="AdvancedSearch" class="form-group col-xs-12">
+            
+                <input maxlength="200" class="form-control" placeholder="Search" id="extendedSearchSearch">
+            
+            <div id="AdvancedSearchFilter" class="searchFilter">
                 <select multiple="multiple" id="filterProiritySelect" style="padding: 0 10px;">
                     <option value="Minor">Minor</option>
                     <option value="Major">Major</option>
@@ -35,7 +37,7 @@
                     <option value="Blocker">Blocker</option>
                 </select>
             </div>
-            <div style="width: 15%; margin-right: 15px" class="searchFilter">
+            <div id="AdvancedSearchStatus" class="searchFilter">
                 <select multiple="multiple" id="filterStatusSelect">
                     <option value="ToDo">To Do</option>
                     <option value="InProgress">In Progress</option>
@@ -44,18 +46,18 @@
                     <option value="Closed">Closed</option>
                 </select>
             </div>
-            <div style="width: 20%; margin-right: 15px" class="searchFilter">
+            <div id="AdvancedSearchProjects" class="searchFilter">
                 @Html.Action("ProjectMultipleSelect", "Filters")
             </div>
-            <div style="width: 20%;" class="searchFilter">
+            <div id="AdvancedSearchUsers" class="searchFilter">
                 @Html.Action("UserMultipleSelect", "Filters")
             </div>
         </div>
     </div>
     <div class="col-xs-12" style="margin-top: 5px;">
-        <img src="../../Content/Images/iconundo.png" style="cursor: pointer; margin-right: 10px;" id="resetSearch"/>
+        <img src="../../Content/Images/iconundo.png" style="cursor: pointer; margin-right: 10px;" id="resetSearch" />
         <img src="../../Content/Images/iconfilter.png" style="cursor: pointer; margin-right: 10px;" id="showFiltersIcon" />
-        <img src="../../Content/Images/saveicon.png" style="cursor: pointer" id="saveFilter" data-toggle="modal" data-target="#searchFilterModalWindow"/>
+        <img src="../../Content/Images/saveicon.png" style="cursor: pointer" id="saveFilter" data-toggle="modal" data-target="#searchFilterModalWindow" />
         <button type="button" class="btn modalCreateButton pull-right" id="advancedSearchButton" onclick="searchByCustomAttr();">Search</button>
     </div>
 </div>
@@ -113,7 +115,7 @@
 
 
 <script>
-    $('#searchGeneral').keypress(function(e) {
+    $('#searchGeneral').keypress(function (e) {
         if (e.keyCode == 13) {
             searchByKeyword();
         }
@@ -127,7 +129,7 @@
             var domain = 'http://localhost:2241/Search/Search';
             var url = domain + '?search=' + search;
             window.location.replace(url);
-        }       
+        }
     }
 
 </script>
@@ -151,7 +153,7 @@
                 projects: customProjects,
                 users: customUsers
             },
-            success: function(data) {
+            success: function (data) {
                 $('#searchResultContainer').html(data);
             }
         });
@@ -159,7 +161,7 @@
 </script>
 
 <script>
-    $('#saveFilter').on('click', function() {
+    $('#saveFilter').on('click', function () {
         $('#searchInput').val($('#extendedSearchSearch').val());
         var modalPriority = $("#filterProiritySelect").multipleSelect("getSelects");
         var modalStatus = $("#filterStatusSelect").multipleSelect("getSelects");
@@ -208,18 +210,18 @@
                     projects: projects,
                     users: users
                 },
-                success: function() {
+                success: function () {
                     $('#searchFilterModalWindow').modal('toggle');
                     alert('Saved');
                 },
-                error: function() {
+                error: function () {
                     alert("An error occured. Please try again.");
                 }
             });
         } else {
             $('#createFilterFromSearchError').slideDown(300);
         }
-        
+
     });
 </script>
 
@@ -251,7 +253,7 @@
         @foreach (var pr in Model.BugPriority)
         {
             @:priorityArray.push('@pr');
-                                    }
+                                            }
 
         var priority = $("#filterProiritySelect").multipleSelect();
         priority.multipleSelect('setSelects', priorityArray);
@@ -259,21 +261,21 @@
         @foreach (var st in Model.BugStatus)
         {
             @:statusArray.push('@st');
-                                }
+                                        }
         var bugStatus = $("#filterStatusSelect").multipleSelect();
         bugStatus.multipleSelect('setSelects', statusArray);
         var projectsArray = [];
         @foreach (var proj in Model.Project)
         {
             @:projectsArray.push(@proj);
-                            }
+                                    }
         var projects = $("#filterProjectsSelect").multipleSelect();
         projects.multipleSelect('setSelects', projectsArray);
         var usersArray = [];
         @foreach (var us in Model.AssignedUser)
         {
             @:usersArray.push(@us);
-                }
+                        }
         var users = $("#filterUsersSelect").multipleSelect();
         users.multipleSelect('setSelects', usersArray);
     </script>
@@ -288,27 +290,27 @@
 
 
 <script>
-    $('#searchGeneral').on('change', function() {
+    $('#searchGeneral').on('change', function () {
         $('#extendedSearchSearch').val($(this).val());
     });
-    $('#extendedSearchSearch').on('change', function() {
+    $('#extendedSearchSearch').on('change', function () {
         $('#searchGeneral').val($(this).val());
     });
 </script>
 
 <script>
-    $('#advancedSearchShowButton').on('click', function() {
+    $('#advancedSearchShowButton').on('click', function () {
         $('#extendedSearch').slideToggle(200);
         $('#Local-search').slideToggle(200);
     })
 </script>
 
 <script>
-    $('#showFiltersIcon').on('click', function() {
+    $('#showFiltersIcon').on('click', function () {
         $.ajax({
             type: 'GET',
             url: '/Search/SearchFilters',
-            success: function(data) {
+            success: function (data) {
                 $('#selectFilterModal').html(data);
                 $('#searchFiltersModal').modal('show');
             }

@@ -7,6 +7,16 @@ namespace BugTrackingSystem.Web
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/Content").Include(
+                        "~/Content/dropdown.min.css",
+                        "~/Content/Site.css",
+                        "~/Content/checkbox.min.css",
+                        "~/Content/transition.min.css",
+                        "~/Content/multiple-select.css",
+                        "~/Content/font-awesome.min.css",
+                        "~/Content/bootstrap.min.css"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
