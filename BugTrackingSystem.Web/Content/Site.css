@@ -359,7 +359,7 @@ option:hover {
     margin: 0;
 }
 
-#ChancePassword {
+#ChangePassword {
     margin: 0 1% 0 0;
     display: inline-block;
     width: 49%;
@@ -1053,7 +1053,7 @@ div.item {
 
 /*Change Password*/
 @media only screen and (max-width: 613px) {
-    #ChancePassword, #RepeatPassword {
+    #ChangePassword, #RepeatPassword {
         display: inline-block;
         width: 100%;
         margin: 0;

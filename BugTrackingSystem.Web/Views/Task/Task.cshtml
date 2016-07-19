@@ -59,15 +59,7 @@
                             <label style="font-size: 14px;">Assignee:</label>
                             <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
                         </div>
-                        <div class="col-xs-12 padding0" style="margin-bottom: 30px;">
-                            <div id="TaskUser" class="col-xs-3 col-lg-2 col-sm-3 padding0">
-                                <img src="@Model.AssignedUser.Photo" class="img-circle" />
-                            </div>
-                            <div class="col-xs-9 padding0 cut-text" style="margin-top: 5px;">
-                                <div style="font-size: 14px; padding-bottom: 5px;">@Model.AssignedUser.FirstName @Model.AssignedUser.LastName</div>
-                                <div>@Model.AssignedUser.Email</div>
-                            </div>
-                        </div>
+                        <div id="assignedUserInfo">@Html.Action("TaskAssignedUser", "Task", new { userId = Model.AssignedUser.UserId})</div>
                     }
 
                     <div class="col-xs-12 padding0" style="font-size: 14px;">
@@ -117,7 +109,7 @@
                         <input class="form-control" id="Title" name="Title" placeholder="Title" value="@Model.Subject" style="margin: 0; display: inline-block">
                     </div>
                     <div id="projectDropDown">
-                        <div class="modalSingleDropdown ui selection dropdown pull-left cn disabled" id="taskProjectDropDown">
+                        <div class="modalSingleDropdown ui selection dropdown pull-left cn disabled" id="taskProjectDropDown" style="margin-bottom:20px">
                             <input type="hidden" name="Project" id="projectInput" value="@Model.ProjectID">
                             <i class="dropdown icon"></i>
                             <div class="default text inner">@Model.ProjectName</div>

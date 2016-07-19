@@ -156,5 +156,15 @@ namespace BugTrackingSystem.Web.Controllers
             }
             return RedirectToActionPermanent("Task", "Task", new { bugId = bugId });
         }
+        public ActionResult TaskAssignedUser(int userId)
+        {
+            var user = _userService.GetUserById(userId);
+            return PartialView(user);
+        }
+
+        public ActionResult AssignTaskToMe(int bugId, int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

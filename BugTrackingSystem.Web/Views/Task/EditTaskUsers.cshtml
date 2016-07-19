@@ -1,20 +1,21 @@
 ﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
-
-<div class="ui selection dropdown modalSingleDropdown pull-right cn" id="editTaskUserDropDown">
-    <input type="hidden" name="Assignee" id="userInput">
-    <i class="dropdown icon"></i>
-    <div class="default text inner" id="assigneeDrop">Assignee</div>
-    <div class="menu" id="userDropDownMenu">
-        @foreach (var user in Model)
-        {
-            <div class="item cut-text" data-value="@user.UserId">
-                <img src="@user.Photo" class="img-responsive img-circle" />
-                <span class="cut-text" > @user.FirstName @user.LastName</span>
-            </div>
-        }
+<div>
+    <div class="ui selection dropdown modalSingleDropdown pull-right cn" id="editTaskUserDropDown" style="margin-bottom:0">
+        <input type="hidden" name="Assignee" id="userInput">
+        <i class="dropdown icon"></i>
+        <div class="default text inner" id="assigneeDrop">Assignee</div>
+        <div class="menu" id="userDropDownMenu">
+            @foreach (var user in Model)
+            {
+                <div class="item cut-text" data-value="@user.UserId">
+                    <img src="@user.Photo" class="img-responsive img-circle" />
+                    <span class="cut-text"> @user.FirstName @user.LastName</span>
+                </div>
+            }
+        </div>
     </div>
+    <a id="editTaskAssignToMe" class="pull-right">Assign to me</a>
 </div>
-
 <script>
     if (@Model.Count() == 0) {
         $('#editTaskUserDropDown').addClass('disabled'); 
@@ -24,4 +25,14 @@
 <script>
     $('.ui.dropdown')
         .dropdown();
+</script>
+
+<script>
+    $('#editTaskAssignToMe').on('click', function () {
+        var user = @Session["UserId"];
+        if(!$('#editTaskUserDropDown').hasClass('disabled'))
+        {
+            $('#editTaskUserDropDown').dropdown('set selected', user);
+        }
+    })
 </script>

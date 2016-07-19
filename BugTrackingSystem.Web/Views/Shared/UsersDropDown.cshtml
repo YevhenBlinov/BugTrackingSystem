@@ -15,9 +15,19 @@
             }
         </div>
     </div>
-    <a class="pull-right">Assign to me</a>
+    <a id="assignToMe" class="pull-right">Assign to me</a>
 </div>
 <script>
     $('.ui.dropdown')
         .dropdown();
+</script>
+
+<script>
+    $('#assignToMe').on('click', function () {
+        var user = @Session["UserId"];
+        if(!$('#taskUserDropDown').hasClass('disabled'))
+        {
+            $('#taskUserDropDown').dropdown('set selected', user);
+        }
+    })
 </script>
