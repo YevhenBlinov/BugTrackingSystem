@@ -360,5 +360,11 @@ namespace BugTrackingSystem.Service.Services
             BusQueueService.AddResetPasswordMessageToQueue(user.FirstName, user.Email,
                 "http://asignar.azurewebsites.net/Login/ResetPassword/?" + userId);
         }
+
+        public bool IsEmailValid(string email)
+        {
+            var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email);
+            return user != null;
+        }
     }
 }
