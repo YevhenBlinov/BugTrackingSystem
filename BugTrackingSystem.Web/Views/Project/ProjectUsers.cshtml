@@ -7,28 +7,29 @@
                 <span style="font-size: 14px;">@Model.Count()</span>
             </i>
         </a>
-        <ul class="dropdown-menu dropdown-toggle" style="max-height: 180px; overflow: hidden; overflow-y: scroll;">
-            @foreach (var user in Model)
+        <i id="addUsersDropdownCaret" class="fa fa-caret-up" aria-hidden="true" style="color: #92C1BA; font-size: 30px; margin-left: 1px; margin-top: -12px; position: absolute; display: none"></i>
+            <ul class="dropdown-menu dropdown-toggle" style="max-height: 180px; overflow: hidden; overflow-y: scroll; margin-top: 7px;">
+                @foreach (var user in Model)
             {
-                <li onmouseover="ShowDeleteIcon(this)" style="width: 300px; max-width: 300px; overflow-x: hidden; height: 60px; display: inline-flex">
-                    <img src="@user.Photo" style="height: 35px; width: 35px; margin: 15px 10px 0 10px;" class="img-circle inline-block"/>
-                    <div class="inline-block" style="margin-top: 10px; width: 70%">
-                        <div>
-                            @user.FirstName @user.LastName
+                    <li onmouseover="ShowDeleteIcon(this)" style="width: 300px; max-width: 300px; overflow-x: hidden; height: 60px; display: inline-flex">
+                        <img src="@user.Photo" style="height: 35px; width: 35px; margin: 15px 10px 0 10px;" class="img-circle inline-block" />
+                        <div class="inline-block" style="margin-top: 10px; width: 70%">
+                            <div>
+                                @user.FirstName @user.LastName
+                            </div>
+                            <div>
+                                @user.Email
+                            </div>
                         </div>
-                        <div>
-                            @user.Email
-                        </div>
-                    </div>
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <i class="fa fa-times" id="@user.UserId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetUserId(this.id)" aria-hidden="true" style="font-size: 26px; margin-top: 17px; color: #E3F0F2; display: none"></i>
-                    }
-                </li>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <i class="fa fa-times" id="@user.UserId" data-toggle="modal" data-target="#DeleteUserFromProjectModal" onclick="GetUserId(this.id)" aria-hidden="true" style="font-size: 26px; margin-top: 17px; color: #E3F0F2; display: none"></i>
+                        }
+                    </li>
 
-            }
-        </ul>
-    </div>
+                }
+            </ul>
+</div>
 </div>
 
 
@@ -53,6 +54,12 @@
     </div>
 </div>
 
+
+<script>
+    $('#ProjectUsersDropdown').on('click', function(){
+        $('#addUsersDropdownCaret').toggle();
+    })
+</script>
 
 <script>
     function DeleteUser() {

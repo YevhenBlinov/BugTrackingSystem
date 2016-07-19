@@ -95,7 +95,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
-                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <i class="fa fa-list-ul" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit project</h3>
             </div>
             <div class="modal-body col-lg-12">
@@ -122,12 +122,11 @@
     <div class="modal-dialog" role="document" id="DeleteProjectModalDialog" style="padding: 0;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
                 <i class="fa fa-pause" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Pause project</h3>
             </div>
             <div class="modal-body">
-                <h4>Pause this project?</h4>
+                <h4>Are you sure you want to pause this project?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn modalCreateButton" id="PauseProjectNO">No</button>
@@ -142,16 +141,15 @@
     <div class="modal-dialog" role="document" style="padding: 0;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
                 <i class="fa fa-play" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Unpause project</h3>
             </div>
             <div class="modal-body">
-                <h4>Unpause this project?</h4>
+                <h4>Are you sure you want to unpause this project?</h4>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn modalCreateButton" id="PauseProjectNO">No</button>
-                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton PauseProjectYes" onclick="PauseProject(@Model.ProjectId)">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton" id="PauseProjectNO">Cancel</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton PauseProjectYes" onclick="PauseProject(@Model.ProjectId)">Confirm</button>
             </div>
         </div>
     </div>

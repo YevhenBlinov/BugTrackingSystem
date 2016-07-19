@@ -91,6 +91,23 @@
 </div>
 <div id="DeleteUserModalContainer" data-url="@Url.Action("DeleteUserModal", "Users")"></div>
 
+<div class="modal fade" id="DeleteUserErrorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-exclamation-circle" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Attention</h3>
+            </div>
+            <div class="modal-body">
+                <h4>This user has some tasks. You cannot delete this user.</h4>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -201,22 +218,28 @@
 
 <script>
     function DeleteProjectModalShow(id, taskCount) {
-        $.ajax({
-            type: 'GET',
-            url: '/Users/DeleteUserModal',
-            data: {
-                userId: id,
-                taskCount: taskCount
-            },
-            success: function(data) {
-                $('#DeleteUserModalContainer').html(data);
+        if (taskCount > 0)
+        {
+            $('#DeleteUserErrorModal').modal('toggle');
+        }
+        else {
+            $.ajax({
+                type: 'GET',
+                url: '/Users/DeleteUserModal',
+                data: {
+                    userId: id,
+                    taskCount: taskCount
+                },
+                success: function (data) {
+                    $('#DeleteUserModalContainer').html(data);
 
-                $('#DeleteUserModal').modal('show');
-            },
-            error: function() {
-                alert('En error occured. Please try again.');
-            }
-        });
+                    $('#DeleteUserModal').modal('show');
+                },
+                error: function () {
+                    alert('En error occured. Please try again.');
+                }
+            });
+        }      
     }
 </script>
 
