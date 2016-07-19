@@ -26,14 +26,11 @@ namespace BugTrackingSystem.Web.Controllers
         // GET: Shared
         public ActionResult UserBugs(int? userId, int page = 1)
         {
-            if (userId == null)
+            if (userId == null || User.IsInRole("User"))
             {
                 userId = Convert.ToInt32(Session["UserId"].ToString());
             }
-            else if (User.IsInRole("User"))
-            {
-                return RedirectToAction("Error", "Shared");
-            }
+
             //var userId = Convert.ToInt32(Session["UserId"].ToString());
                 var bugsCount = 0;
             var userBugs = _userService.GetUsersBugs((int)userId, out bugsCount, page);

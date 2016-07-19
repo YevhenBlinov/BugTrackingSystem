@@ -8,6 +8,7 @@ using System.Web.Security;
 using System.Security.Claims;
 using System.Web;
 using BugTrackingSystem.Data.Model;
+using BugTrackingSystem.Service.Models;
 using BugTrackingSystem.Service.Services;
 
 namespace BugTrackingSystem.Web.Filters
@@ -15,6 +16,38 @@ namespace BugTrackingSystem.Web.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class CustomAuthenticateAttribute : FilterAttribute, IAuthenticationFilter
     {
+        public bool IsUserExists(AuthenticationContext filterContext)
+        {
+            bool f = false;
+            UserViewModel userFromDB;
+            var cookieValue = filterContext.HttpContext.Request.Cookies.Get("auth");
+            if (cookieValue != null)
+            {
+                var user = FormsAuthentication.Decrypt(cookieValue.Value);
+                var userService = (UserService)DependencyResolver.Current.GetService(typeof(IUserService));
+                try
+                {
+                    userFromDB = userService.GetUserByEmail(user.Name);
+                }
+                catch (Exception)
+                {
+                    userFromDB = new UserViewModel();
+                }
+                f = userService.IsEmailValid(userFromDB.Email);
+                if (f == false)
+                {
+                    var auth = new HttpCookie("auth")
+                    {
+                        Expires = DateTime.Now.AddDays(-1),
+                        Value = null
+                    };
+                    filterContext.HttpContext.Response.Cookies.Add(auth);
+                    filterContext.HttpContext.Session.Abandon();
+                }
+            }
+            
+            return f;
+        }
         public void OnAuthentication(AuthenticationContext filterContext)
         {
 
@@ -23,47 +56,52 @@ namespace BugTrackingSystem.Web.Filters
                 return;
             }
 
-            var cookieValue = filterContext.HttpContext.Request.Cookies.Get("auth");
-
-            if (filterContext.HttpContext.Session["Email"] != null && filterContext.HttpContext.Session["Roles"] != null)
+            if (IsUserExists(filterContext))
             {
-                var user = filterContext.HttpContext.Session["Email"];
-                var roles = (string[])filterContext.HttpContext.Session["Roles"];
-                filterContext.Principal = new GenericPrincipal(new GenericIdentity(user.ToString()), roles);
-            }
+                var cookieValue = filterContext.HttpContext.Request.Cookies.Get("auth");
 
-            else 
-            if (cookieValue != null && !string.IsNullOrEmpty(cookieValue.Value))
-            {
-
-                var user = FormsAuthentication.Decrypt(cookieValue.Value);
-                var userService = (UserService)DependencyResolver.Current.GetService(typeof(IUserService));
-                var userFromDB = userService.GetUserByEmail(user.Name);
-
-                filterContext.HttpContext.Session["Email"] = user.Name;
-                filterContext.HttpContext.Session["FirstName"] = userFromDB.FirstName;
-                filterContext.HttpContext.Session["LastName"] = userFromDB.LastName;
-                filterContext.HttpContext.Session["Photo"] = userFromDB.Photo;
-                filterContext.HttpContext.Session["Role"] = userFromDB.Role;
-                filterContext.HttpContext.Session["Roles"] = new string[] { userFromDB.Role.ToString() };
-                filterContext.HttpContext.Session["UserId"] = userFromDB.UserId;
-
-                if (user != null && !user.Expired)
+                if (filterContext.HttpContext.Session["Email"] != null &&
+                    filterContext.HttpContext.Session["Roles"] != null)
                 {
-                    filterContext.Principal = new GenericPrincipal(new GenericIdentity(user.Name), user.UserData.Split(','));
+                    var user = filterContext.HttpContext.Session["Email"];
+                    var roles = (string[])filterContext.HttpContext.Session["Roles"];
+                    filterContext.Principal = new GenericPrincipal(new GenericIdentity(user.ToString()), roles);
+                }
+
+                else if (cookieValue != null && !string.IsNullOrEmpty(cookieValue.Value))
+                {
+
+                    var user = FormsAuthentication.Decrypt(cookieValue.Value);
+                    var userService = (UserService)DependencyResolver.Current.GetService(typeof(IUserService));
+                    var userFromDB = userService.GetUserByEmail(user.Name);
+
+                    filterContext.HttpContext.Session["Email"] = user.Name;
+                    filterContext.HttpContext.Session["FirstName"] = userFromDB.FirstName;
+                    filterContext.HttpContext.Session["LastName"] = userFromDB.LastName;
+                    filterContext.HttpContext.Session["Photo"] = userFromDB.Photo;
+                    filterContext.HttpContext.Session["Role"] = userFromDB.Role;
+                    filterContext.HttpContext.Session["Roles"] = new string[] { userFromDB.Role.ToString() };
+                    filterContext.HttpContext.Session["UserId"] = userFromDB.UserId;
+
+                    if (user != null && !user.Expired)
+                    {
+                        filterContext.Principal = new GenericPrincipal(new GenericIdentity(user.Name),
+                            user.UserData.Split(','));
+                    }
                 }
             }
             else
             {
                 filterContext.Result =
-                new RedirectToRouteResult(
-                    new RouteValueDictionary(
-                        new
-                        {
-                            controller = "Login",
-                            action = "Login",
-                            returnUrl = filterContext.HttpContext.Request.Url.LocalPath
-                        }));
+                    new RedirectToRouteResult(
+                        new RouteValueDictionary(
+                            new
+                            {
+                                controller = "Login",
+                                action = "Login",
+                                returnUrl = filterContext.HttpContext.Request.Url.LocalPath
+                            }));
+                
             }
         }
 

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Caching;
 using System.Web.UI;
+using BugTrackingSystem.Service.Models;
 
 namespace BugTrackingSystem.Web.Controllers
 {
@@ -22,14 +23,14 @@ namespace BugTrackingSystem.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            if (Session["Email"]!=null)
+            if (Session["Email"] != null)
                 return RedirectToAction("Dashboard", "Home");
             return View();
         }
         [CustomAuthorize]
         public ActionResult Logout()
         {
-            if (Request.Cookies["auth"] != null && Request.Cookies["ASP.NET_SessionId"]!=null)
+            if (Request.Cookies["auth"] != null && Request.Cookies["ASP.NET_SessionId"] != null)
             {
                 var auth = new HttpCookie("auth")
                 {
@@ -55,7 +56,14 @@ namespace BugTrackingSystem.Web.Controllers
             string headerToken = "";
             if (ModelState.IsValid)
             {
-                var user = _userService.GetUserByEmail(model.Email);
+                UserViewModel user = new UserViewModel();
+                try
+                {
+                    user = _userService.GetUserByEmail(model.Email);
+                }
+                catch (Exception)
+                {
+                }
                 //TODO Check in DB for existing and valid user
                 if (_userService.IsUserExists(model.Email, model.Password))
                 {

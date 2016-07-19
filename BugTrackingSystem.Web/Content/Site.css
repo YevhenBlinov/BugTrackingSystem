@@ -1107,7 +1107,7 @@ div.item {
     }
 }
 
-@media only screen and (max-width: 767px) and (min-width:400px ) {
+@media only screen and (max-width: 767px) and (min-width:490px ) {
     /*{
         margin-left: 35%;
     }*/
@@ -1116,8 +1116,8 @@ div.item {
     }
 }
 
-@media only screen and (max-width: 353px) {
-    #ProjectBugsUserPhoto {
+@media only screen and (max-width: 489px) {
+    #ProjectProjectName, #ProjectBugsUserPhoto {
         margin-left: 10%;
     }
 }
@@ -1161,6 +1161,6 @@ div.item {
 
 }
 
-@media only screen and (max-width: 448px) {
+@media only screen and (max-width: 425px) {
     
 }
