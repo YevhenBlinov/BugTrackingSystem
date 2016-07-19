@@ -11,9 +11,9 @@
             }
             <a class="redirectAncore" href="@Url.Action("Project", "Project", new {projectId = project.ProjectId})">
                 <div class="custom-sticker">
-                    <h4 class="cut-text" ><b>@project.Name</b></h4>
+                    <h3 class="cut-text" style="margin: 0 0 5px 0; padding: 0">@project.Name</h3>
                     <div class="row">
-                        <span class="col-lg-12 padding0" style="margin-bottom: 5px;">
+                        <span class="col-lg-12 padding0" style="margin-bottom: 25px;">
                             <span class="sticker-properties"> @project.Prefix </span>
                         </span>
                         <div class="projectInfo">
@@ -22,8 +22,8 @@
                                 <img src="../../Content/Images/Paused.png" class="inline-block"/>
                             }
                             <div class="inline-block pull-right">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true">@project.BugsCount</i>
-                                <i class="fa fa-users" aria-hidden="true">@project.UsersCount</i>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;">@project.BugsCount</i>
+                                <i class="fa fa-users" aria-hidden="true" style="font-size: 16px; margin-left: 10px">@project.UsersCount</i>
                             </div>
                         </div>
                     </div>

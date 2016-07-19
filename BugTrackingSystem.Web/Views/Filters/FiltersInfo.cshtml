@@ -7,7 +7,7 @@
             <i class="fa fa-times-circle" aria-hidden="true" style="display: none;" onclick="deleteFilterModalShow(@filter.FilterId)"></i>
             <a class="redirectAncore" href="@Url.Action("Search", "Search", new {filterId = filter.FilterId})">
                 <div class="custom-sticker ">
-                    <h4 class="cut-text"><b>@filter.Title</b></h4>
+                    <h3 class="cut-text" style="margin: 0">@filter.Title</h3>
                     <div class="row">
                         <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cut-text">
                             <span class="sticker-properties">Search:</span>@filter.Search<br />
