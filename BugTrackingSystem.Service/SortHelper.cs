@@ -110,5 +110,10 @@ namespace BugTrackingSystem.Service
                     }
             }
         }
+
+        public static IEnumerable<CommentViewModel> SortComments(IEnumerable<CommentViewModel> comments)
+        {
+            return comments.OrderByDescending(c => c.Date);
+        }
     }
 }

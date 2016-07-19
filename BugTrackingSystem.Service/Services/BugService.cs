@@ -19,15 +19,17 @@ namespace BugTrackingSystem.Service.Services
         private readonly IBugAttachmentRepository _bugAttachmentRepository;
         private readonly IFilterRepository _filterRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
         private readonly BlobService _blobService;
 
-        public BugService(IBugRepository bugRepository, IBugAttachmentRepository bugAttachmentRepository, IFilterRepository filterRepository, IUserRepository userRepository)
+        public BugService(IBugRepository bugRepository, IBugAttachmentRepository bugAttachmentRepository, IFilterRepository filterRepository, IUserRepository userRepository, IProjectRepository projectRepository)
         {
             _bugRepository = bugRepository;
             _bugAttachmentRepository = bugAttachmentRepository;
             _filterRepository = filterRepository;
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -132,6 +134,7 @@ namespace BugTrackingSystem.Service.Services
 
             var commentService = new CommentService();
             var comments = commentService.GetCommentsForBug(bug.BugID);
+            comments = SortHelper.SortComments(comments).ToList();
             return comments;
         }
 
@@ -161,6 +164,14 @@ namespace BugTrackingSystem.Service.Services
             var dateTimeNow = DateTime.Now;
             bug.CreationDate = dateTimeNow;
             bug.ModificationDate = dateTimeNow;
+            //if (bugFormViewModel.Assignee != 0)
+            //{
+            //    var userTo = _userRepository.GetById(bugFormViewModel.Assignee);
+            //    var bugTitle = bugFormViewModel.Title;
+            //    var project = _projectRepository.GetById(bugFormViewModel.Project);
+            //    var projectName = project.Name;
+            //    SendMessageAboutAssignee(userTo, bugTitle, projectName);
+            //}
             _bugRepository.Add(bug);
             _bugRepository.Save();
             var addedBugId =
@@ -183,6 +194,13 @@ namespace BugTrackingSystem.Service.Services
             bugToEdit.ModificationDate = DateTime.Now;
             bugToEdit.Subject = bugEditFormViewModel.Title;
             bugToEdit.ProjectID = bugEditFormViewModel.Project;
+            //if (bugToEdit.AssignedUserID != bugEditFormViewModel.Assignee)
+            //{
+            //    var userTo = _userRepository.GetById(bugEditFormViewModel.Assignee);
+            //    var bugTitle = bugToEdit.Subject;
+            //    var projectName = bugToEdit.Project.Name;
+            //    SendMessageAboutAssignee(userTo, userFrom, bugTitle, projectName);
+            //}
             bugToEdit.AssignedUserID = bugEditFormViewModel.Assignee != 0 ? bugEditFormViewModel.Assignee : (int?) null;
             bugToEdit.PriorityID =
                 (byte) ((BugPriority) Enum.Parse(typeof (BugPriority), bugEditFormViewModel.Priority));
@@ -203,16 +221,32 @@ namespace BugTrackingSystem.Service.Services
                 return;
 
             var blobService = new BlobService("attachments" + bugId);
+            var existingBlobs = blobService.GetExistingBlobsNamesList();
+            var isAnyNewAttachment = false;
 
             foreach (var bugAttachment in bugAttachmentsDictionary)
             {
+                var isBlobExists = existingBlobs.Any(b => b == bugAttachment.Key);
+
+                if (isBlobExists) 
+                    continue;
+
                 blobService.UploadBlobIntoContainerFromByteArray(bugAttachment.Key, bugAttachment.Value);
+                isAnyNewAttachment = true;
             }
 
             foreach (var bugAttachment in bugAttachmentsDictionary)
             {
-                _bugAttachmentRepository.Add(new BugAttachment() { Attachment = bugAttachment.Key, BugID = bugId });
+                var isBlobExists = existingBlobs.Any(b => b == bugAttachment.Key);
+
+                if (!isBlobExists)
+                {
+                    _bugAttachmentRepository.Add(new BugAttachment() {Attachment = bugAttachment.Key, BugID = bugId});
+                }
             }
+
+            if(!isAnyNewAttachment)
+                return;
 
             _bugAttachmentRepository.Save();
 
@@ -443,6 +477,9 @@ namespace BugTrackingSystem.Service.Services
 
         public void AddCommentToBug(int bugId, string userName, string comment)
         {
+            if(string.IsNullOrEmpty(comment))
+                return;
+
             var bug = _bugRepository.GetById(bugId);
 
             if (bug == null)
@@ -471,5 +508,26 @@ namespace BugTrackingSystem.Service.Services
             _bugRepository.Update(bug);
             _bugRepository.Save();
         }
+
+        public void AssigneeUserToBug(int bugId, int userId)
+        {
+            var bugToUpdate = _bugRepository.GetById(bugId);
+
+            if (bugToUpdate == null)
+                throw new Exception("Sorry, but the bug doesn't exist.");
+
+            var user = _userRepository.GetById(userId);
+
+            if(user == null)
+                return;
+
+            bugToUpdate.AssignedUserID = userId;
+            _bugRepository.Update(bugToUpdate);
+            _bugRepository.Save();
+        }
+        //private void SendMessageAboutAssignee(User userTo, string bugTitle, string projectName)
+        //{
+        //    BusQueueService.AddAssigneeChangedMessageToQueue(userTo.FirstName, userTo.Email, userFrom.FirstName, userFrom.Email, bugTitle, projectName);
+        //}
     }
 }

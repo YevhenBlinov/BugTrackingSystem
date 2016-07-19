@@ -45,6 +45,13 @@ namespace BugTrackingSystem.AzureService
             }
         }
 
+        public List<string> GetExistingBlobsNamesList()
+        {
+            var listBlockBlobs = _container.ListBlobs().Where(b => b.GetType() == typeof(CloudBlockBlob));
+            var blobsNamesList = listBlockBlobs.Select(listBlockBlob => listBlockBlob as CloudBlockBlob).Select(blob => blob.Name).ToList();
+            return blobsNamesList;
+        }
+
         public Dictionary<string, string> GetBlockBlobDictionary()
         {
             var listBlockBlobs = _container.ListBlobs().Where(b => b.GetType() == typeof(CloudBlockBlob));

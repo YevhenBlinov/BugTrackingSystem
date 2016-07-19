@@ -41,5 +41,7 @@ namespace BugTrackingSystem.Service.Services
         void AddCommentToBug(int bugId, string userName, string comment);
 
         void DeleteBugAttachment(int bugId, string attachmentName);
+
+        void AssigneeUserToBug(int bugId, int userId);
     }
 }

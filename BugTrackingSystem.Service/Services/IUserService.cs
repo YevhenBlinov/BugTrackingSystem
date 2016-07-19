@@ -36,5 +36,7 @@ namespace BugTrackingSystem.Service.Services
         UserViewModel GetUserByEmail(string email);
 
         IEnumerable<UserViewModel> GetNotAssignedToProjectUsers(int projectId);
+
+        void SendResetPasswordEmailToUser(int userId);
     }
 }

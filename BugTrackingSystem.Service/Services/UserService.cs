@@ -349,5 +349,16 @@ namespace BugTrackingSystem.Service.Services
 
             return notAssignedUsersViewModels;
         }
+
+        public void SendResetPasswordEmailToUser(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            if (user.DeletedOn != null)
+                throw new Exception("Sorry, but the user was deleted.");
+
+            BusQueueService.AddResetPasswordMessageToQueue(user.FirstName, user.Email,
+                "http://asignar.azurewebsites.net/Login/ResetPassword/?" + userId);
+        }
     }
 }
