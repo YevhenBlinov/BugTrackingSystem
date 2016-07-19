@@ -24,71 +24,77 @@
         </div>
     </div>
     <div class="col-xs-12 padding0 row" style="margin-top: 15px;">
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 custom-sticker-howerless" style="min-height: 300px">
-                <div class="inline-block">
-                    <label style="margin-right: 10px;">Priority:</label>
-                    @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
-                    <img src="@priority" />
-                    <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
-                </div>
-                <div id ="TaskStatusDropDown" class="pull-right inline-block">
-                    <label style="margin-right: 10px">Status:</label>
-                    <div class="ui selection dropdown" id="statusDropDown" style="padding-left: 10px;">
-                        <input type="hidden" name="Status" id="statusChangeDropDown">
-                        <i class="dropdown icon"></i>
-                        <div class="default text inner">Status</div>
-                        <div class="menu">
-                            <div class="item" data-value="ToDo">To do</div>
-                            <div class="item" data-value="InProgress">In progress</div>
-                            <div class="item" data-value="InTesting">In testing</div>
-                            <div class="item" data-value="Done">Done</div>
-                            <div class="item" data-value="Closed">Closed</div>
-                        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 custom-sticker-howerless" style="min-height: 300px">
+            <div class="inline-block">
+                <label style="margin-right: 10px;">Priority:</label>
+                @{ var priority = String.Format("../../Content/Images/" + Model.Priority + ".png"); }
+                <img src="@priority" />
+                <label style="margin-left: 8px;" id="priorityLable">@Model.Priority</label>
+            </div>
+            <div id="TaskStatusDropDown" class="pull-right inline-block">
+                <label style="margin-right: 10px">Status:</label>
+                <div class="ui selection dropdown" id="statusDropDown" style="padding-left: 10px;">
+                    <input type="hidden" name="Status" id="statusChangeDropDown">
+                    <i class="dropdown icon"></i>
+                    <div class="default text inner">Status</div>
+                    <div class="menu">
+                        <div class="item" data-value="ToDo">To do</div>
+                        <div class="item" data-value="InProgress">In progress</div>
+                        <div class="item" data-value="InTesting">In testing</div>
+                        <div class="item" data-value="Done">Done</div>
+                        <div class="item" data-value="Closed">Closed</div>
                     </div>
-                </div>
-                <hr id="hrUnderStatus">
-                <div style="font-size: 14px;">
-                    @Model.Description
                 </div>
             </div>
-            <div class="padding0" id="taskAssigneeSticker">
-                <div class="col-md-5 col-sm-4 col-xs-12 custom-sticker-howerless pull-right">
+            <hr id="hrUnderStatus">
+            <div style="font-size: 14px;">
+                @Model.Description
+            </div>
+        </div>
+        <div class="padding0" id="taskAssigneeSticker">
+            <div class="col-md-5 col-sm-4 col-xs-12 custom-sticker-howerless pull-right">
+                <div class="col-xs-12 padding0 " style="margin-bottom: 10px;">
+                    <label style="font-size: 14px;">Assignee:</label>
+                    <a id="taskAssignToMeAjax" class="pull-right" style="text-decoration: underline; cursor: pointer">Assign to me</a>
+                </div>
+                <div class="col-xs-12 padding0" id="assignedUserInfo" style="margin-bottom: 10px;">
                     @if (Model.AssignedUser != null)
                     {
-                        <div class="col-xs-12 padding0 " style="margin-bottom: 10px;">
-                            <label style="font-size: 14px;">Assignee:</label>
-                            <a href="#" class="pull-right" style="text-decoration: underline">Assign to me</a>
-                        </div>
-                        <div id="assignedUserInfo">@Html.Action("TaskAssignedUser", "Task", new { userId = Model.AssignedUser.UserId})</div>
-                    }
+                        @Html.Action("TaskAssignedUser", "Task", new { userId = Model.AssignedUser.UserId })
 
-                    <div class="col-xs-12 padding0" style="font-size: 14px;">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <label>Created:</label>
-                        <span>@Model.CreationDate</span>
-                    </div>
-                    <div class="col-xs-12 padding0" style="font-size: 14px; margin-bottom: 20px;">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <label>Updated:</label>
-                        <span>@Model.ModificationDate</span>
-                    </div>
-                    <div class="pull-left">
-                        <label style="font-size: 13px;">Attachments</label>
-                        <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;" id="addAttachmentsIcon"></i>
-                        @using (Html.BeginForm("AddAttachment", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            <input value="@Model.BugId" name="bugId" class="hidden" />
+                    }
+                    @if (Model.AssignedUser == null)
+                    {
+                        <span style="font-size:16px;">No user assigned on this task</span>
+                    }
+                </div>
+                <div class="col-xs-12 padding0" style="font-size: 14px;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <label>Created:</label>
+                    <span>@Model.CreationDate</span>
+                </div>
+                <div class="col-xs-12 padding0" style="font-size: 14px; margin-bottom: 20px;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <label>Updated:</label>
+                    <span>@Model.ModificationDate</span>
+                </div>
+                <div class="pull-left">
+                    <label style="font-size: 13px;">Attachments</label>
+                    <i class="fa fa-plus round" aria-hidden="true" style="font-size: 15px;" id="addAttachmentsIcon"></i>
+                    @using (Html.BeginForm("AddAttachment", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <input value="@Model.BugId" name="bugId" class="hidden" />
                             <input type="file" name="attachments" multiple class="hidden" id="addAttachments" />
                             <input type="submit" id="submitAttachments" class="hidden" />
-                        }
-                    </div>
-                    <div class="col-xs-12 padding0" id="bugAttachments">
-                        @Html.Action("BugAttachments", "Task", new { bugId = @Model.BugId })
-                    </div>
+                    }
+                </div>
+                <div class="col-xs-12 padding0" id="bugAttachments">
+                    @Html.Action("BugAttachments", "Task", new { bugId = @Model.BugId })
                 </div>
             </div>
         </div>
-        <div id="taskComments">@Html.Action("TaskComments", "Task", new { bugId = Model.BugId})</div>   
+    </div>
+    <div id="taskComments">@Html.Action("TaskComments", "Task", new { bugId = Model.BugId })</div>
 </div>
 
 <div id="editTask" class="modal fade" tabindex="-1" role="dialog">
@@ -101,7 +107,7 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
                 <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit task</h3>
             </div>
-            @using (Html.BeginForm("EditTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data", id="editTaskForm" }))
+            @using (Html.BeginForm("EditTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data", id = "editTaskForm" }))
             {
                 <div class="modal-body col-lg-12">
                     <div class="validationError" id="editTaskError"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Please fill the form</div>
@@ -116,7 +122,7 @@
                         </div>
                     </div>
                     <div id="userDropDown">
-                        @Html.Action("EditTaskUsers", "Task", new {projectId = Model.ProjectID})
+                        @Html.Action("EditTaskUsers", "Task", new { projectId = Model.ProjectID })
                         @if (Model.AssignedUser != null)
                         {
                             <script>
@@ -130,19 +136,19 @@
                         <div class="default text inner">Priority</div>
                         <div class="menu">
                             <div class="item" data-value="Minor">
-                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle"/>
+                                <img src="../../Content/Images/Minor.png" class="img-responsive img-circle" />
                                 Minor
                             </div>
                             <div class="item" data-value="Major">
-                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle"/>
+                                <img src="../../Content/Images/Major.png" class="img-responsive img-circle" />
                                 Major
                             </div>
                             <div class="item" data-value="Critical">
-                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle"/>
+                                <img src="../../Content/Images/Critical.png" class="img-responsive img-circle" />
                                 Critical
                             </div>
                             <div class="item" data-value="Blocker">
-                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle"/>
+                                <img src="../../Content/Images/Blocker.png" class="img-responsive img-circle" />
                                 Blocker
                             </div>
                         </div>
@@ -160,12 +166,12 @@
                         </div>
                     </div>
                     <textarea class="form-control" name="Description" placeholder="Description" id="editTaskDescription" rows="5">@Model.Description</textarea>
-                    <input class="hidden" name="BugId" value="@Model.BugId"/>
+                    <input class="hidden" name="BugId" value="@Model.BugId" />
                     <div style="margin-top: 10px;">
                         <b>Attachments</b>
                         <i class="fa fa-plus round" id="addAttachmentsModalIcon" aria-hidden="true" style="font-size: 15px; margin-top: 10px;"></i>
                         <ul id="addAttachmentsList" style="color: #4D868D; margin-top: 10px; padding-left: 20px;"></ul>
-                        <input type="file" name="attachmentsModal" multiple class="hidden" id="addAttachmentsModal"/>
+                        <input type="file" name="attachmentsModal" multiple class="hidden" id="addAttachmentsModal" />
                         <div id="modalAttachments">
                             @Html.Action("BugAttachments", "Task", @Model.BugId)
                         </div>
@@ -199,6 +205,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#taskAssignToMeAjax').on('click', function(){
+        $.ajax({
+            type: "POST",
+            url: "/Task/AssignTaskToMe",
+            data: {bugId: @Model.BugId},
+            success: function(data){
+                $('#assignedUserInfo').html(data);
+            },
+            error: function(){
+                alert('En error occured. Please try again.')
+            }
+        })
+    })
+</script>
 
 
 <script>

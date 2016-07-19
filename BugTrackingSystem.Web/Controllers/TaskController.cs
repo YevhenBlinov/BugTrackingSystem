@@ -162,9 +162,11 @@ namespace BugTrackingSystem.Web.Controllers
             return PartialView(user);
         }
 
-        public ActionResult AssignTaskToMe(int bugId, int userId)
+        public ActionResult AssignTaskToMe(int bugId)
         {
-            throw new NotImplementedException();
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _bugService.AssigneeUserToBug(bugId, userId);
+            return RedirectToAction("TaskAssignedUser", "Task", new { userId = userId });
         }
     }
 }

@@ -50,6 +50,10 @@ textarea {
 
 /*-----------------General--------------------*/
 
+.searchFilter .ms-choice{
+    background-color: white;
+}
+
 .fa-exclamation-circle {
     margin: 0 5px;
 }
