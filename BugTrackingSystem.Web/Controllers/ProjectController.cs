@@ -37,7 +37,7 @@ namespace BugTrackingSystem.Web.Controllers
                 var project = _projectService.GetProjectById(projectId);
                 return View(project);
             }
-            else return RedirectToAction("Dashboard", "Home");
+            else return RedirectToAction("Error", "Shared");
         }
 
         public ActionResult Index()

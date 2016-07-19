@@ -24,11 +24,19 @@ namespace BugTrackingSystem.Web.Controllers
             _filterService = filterService;
         }
         // GET: Shared
-        public ActionResult UserBugs(int page = 1)
+        public ActionResult UserBugs(int? userId, int page = 1)
         {
-            var userId = Convert.ToInt32(Session["UserId"].ToString());
-            var bugsCount = 0;
-            var userBugs = _userService.GetUsersBugs(userId, out bugsCount, page);
+            if (userId == null)
+            {
+                userId = Convert.ToInt32(Session["UserId"].ToString());
+            }
+            else if (User.IsInRole("User"))
+            {
+                return RedirectToAction("Error", "Shared");
+            }
+            //var userId = Convert.ToInt32(Session["UserId"].ToString());
+                var bugsCount = 0;
+            var userBugs = _userService.GetUsersBugs((int)userId, out bugsCount, page);
             double pagesCount = Convert.ToDouble(bugsCount) / Convert.ToDouble(Constants.StickerPageSize);
             ViewBag.PagesCount = Math.Ceiling(pagesCount);
             ViewBag.TaskCount = bugsCount;

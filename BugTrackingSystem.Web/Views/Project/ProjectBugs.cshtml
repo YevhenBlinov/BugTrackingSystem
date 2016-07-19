@@ -7,12 +7,13 @@
         {
             <a href="@Url.Action("Task", "Task", new {bugId = bug.BugId})" style="color: black">
                 <div class="TableRow">
-                    <div class="TableRowInfo row threePoints">
-                        <div class="IconElement inline-block pull-left padding-top7">
-                            @{ var priority = String.Format("../../Content/Images/" + bug.Priority + ".png"); }
-                            <img src="@priority" width="35" height="35" />
-                        </div>
-                        <div class="col-sm-5 col-xs-4 padding-top7">
+                    <div id="ProjectBugRow" class="TableRowInfo row threePoints">
+
+                        <div id="ProjectProjectData" class="col-sm-5 col-xs-9 col-md-3 padding-top7">
+                            <div class="IconElement inline-block pull-left padding-top7">
+                                @{ var priority = String.Format("../../Content/Images/" + bug.Priority + ".png"); }
+                                <img src="@priority" width="35" height="35" />
+                            </div>
                             <div class="ProjectPrefix">
                                 <span id="ProjectPrefix"> @bug.ProjectPrefix-@bug.BugId</span>
                                 @{ var status = String.Format("../../Content/Images/" + bug.Status + ".png"); }
@@ -22,13 +23,13 @@
                                 @bug.Subject
                             </div>
                         </div>
-                        <div class="col-sm-2 col-xs-4 padding-top7 xsPaddingNone">
+                        <div id="ProjectProjectName" class="col-sm-2 col-xs-6 padding-top7 xsPaddingNone">
                             <div style="padding-top: 10px;">
                                 @bug.ProjectName
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2 col-xs-4 padding-top7 xsPaddingNone">
+                            <div class="col-sm-2 col-xs-4 col-md-2 padding-top7 xsPaddingNone" id="CreatedUpdatedDate">
                                 <div>
                                     <span style="color: gray; font-size: 12px">Created:</span>
                                     <span style="font-size: 12px">@bug.CreationDate</span>
@@ -40,7 +41,7 @@
                             </div>
                             @if (bug.AssignedUser != null)
                             {
-                                <div class="col-sm-2 col-xs-6 xsPaddingNone row" id="ProjectBugsUserPhoto">
+                                <div class="col-sm-4 col-xs-9 xsPaddingNone row " id="ProjectBugsUserPhoto">
                                     <div class="pull-left" style="padding: 0; margin:5px; display: inline-block">
                                         <img src="@bug.AssignedUser.Photo" class="img-circle" alt="userPhoto" height="40" width="40" />
                                     </div>

@@ -188,6 +188,8 @@ ul::-webkit-scrollbar-thumb {
 .AdvancedSearch {
     background-color: white;
     box-shadow: 1px 1px 3px 0px rgba(173,173,173,1);
+    margin-bottom: 10px;
+    padding: 15px 15px 0 15px;
 }
 
 .padding-top7 {
@@ -489,13 +491,13 @@ option:hover {
     background-color: #4D868D;
     border-radius: 0;
     height: 35px;
-    margin: 7px 0;       
+    margin: 7px 0;
 }
 
 #navSearchGlyph {
     font-size: 23px;
     color: white;
-    margin-left: 160px; 
+    margin-left: 160px;
     margin-top: 12px;
 }
 
@@ -522,7 +524,7 @@ option:hover {
 
 
 
-@media only screen and (max-width : 1120px) { /* 1010px*/
+@media only screen and (max-width : 1130px) { /* 1010px*/
     #search {
         display: none;
     }
@@ -533,6 +535,10 @@ option:hover {
 
     #navUserPhoto {
         margin-right: 20px;
+    }
+
+    #CreatedUpdatedDate {
+        display: none;
     }
 }
 
@@ -579,11 +585,13 @@ option:hover {
         display: none;
     }
 
-    #ProjectBugsUserPhoto {
+    #ProjectProjectName, #ProjectBugsUserPhoto {
         margin-left: 35%;
     }
 
-
+    #projectsBugContainer {
+        /*width: 60%;*/
+    }
 }
 
 @media only screen and (min-width : 768px) {
@@ -692,10 +700,20 @@ body {
     margin-top: 0;
 }
 
-@media only screen and (max-width : 338px) {
+#CreateNewTaskTitle {
+    display: inline-block;
+    margin: 5px 0 0 0;
+}
+
+@media only screen and (max-width : 356px) {
     #AssignedToMe, #MyProjects {
         font-size: 2em;
     }
+
+    #CreateNewTaskTitle, #AddUserToTheProjectTitle {
+        font-size: 20px;
+    }
+
 
 
 
@@ -1068,9 +1086,9 @@ div.item {
 }
 
 @media only screen and (min-width:768px) and (max-width: 1085px) {
-    #AssignedUserFullName {
+    /*#AssignedUserFullName {
         visibility: hidden;
-    }
+    }*/
 }
 
 @media only screen and (max-width: 430px) {
@@ -1083,4 +1101,62 @@ div.item {
     #PauseProjectNO, .PauseProjectYes {
         width: 48%;
     }
+}
+
+@media only screen and (max-width: 767px) and (min-width:400px ) {
+    /*{
+        margin-left: 35%;
+    }*/
+    #ProjectProjectData, #ProjectBugsUserPhoto {
+        margin-left: 30%;
+    }
+}
+
+@media only screen and (max-width: 353px) {
+    #ProjectBugsUserPhoto {
+        margin-left: 10%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    #ProjectBugsUserPhoto {
+        position: absolute;
+        right: 0;
+    }
+}
+
+/*Create new task from Project/Project*/
+@media only screen and (max-width: 642px) {
+    /*#taskProjectDropDown, #taskUserDropDown, #taskPriorityDropDown, #taskStatusDropDown,
+    #editTaskUserDropDown, #editTaskPriorityDropDown, #editTaskStatusDropDown*/
+    #taskUserDropDown, #projectDropDown, #projectTaskStatus, #projectTaskDescription, #projectTaskPriorityDropDown, #projectTaskStatusDropDown {
+        display: inline-block;
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 15px;
+    }
+
+    #ModelTitle {
+        font-size: 16px;
+    }
+}
+
+/*Local-search*/
+@media only screen and (max-width: 621px) {
+    #Local-search {
+        width: 100%;
+        
+    }
+    #imaginary_container {
+        margin-top: 20px;
+    }
+    #headerTitle {
+        
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 448px) {
+    
 }

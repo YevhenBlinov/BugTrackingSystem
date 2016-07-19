@@ -3,7 +3,7 @@
 <div class="col-xs-12 padding0">
     @foreach (var filter in Model)
     {
-        <div class="col-sm-6 col-xs-12" onmouseover="showCloseIcon(this)">
+        <div class="col-sm-4 col-xs-12" onmouseover="showCloseIcon(this)">
             <i class="fa fa-times-circle" aria-hidden="true" style="display: none;" onclick="deleteFilterModalShow(@filter.FilterId)"></i>
             <a class="redirectAncore" href="@Url.Action("Search", "Search", new {filterId = filter.FilterId})">
                 <div class="custom-sticker ">

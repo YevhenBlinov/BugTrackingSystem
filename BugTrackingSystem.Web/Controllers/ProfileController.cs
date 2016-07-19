@@ -22,20 +22,33 @@ namespace BugTrackingSystem.Web.Controllers
         // GET: Profile
         public ActionResult Index(int? userId)
         {
-            if (userId == null || User.IsInRole("User"))
+            if (userId == null)
             {
                 userId = Convert.ToInt32(Session["UserId"].ToString());
+            }
+            else if(User.IsInRole("User"))
+            {
+                return RedirectToAction("Error", "Shared");
             }
 
             ViewBag.UserId = userId;
             return View();
         }
-        public ActionResult UserProjects()
+        public ActionResult UserProjects(int? userId)
         {
-            var userId = Convert.ToInt32(Session["UserId"].ToString());
-            var projects = _userService.GetUsersProjects(userId);
-            ViewBag.UserId = userId;
-            return PartialView(projects);
+            if (userId == null)
+            {
+                userId = Convert.ToInt32(Session["UserId"].ToString());
+                var projects = _userService.GetUsersProjects((int)userId);
+                return PartialView(projects);
+            }
+            else if (User.IsInRole("Administrator"))
+            {
+                var projects = _userService.GetUsersProjects((int)userId);
+                ViewBag.UserId = userId;
+                return PartialView(projects);
+            }
+            return RedirectToAction("Error", "Shared");
         }
 
         public ActionResult UserInfo(int userId)

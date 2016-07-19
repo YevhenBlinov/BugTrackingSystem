@@ -15,7 +15,7 @@
                     <h1>My Projects</h1>
                 </div>
                 <div id="profileProjects">
-                    @Html.Action("UserProjects", "Profile")
+                    @Html.Action("UserProjects", "Profile", new { userId = @ViewBag.UserId })
                 </div>
 
             </div>
@@ -23,7 +23,7 @@
         <div class="col-sm-8 col-xs-12 assignedToMeTable">
 
             <h1 style="margin-top: 0;">Assigned To Me</h1>
-            <div id="userTaskContainer">@Html.Action("UserBugs", "Shared")</div>
+            <div id="userTaskContainer">@Html.Action("UserBugs", "Shared", new { userId = @ViewBag.UserId })</div>
         </div>
     </div>
 </div>

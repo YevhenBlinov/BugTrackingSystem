@@ -14,17 +14,27 @@ namespace BugTrackingSystem.Web.Controllers
     {
         private readonly IBugService _bugService;
         private readonly IProjectService _projectService;
+        private readonly IUserService _userService;
 
-        public TaskController(IBugService bugService, IProjectService projectService)
+        public TaskController(IBugService bugService, IUserService userService, IProjectService projectService)
         {
             _bugService = bugService;
             _projectService = projectService;
+            _userService = userService;
         }
 
         //
         // GET: /Task/
         public ActionResult Task(int bugId = 1)
         {
+            var userId = (int) Session["UserId"];
+            if (User.IsInRole("User"))
+            {
+                //_userService.GetUsersBugs()
+            }
+
+            var allBugsCount = 0;
+            _userService.GetUsersBugs(userId, out allBugsCount);
             var info = _bugService.GetFullBugById(bugId);
             return View(info);
         }
