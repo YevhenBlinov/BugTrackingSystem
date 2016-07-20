@@ -211,6 +211,7 @@
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\Asignar - Web Deploy.pubxml" />
+    <Content Include="Properties\webjobs-list.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\checkbox.min.js" />
     <Content Include="Scripts\dropdown.min.js" />
