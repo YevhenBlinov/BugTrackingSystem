@@ -37,8 +37,10 @@ namespace BugTrackingSystem.Service.Services
 
         IEnumerable<UserViewModel> GetNotAssignedToProjectUsers(int projectId);
 
-        void SendResetPasswordEmailToUser(int userId);
+        void SendResetPasswordEmailToUser(string email);
 
         bool IsEmailValid(string email);
+
+        int GetUserIdByCryptEmail(string hashEmail);
     }
 }

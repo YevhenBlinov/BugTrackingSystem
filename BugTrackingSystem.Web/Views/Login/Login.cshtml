@@ -1,6 +1,16 @@
-﻿@model BugTrackingSystem.Data.Model.LoginModel
+﻿@model BugTrackingSystem.Service.Models.LoginViewModel
 @{
     Layout = null;
+    <style>
+        .validation-summary-errors li {
+            list-style-type: none;
+        }
+
+        .validation-summary-errors ul {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 }
 <!DOCTYPE html>
 <html>
@@ -28,7 +38,7 @@
                     <input type="password" name="password" placeholder="Password"/>
                 <input type="checkbox" name="RemebmerMe" />*@
             <span id="RememberMe">Remember me</span>
-            <a id="ForgotPass" href="#">Forgot password</a>
+            <a id="ForgotPass" href="@Url.Action("ForgotPassword", "Login")">Forgot password</a>
                 <input type="submit" value="Login" />
         }
     </div>

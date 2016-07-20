@@ -321,7 +321,7 @@ namespace BugTrackingSystem.Service.Services
 
         public UserViewModel GetUserByEmail(string email)
         {
-            var user = _userRepository.Get(u => u. Email == email);
+            var user = _userRepository.Get(u => u.Email == email);
 
             if (user.DeletedOn != null)
                 throw new Exception("Sorry, but the user was deleted.");
@@ -350,21 +350,45 @@ namespace BugTrackingSystem.Service.Services
             return notAssignedUsersViewModels;
         }
 
-        public void SendResetPasswordEmailToUser(int userId)
+        public void SendResetPasswordEmailToUser(string email)
         {
-            var user = _userRepository.GetById(userId);
+            var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email);
 
             if (user.DeletedOn != null)
-                throw new Exception("Sorry, but the user was deleted.");
-
+                throw new Exception("Sorry, but the user doesn't exist.");
+           
+            //BusQueueService.AddResetPasswordMessageToQueue(user.FirstName, user.Email,
+            //    "http://localhost:2241/Login/ResetPassword/?ResetPassword=" + Crypt(user.Email));
             BusQueueService.AddResetPasswordMessageToQueue(user.FirstName, user.Email,
-                "http://asignar.azurewebsites.net/Login/ResetPassword/?" + userId);
+                "http://asignar.azurewebsites.net/Login/ResetPassword/?ResetPassword=" + Crypt(user.Email));
         }
 
         public bool IsEmailValid(string email)
         {
             var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email);
             return user != null;
+        }
+
+        public int GetUserIdByCryptEmail(string cryptEmail)
+        {
+            var trueCryptEmail = cryptEmail.Replace(' ', '+');
+            var email = Decrypt(trueCryptEmail);
+            var user = _userRepository.Get(u => u.DeletedOn == null && u.Email == email);
+
+            if(user == null)
+                throw new Exception("Sorry, but the user doesn't exist.");
+
+            return user.UserID;
+        }
+
+        private string Crypt(string text)
+        {
+            return Convert.ToBase64String(ProtectedData.Protect(Encoding.Unicode.GetBytes(text), new byte[0], DataProtectionScope.CurrentUser));
+        }
+
+        private string Decrypt(string text)
+        {
+            return Encoding.Unicode.GetString(ProtectedData.Unprotect(Convert.FromBase64String(text), new byte[0], DataProtectionScope.CurrentUser));
         }
     }
 }

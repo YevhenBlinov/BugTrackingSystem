@@ -90,5 +90,10 @@ namespace BugTrackingSystem.AzureService
             var blockBlob = _container.GetBlockBlobReference(blobName);
             blockBlob.Delete();
         }
+
+        public void DeleteContainer()
+        {
+            _container.DeleteIfExists();
+        }
     }
 }

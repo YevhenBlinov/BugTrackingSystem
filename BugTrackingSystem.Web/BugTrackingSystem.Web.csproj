@@ -165,6 +165,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\3.gif" />
     <Content Include="Content\Images\404.jpg" />
+    <Content Include="Content\Images\Admin.png" />
     <Content Include="Content\Images\Blocker.png" />
     <Content Include="Content\Images\Closed.png" />
     <Content Include="Content\Images\Critical.png" />
@@ -179,6 +180,7 @@
     <Content Include="Content\Images\logo-vertical.png" />
     <Content Include="Content\Images\Logo.png" />
     <Content Include="Content\Images\Major.png" />
+    <Content Include="Content\Images\Me.png" />
     <Content Include="Content\Images\Minor.png" />
     <Content Include="Content\Images\orwell.jpeg" />
     <Content Include="Content\Images\Paused.png" />

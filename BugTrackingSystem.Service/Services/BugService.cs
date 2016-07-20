@@ -164,14 +164,16 @@ namespace BugTrackingSystem.Service.Services
             var dateTimeNow = DateTime.Now;
             bug.CreationDate = dateTimeNow;
             bug.ModificationDate = dateTimeNow;
-            //if (bugFormViewModel.Assignee != 0)
-            //{
-            //    var userTo = _userRepository.GetById(bugFormViewModel.Assignee);
-            //    var bugTitle = bugFormViewModel.Title;
-            //    var project = _projectRepository.GetById(bugFormViewModel.Project);
-            //    var projectName = project.Name;
-            //    SendMessageAboutAssignee(userTo, bugTitle, projectName);
-            //}
+
+            if (bugFormViewModel.Assignee != 0)
+            {
+                var userTo = _userRepository.GetById(bugFormViewModel.Assignee);
+                var bugTitle = bugFormViewModel.Title;
+                var project = _projectRepository.GetById(bugFormViewModel.Project);
+                var projectName = project.Name;
+                SendMessageAboutAssignee(userTo, bugTitle, projectName);
+            }
+
             _bugRepository.Add(bug);
             _bugRepository.Save();
             var addedBugId =
@@ -194,13 +196,15 @@ namespace BugTrackingSystem.Service.Services
             bugToEdit.ModificationDate = DateTime.Now;
             bugToEdit.Subject = bugEditFormViewModel.Title;
             bugToEdit.ProjectID = bugEditFormViewModel.Project;
-            //if (bugToEdit.AssignedUserID != bugEditFormViewModel.Assignee)
-            //{
-            //    var userTo = _userRepository.GetById(bugEditFormViewModel.Assignee);
-            //    var bugTitle = bugToEdit.Subject;
-            //    var projectName = bugToEdit.Project.Name;
-            //    SendMessageAboutAssignee(userTo, userFrom, bugTitle, projectName);
-            //}
+
+            if (bugToEdit.AssignedUserID != bugEditFormViewModel.Assignee)
+            {
+                var userTo = _userRepository.GetById(bugEditFormViewModel.Assignee);
+                var bugTitle = bugToEdit.Subject;
+                var projectName = bugToEdit.Project.Name;
+                SendMessageAboutAssignee(userTo, bugTitle, projectName);
+            }
+
             bugToEdit.AssignedUserID = bugEditFormViewModel.Assignee != 0 ? bugEditFormViewModel.Assignee : (int?) null;
             bugToEdit.PriorityID =
                 (byte) ((BugPriority) Enum.Parse(typeof (BugPriority), bugEditFormViewModel.Priority));
@@ -525,9 +529,10 @@ namespace BugTrackingSystem.Service.Services
             _bugRepository.Update(bugToUpdate);
             _bugRepository.Save();
         }
-        //private void SendMessageAboutAssignee(User userTo, string bugTitle, string projectName)
-        //{
-        //    BusQueueService.AddAssigneeChangedMessageToQueue(userTo.FirstName, userTo.Email, userFrom.FirstName, userFrom.Email, bugTitle, projectName);
-        //}
+
+        private void SendMessageAboutAssignee(User userTo, string bugTitle, string projectName)
+        {
+            BusQueueService.AddAssigneeChangedMessageToQueue(userTo.FirstName, userTo.Email, bugTitle, projectName);
+        }
     }
 }

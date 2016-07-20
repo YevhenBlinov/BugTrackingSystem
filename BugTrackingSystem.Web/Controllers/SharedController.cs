@@ -38,6 +38,7 @@ namespace BugTrackingSystem.Web.Controllers
             ViewBag.PagesCount = Math.Ceiling(pagesCount);
             ViewBag.TaskCount = bugsCount;
             ViewBag.CurrentPage = page;
+            ViewBag.UserId = userId;
             return PartialView(userBugs);
         }
 

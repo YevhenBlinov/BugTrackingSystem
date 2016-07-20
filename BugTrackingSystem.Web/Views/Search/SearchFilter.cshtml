@@ -126,7 +126,8 @@
     function searchByKeyword() {
         var search = $('#searchGeneral').val();
         if (search !== "") {
-            var domain = 'http://localhost:2241/Search/Search';
+            //var domain = 'http://localhost:2241/Search/Search';
+            var domain = 'http://asignar.azurewebsites.net/Search/Search';
             var url = domain + '?search=' + search;
             window.location.replace(url);
         }

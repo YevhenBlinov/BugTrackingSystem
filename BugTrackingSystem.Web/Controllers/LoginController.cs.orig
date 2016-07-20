@@ -108,13 +108,20 @@ namespace BugTrackingSystem.Web.Controllers
             return View(model);
         }
 
+<<<<<<< Updated upstream
         [Route("ForgotPassword")]
+=======
         [AllowAnonymous]
+>>>>>>> Stashed changes
         public ActionResult ForgotPassword()
         {
             return View();
         }
+<<<<<<< Updated upstream
         [Route("ResetPassword")]
+        public ActionResult ResetPassword()
+=======
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ForgotPassword(string email)
@@ -136,6 +143,7 @@ namespace BugTrackingSystem.Web.Controllers
 
         [AllowAnonymous]
         public ActionResult ResetPassword(string resetPassword)
+>>>>>>> Stashed changes
         {
             int userId = _userService.GetUserIdByCryptEmail(resetPassword);
             ViewBag.UserId = userId;

@@ -60,7 +60,8 @@
             type: 'GET',
             url: '/Shared/UserBugs',
             data: {
-                page: page
+                page: page,
+                userId: @ViewBag.UserId
             },
             success: function (data) {
                 $('#userTaskContainer').html(data);

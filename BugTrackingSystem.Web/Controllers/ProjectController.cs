@@ -54,10 +54,12 @@ namespace BugTrackingSystem.Web.Controllers
             if (string.IsNullOrEmpty(search))
             {
                 if (User.IsInRole("Administrator"))
+                {
                     projects = _projectService.GetProjects(out projectsCount, page, sortBy);
+                }
                 else
                 {
-                    projects = _userService.GetUsersProjects(userId);
+                    projects = _userService.GetUsersProjectsByPage(userId, out projectsCount, page, sortBy);
                 }
             }
             else
