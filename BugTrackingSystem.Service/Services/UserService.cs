@@ -383,12 +383,12 @@ namespace BugTrackingSystem.Service.Services
 
         private string Crypt(string text)
         {
-            return Convert.ToBase64String(ProtectedData.Protect(Encoding.Unicode.GetBytes(text), new byte[0], DataProtectionScope.CurrentUser));
+            return Convert.ToBase64String(ProtectedData.Protect(Encoding.Unicode.GetBytes(text), new byte[0], DataProtectionScope.LocalMachine));
         }
 
         private string Decrypt(string text)
         {
-            return Encoding.Unicode.GetString(ProtectedData.Unprotect(Convert.FromBase64String(text), new byte[0], DataProtectionScope.CurrentUser));
+            return Encoding.Unicode.GetString(ProtectedData.Unprotect(Convert.FromBase64String(text), new byte[0], DataProtectionScope.LocalMachine));
         }
     }
 }

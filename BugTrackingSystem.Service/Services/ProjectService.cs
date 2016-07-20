@@ -14,13 +14,15 @@ namespace BugTrackingSystem.Service.Services
     public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly IBugRepository _bugRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ProjectService(IProjectRepository projectRepository, IUserRepository userRepository)
+        public ProjectService(IProjectRepository projectRepository, IUserRepository userRepository, IBugRepository bugRepository)
         {
             _projectRepository = projectRepository;
             _userRepository = userRepository;
+            _bugRepository = bugRepository;
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -107,8 +109,16 @@ namespace BugTrackingSystem.Service.Services
                 throw new Exception("Sorry, but the project doesn't exist.");
 
             project.DeletedOn = DateTime.Now;
+
+            foreach (var bug in project.Bugs)
+            {
+                bug.StatusID = 5;
+                _bugRepository.Update(bug);
+            }
+
             _projectRepository.Update(project);
             _projectRepository.Save();
+            _bugRepository.Save();
         }
 
         public void PauseAndUnpauseProject(int projectId)
